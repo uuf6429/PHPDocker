@@ -36,6 +36,8 @@ class Manager
     }
 
     /**
+     * Magic getter + class PHPDoc is the only way we can implement readonly properties in PHP.
+     *
      * @param string $name
      *
      * @return null|Component\Component
@@ -75,8 +77,8 @@ class Manager
      */
     public function isInstalled()
     {
-        foreach ($this->components as $component) {
-            if (!$component->isInstalled()) {
+        foreach (array_keys($this->components) as $name) {
+            if (!$this->$name->isInstalled()) {
                 return false;
             }
         }

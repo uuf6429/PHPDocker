@@ -41,8 +41,7 @@ abstract class Component
         $process = $this->getProcessBuilder()->add('-v')->getProcess();
         $process->mustRun();
 
-        if (preg_match('/version ([\\.\\w-]+), build/', $process->getOutput(), $matches)
-        ) {
+        if (preg_match('/version ([\\.\\w-]+), build/', $process->getOutput(), $matches)) {
             return $matches[1];
         } else {
             throw new \RuntimeException('Could not determine version.');

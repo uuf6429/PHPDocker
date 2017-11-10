@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./vendor/autoload.php" colors="true" strict="true" verbose="true">
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src/PHPDocker</directory>
+        </whitelist>
+    </filter>
+    <testsuites>
+        <testsuite name="PHPDocker Tests">
+            <directory>./test/PHPDocker</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
