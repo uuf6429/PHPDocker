@@ -1,0 +1,62 @@
+<?php
+
+namespace PHPDocker\Tests;
+
+use PHPDocker\Component\Component;
+use PHPDocker\Manager;
+
+class CommandSupportTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @param \PHPDocker\Component\Component $component
+     * @param array<string, string> $alternativeCommands
+     * @param string[] $uselessCommands
+     *
+     * @dataProvider commandSupportDataProvider
+     */
+    public function testCommandSupport(Component $component, $alternativeCommands, $uselessCommands)
+    {
+        if (!$component->isInstalled()) {
+            $this->markTestSkipped('Component is not installed.');
+        }
+
+        $binCommands = array_diff(array_keys($component->getCommands()), $uselessCommands);
+        $objMethods  = get_class_methods($component);
+
+        // some cli commands have a different method name, therefore we switch them
+        foreach ($alternativeCommands as $method => $command) {
+            if (($pos = array_search($method, $objMethods)) != false) {
+                $objMethods[$pos] = $command;
+            }
+        }
+
+        $objCommands = array_intersect($objMethods, $binCommands);
+
+        sort($binCommands);
+        sort($objCommands);
+        $this->assertEquals($binCommands, $objCommands);
+    }
+
+    public function commandSupportDataProvider()
+    {
+        $manager = new Manager();
+
+        return [
+            'Docker Commands' => [
+                '$component' => $manager->docker,
+                '$alternativeCommands' => [],
+                '$uselessCommands' => [],
+            ],
+            'Docker-Compose Commands' => [
+                '$component' => $manager->compose,
+                '$alternativeCommands' => [],
+                '$uselessCommands' => ['version'],
+            ],
+            'Docker-Machine Commands' => [
+                '$component' => $manager->machine,
+                '$alternativeCommands' => [],
+                '$uselessCommands' => [],
+            ],
+        ];
+    }
+}

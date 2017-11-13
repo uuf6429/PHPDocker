@@ -61,6 +61,29 @@ abstract class Component
     }
 
     /**
+     * Caution! This is method gives a rough idea of functionality as reported by
+     * the app, however the program itself could support a different set of commands.
+     *
+     * @return array<string, string> The key is the command, the value is the description.
+     */
+    public function getCommands()
+    {
+        $process = $this->getProcessBuilder()->getProcess();
+        $process->mustRun();
+        $output = $process->getOutput() ?: $process->getErrorOutput();
+
+        if (!preg_match('/Commands:\\r?\\n((  (\\w+)\\s+(.+)\\r?\\n)+)/m', $output, $matches)) {
+            throw new \RuntimeException('Could not retrieve list of commands from program output.');
+        }
+
+        if (!preg_match_all('/^  (\\w+)\\s+(.+)$/m', $matches[1], $matches)) {
+            throw new \RuntimeException('Could not parse list of commands.');
+        }
+
+        return array_combine($matches[1], $matches[2]);
+    }
+
+    /**
      * @return ProcessBuilder
      */
     protected function getProcessBuilder()
