@@ -24,7 +24,7 @@ class CommandSupportTest extends \PHPUnit_Framework_TestCase
         $objMethods  = get_class_methods($component);
 
         // some cli commands have a different method name, therefore we switch them
-        foreach ($alternativeCommands as $method => $command) {
+        foreach ($alternativeCommands as $command => $method) {
             if (($pos = array_search($method, $objMethods)) != false) {
                 $objMethods[$pos] = $command;
             }
@@ -45,17 +45,20 @@ class CommandSupportTest extends \PHPUnit_Framework_TestCase
             'Docker Commands' => [
                 '$component' => $manager->docker,
                 '$alternativeCommands' => [],
-                '$uselessCommands' => [],
+                '$uselessCommands' => ['help'],
             ],
             'Docker-Compose Commands' => [
                 '$component' => $manager->compose,
                 '$alternativeCommands' => [],
-                '$uselessCommands' => ['version'],
+                '$uselessCommands' => ['help', 'version'],
             ],
             'Docker-Machine Commands' => [
                 '$component' => $manager->machine,
-                '$alternativeCommands' => [],
-                '$uselessCommands' => [],
+                '$alternativeCommands' => [
+                    'active' => 'getActive',
+                    'ip' => 'getIPs',
+                ],
+                '$uselessCommands' => ['help'],
             ],
         ];
     }

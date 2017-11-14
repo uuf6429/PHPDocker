@@ -64,23 +64,48 @@ abstract class Component
      * Caution! This is method gives a rough idea of functionality as reported by
      * the app, however the program itself could support a different set of commands.
      *
+     * @param string[] $parentCommands Get sub-commands of this command path (mostly internal use only).
+     *
      * @return array<string, string> The key is the command, the value is the description.
      */
-    public function getCommands()
+    public function getCommands($parentCommands = [])
     {
-        $process = $this->getProcessBuilder()->getProcess();
+        $builder = $this->getProcessBuilder();
+        $builder->add('help');
+        array_map([$builder, 'add'], $parentCommands);
+
+        $process = $builder->getProcess();
         $process->mustRun();
         $output = $process->getOutput() ?: $process->getErrorOutput();
 
-        if (!preg_match('/Commands:\\r?\\n((  (\\w+)\\s+(.+)\\r?\\n)+)/m', $output, $matches)) {
-            throw new \RuntimeException('Could not retrieve list of commands from program output.');
+        $offset = 0;
+        $result = [];
+        while (preg_match('/^.*Commands:\\r?\\n((  (\\w+)\\s+(.+)\\r?\\n)+)/m', $output, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+            $offset = $matches[1][1];
+
+            if (preg_match_all('/^  (\\w+)\\s+(.+)$/m', $matches[1][0], $matches)) {
+                list(, $commands, $descriptions) = $matches;
+
+                $commandPath = implode(' ', $parentCommands) . ' ';
+                $commands = array_map(function ($command) use ($commandPath) {
+                    return trim($commandPath . $command);
+                }, $commands);
+
+                // add current list of commands
+                $result = array_merge($result, array_combine($commands, $descriptions));
+
+                // add any sub-commands
+                foreach ($commands as $command) {
+                    $result = array_merge($result, $this->getCommands(explode(' ', $command)));
+                }
+            }
         }
 
-        if (!preg_match_all('/^  (\\w+)\\s+(.+)$/m', $matches[1], $matches)) {
-            throw new \RuntimeException('Could not parse list of commands.');
+        if (!count($result) && !count($parentCommands)) {
+            throw new \RuntimeException('Could not retrieve list of commands.');
         }
 
-        return array_combine($matches[1], $matches[2]);
+        return $result;
     }
 
     /**
