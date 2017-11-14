@@ -54,7 +54,7 @@ abstract class Component
     public function isInstalled()
     {
         try {
-            return (bool)$this->getVersion();
+            return (bool) $this->getVersion();
         } catch (ProcessFailedException $ex) {
             return false;
         }
@@ -64,9 +64,9 @@ abstract class Component
      * Caution! This is method gives a rough idea of functionality as reported by
      * the app, however the program itself could support a different set of commands.
      *
-     * @param string[] $parentCommands Get sub-commands of this command path (mostly internal use only).
+     * @param string[] $parentCommands get sub-commands of this command path (mostly internal use only)
      *
-     * @return array<string, string> The key is the command, the value is the description.
+     * @return array<string, string> the key is the command, the value is the description
      */
     public function getCommands($parentCommands = [])
     {

@@ -21,7 +21,7 @@ class CommandSupportTest extends \PHPUnit_Framework_TestCase
         }
 
         $binCommands = array_diff(array_keys($component->getCommands()), $uselessCommands);
-        $objMethods  = get_class_methods($component);
+        $objMethods = get_class_methods($component);
 
         // some cli commands have a different method name, therefore we switch them
         foreach ($alternativeCommands as $command => $method) {

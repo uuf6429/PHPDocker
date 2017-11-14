@@ -4,7 +4,6 @@ namespace PHPDocker;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use PHPDocker\Component;
 
 /**
  * @property Component\Docker  $docker
@@ -44,7 +43,7 @@ class Manager
      */
     public function __get($name)
     {
-        if(!array_key_exists($name, $this->components)){
+        if (!array_key_exists($name, $this->components)) {
             trigger_error(sprintf('Notice: Undefined property: %s::$%s', __CLASS__, $name));
 
             return null;

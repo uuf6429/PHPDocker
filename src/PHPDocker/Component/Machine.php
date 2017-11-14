@@ -18,7 +18,7 @@ class Machine extends Component
     /**
      * Returns name of active machine.
      *
-     * @param null|int Timeout in seconds.
+     * @param null|int timeout in seconds
      *
      * @return string
      */
@@ -43,7 +43,7 @@ class Machine extends Component
      *
      * @param null|string[] $machineNames
      *
-     * @return string|string[] IP of default machine or an array of IPs for the specified machines.
+     * @return string|string[] IP of default machine or an array of IPs for the specified machines
      */
     public function getIPs($machineNames = null)
     {
