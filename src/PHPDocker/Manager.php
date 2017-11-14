@@ -91,6 +91,6 @@ class Manager
      */
     public function isDockerToolbox()
     {
-        // TODO to be implemented
+        return (bool) getenv('DOCKER_TOOLBOX_INSTALL_PATH');
     }
 }
