@@ -27,7 +27,9 @@ class Compose extends Component
      */
     public function withFile($configFile)
     {
-        return (clone $this)->setComposeFile($configFile);
+        $clone = clone $this;
+
+        return $clone->setComposeFile($configFile);
     }
 
     /**

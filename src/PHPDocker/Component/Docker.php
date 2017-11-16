@@ -27,7 +27,9 @@ class Docker extends Component
      */
     public function withFile($dockerFile)
     {
-        return (clone $this)->setDockerFile($dockerFile);
+        $clone = clone $this;
+
+        return $clone->setDockerFile($dockerFile);
     }
 
     /**

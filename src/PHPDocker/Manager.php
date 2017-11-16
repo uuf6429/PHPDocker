@@ -40,6 +40,8 @@ class Manager
      * @param string $name
      *
      * @return null|Component\Component
+     *
+     * @internal
      */
     public function __get($name)
     {

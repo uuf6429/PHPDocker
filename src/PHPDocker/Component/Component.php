@@ -61,8 +61,8 @@ abstract class Component
     }
 
     /**
-     * Caution! This is method gives a rough idea of functionality as reported by
-     * the app, however the program itself could support a different set of commands.
+     * Caution! This method gives a rough idea of functionality as reported by the console
+     * app, however the program itself could support a different set of commands.
      *
      * @param string[] $parentCommands get sub-commands of this command path (mostly internal use only)
      *
