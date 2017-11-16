@@ -1,7 +1,19 @@
 #!/bin/sh
 
-`git rev-parse --show-toplevel`/vendor/bin/php-cs-fixer fix --verbose --show-progress=estimating --config `git rev-parse --show-toplevel`/.php_cs -
+PROJECT_ROOT="`git rev-parse --show-toplevel`"
+COMPOSER_BIN="${PROJECT_ROOT}/vendor/bin"
 
+# Make sure temp directory exists
+mkdir -p "${PROJECT_ROOT}/temp"
+
+# Regenerate documentation and add to commit
+"${COMPOSER_BIN}/phpdoc"
+git add -A "${PROJECT_ROOT}/README.md"
+
+# Run PHP-CS-Fixer
+"${COMPOSER_BIN}/php-cs-fixer" fix --verbose --show-progress=estimating --config "${PROJECT_ROOT}/.php_cs" -
+
+# Handle PHP-CS-Fixer result
 if [ $? = 0 ]; then
     if ! git diff --quiet; then
         echo "PHP-CS-Fixer fixed some files. Please review changes, add them in git and commit again."
