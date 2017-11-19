@@ -12,6 +12,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
     * [getVersion](#getversion)
     * [isInstalled](#isinstalled)
     * [getCommands](#getcommands)
+    * [clearCommandsCache](#clearcommandscache)
     * [withFile](#withfile)
     * [setComposeFile](#setcomposefile)
     * [down](#down)
@@ -22,6 +23,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
     * [getVersion](#getversion-1)
     * [isInstalled](#isinstalled-1)
     * [getCommands](#getcommands-1)
+    * [clearCommandsCache](#clearcommandscache-1)
     * [withFile](#withfile-1)
     * [setDockerFile](#setdockerfile)
     * [copy](#copy)
@@ -30,6 +32,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
     * [getVersion](#getversion-2)
     * [isInstalled](#isinstalled-2)
     * [getCommands](#getcommands-2)
+    * [clearCommandsCache](#clearcommandscache-2)
     * [getActive](#getactive)
     * [getIPs](#getips)
 * [Manager](#manager)
@@ -124,6 +127,22 @@ Compose::getCommands( array&lt;mixed,string&gt; $parentCommands = array() ): \PH
 **Return Value:**
 
 string> the key is the command, the value is the description
+
+
+
+---
+
+### clearCommandsCache
+
+Clears the cache holding the result of `getCommands()`.
+
+```php
+Compose::clearCommandsCache(  )
+```
+
+
+
+
 
 
 
@@ -338,6 +357,22 @@ string> the key is the command, the value is the description
 
 ---
 
+### clearCommandsCache
+
+Clears the cache holding the result of `getCommands()`.
+
+```php
+Docker::clearCommandsCache(  )
+```
+
+
+
+
+
+
+
+---
+
 ### withFile
 
 
@@ -498,6 +533,22 @@ string> the key is the command, the value is the description
 
 ---
 
+### clearCommandsCache
+
+Clears the cache holding the result of `getCommands()`.
+
+```php
+Machine::clearCommandsCache(  )
+```
+
+
+
+
+
+
+
+---
+
 ### getActive
 
 Returns name of active machine.
@@ -612,4 +663,4 @@ Manager::isDockerToolbox(  ): boolean
 
 
 --------
-> This document was automatically generated from source code comments on 2017-11-16 using [phpDocumentor](http://www.phpdoc.org/) and [cvuorinen/phpdoc-markdown-public](https://github.com/cvuorinen/phpdoc-markdown-public)
+> This document was automatically generated from source code comments on 2017-11-19 using [phpDocumentor](http://www.phpdoc.org/) and [cvuorinen/phpdoc-markdown-public](https://github.com/cvuorinen/phpdoc-markdown-public)

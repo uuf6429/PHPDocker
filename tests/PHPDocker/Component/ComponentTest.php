@@ -31,22 +31,11 @@ class ComponentTest extends \PHPUnit_Framework_TestCase
      */
     public function testVersionParsing($processOutput, $expectedVersion, $expectedException)
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject|Component $component */
-        $component = $this->getMockBuilder(Component::class)
-            ->setConstructorArgs(['some-non-existent-exe'])
-            ->setMethods(['getProcessBuilder'])
-            ->getMock();
-        $processBuilder = $this->getMockBuilder(ProcessBuilder::class)
-            ->setMethods(['getProcess'])
-            ->getMock();
-        $process = $this->getMockBuilder(Process::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getOutput', 'mustRun'])
-            ->getMock();
-
-        $component->method('getProcessBuilder')->willReturn($processBuilder);
-        $processBuilder->method('getProcess')->willReturn($process);
-        $process->method('getOutput')->willReturn($processOutput);
+        $component = $this->getComponentMock($this->getProcessMock(
+            function () use ($processOutput) {
+                return $processOutput;
+            }
+        ));
 
         if ($expectedException) {
             $this->expectException(get_class($expectedException));
@@ -82,5 +71,74 @@ class ComponentTest extends \PHPUnit_Framework_TestCase
                 '$expectedException' => null,
             ],
         ];
+    }
+
+    public function testCommandCacheWorks()
+    {
+        $returnStack = [
+            "Commands:\n  c1  Command\n",
+            '',
+            "Commands:\n  c2  Command\n",
+            '',
+        ];
+
+        $process = $this->getProcessMock(
+            function () use (&$returnStack) {
+                return $returnStack ? array_shift($returnStack) : '';
+            }
+        );
+        $component = $this->getComponentMock($process);
+
+        // verify we get commands from output
+        $this->assertEquals(['c1' => 'Command'], $component->getCommands());
+
+        // verify we get cached commands
+        $this->assertEquals(['c1' => 'Command'], $component->getCommands());
+
+        // verify we get commands from output after cache is cleared
+        $component->clearCommandsCache();
+        $this->assertEquals(['c2' => 'Command'], $component->getCommands());
+    }
+
+    /**
+     * @param null|Process $processMock
+     *
+     * @return \PHPDocker\Component\Component|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private function getComponentMock($processMock = null)
+    {
+        /** @var \PHPUnit_Framework_MockObject_MockObject|Component $component */
+        $component = $this->getMockBuilder(Component::class)
+            ->setConstructorArgs(['some-non-existent-exe'])
+            ->setMethods(['getProcessBuilder'])
+            ->getMock();
+        $processBuilder = $this->getMockBuilder(ProcessBuilder::class)
+            ->setMethods($processMock ? ['getProcess'] : [])
+            ->getMock();
+
+        $component->method('getProcessBuilder')->willReturn($processBuilder);
+
+        if ($processMock) {
+            $processBuilder->method('getProcess')->willReturn($processMock);
+        }
+
+        return $component;
+    }
+
+    /**
+     * @param callable $outputGenerator
+     *
+     * @return \PHPUnit_Framework_MockObject_MockObject|Process
+     */
+    private function getProcessMock($outputGenerator)
+    {
+        $process = $this->getMockBuilder(Process::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getOutput', 'getErrorOutput', 'mustRun'])
+            ->getMock();
+
+        $process->method('getOutput')->willReturnCallback($outputGenerator);
+
+        return $process;
     }
 }

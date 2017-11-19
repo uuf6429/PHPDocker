@@ -20,6 +20,11 @@ abstract class Component
     protected $logger;
 
     /**
+     * @var string[]
+     */
+    private $binCommands;
+
+    /**
      * @param null|string $binPath
      * @param null|LoggerInterface $logger
      */
@@ -70,42 +75,88 @@ abstract class Component
      */
     public function getCommands($parentCommands = [])
     {
-        $builder = $this->getProcessBuilder();
-        $builder->add('help');
-        array_map([$builder, 'add'], $parentCommands);
+        if ($this->binCommands === null) {
+            $start = microtime(true);
+            $this->logger->debug(
+                sprintf(
+                    '%s->getCommands([%s])...',
+                    basename(get_class($this)),
+                    implode(', ', $parentCommands)
+                )
+            );
 
-        $process = $builder->getProcess();
-        $process->mustRun();
-        $output = $process->getOutput() ?: $process->getErrorOutput();
+            $builder = $this->getProcessBuilder();
+            $builder->add('help');
+            array_map([$builder, 'add'], $parentCommands);
 
-        $offset = 0;
-        $result = [];
-        while (preg_match('/^.*Commands:\\r?\\n((  (\\w+)\\s+(.+)\\r?\\n)+)/m', $output, $matches, PREG_OFFSET_CAPTURE, $offset)) {
-            $offset = $matches[1][1];
+            $process = $builder->getProcess();
+            $process->mustRun();
+            $output = $process->getOutput() ?: $process->getErrorOutput();
 
-            if (preg_match_all('/^  (\\w+)\\s+(.+)$/m', $matches[1][0], $matches)) {
-                list(, $commands, $descriptions) = $matches;
+            $this->logger->debug(
+                sprintf(
+                    '%s->getCommands([%s]) EXEC %.3fs',
+                    basename(get_class($this)),
+                    implode(', ', $parentCommands),
+                    microtime(true) - $start
+                )
+            );
 
-                $commandPath = implode(' ', $parentCommands) . ' ';
-                $commands = array_map(function ($command) use ($commandPath) {
-                    return trim($commandPath . $command);
-                }, $commands);
+            $offset = 0;
+            $result = [];
+            while (preg_match('/^.*Commands:\\r?\\n((  (\\w+)\\s+(.+)\\r?\\n)+)/m',
+                $output, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+                $offset = $matches[1][1];
 
-                // add current list of commands
-                $result = array_merge($result, array_combine($commands, $descriptions));
+                if (preg_match_all('/^  (\\w+)\\s+(.+)$/m', $matches[1][0],
+                    $matches)
+                ) {
+                    list(, $commands, $descriptions) = $matches;
 
-                // add any sub-commands
-                foreach ($commands as $command) {
-                    $result = array_merge($result, $this->getCommands(explode(' ', $command)));
+                    $commandPath = implode(' ', $parentCommands) . ' ';
+                    $commands    = array_map(function ($command) use (
+                        $commandPath
+                    ) {
+                        return trim($commandPath . $command);
+                    }, $commands);
+
+                    // add current list of commands
+                    $result = array_merge($result,
+                        array_combine($commands, $descriptions));
+
+                    // add any sub-commands
+                    foreach ($commands as $command) {
+                        $result = array_merge($result,
+                            $this->getCommands(explode(' ', $command)));
+                    }
                 }
             }
+
+            if (!count($result) && !count($parentCommands)) {
+                throw new \RuntimeException('Could not retrieve list of commands.');
+            }
+
+            $this->binCommands = $result;
+
+            $this->logger->debug(
+                sprintf(
+                    '%s->getCommands([%s]) DONE %.3fs',
+                    basename(get_class($this)),
+                    implode(', ', $parentCommands),
+                    microtime(true) - $start
+                )
+            );
         }
 
-        if (!count($result) && !count($parentCommands)) {
-            throw new \RuntimeException('Could not retrieve list of commands.');
-        }
+        return $this->binCommands;
+    }
 
-        return $result;
+    /**
+     * Clears the cache holding the result of `getCommands()`.
+     */
+    public function clearCommandsCache()
+    {
+        $this->binCommands = null;
     }
 
     /**

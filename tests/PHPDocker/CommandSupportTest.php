@@ -34,7 +34,16 @@ class CommandSupportTest extends \PHPUnit_Framework_TestCase
 
         sort($binCommands);
         sort($objCommands);
-        $this->assertEquals($binCommands, $objCommands);
+
+        $this->assertEquals(
+            $binCommands,
+            $objCommands,
+            sprintf(
+                'Component "%s" supports only %d%% of commands.',
+                basename(get_class($component)),
+                count($objCommands) / count($binCommands) * 100
+            )
+        );
     }
 
     public function commandSupportDataProvider()
