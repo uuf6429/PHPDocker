@@ -114,10 +114,12 @@ class DocGen
      */
     private function buildClassMethods(\ReflectionClass $class, \phpDocumentor\Reflection\DocBlock $phpdoc)
     {
+        $shortClassName = $class->getShortName();
+
         $methods = array_merge(
             // handle methods from reflection
             array_map(
-                function(\ReflectionMethod $method){
+                function (\ReflectionMethod $method) use ($shortClassName) {
                     $phpdoc = $this->buildDocBlock($method);
                     /** @var \phpDocumentor\Reflection\DocBlock\Tags\Return_ $return */
                     $return = $phpdoc->hasTag('return') ? $phpdoc->getTagsByName('return')[0] : null;
@@ -143,7 +145,8 @@ class DocGen
                         'name' => $method->name,
                         'isMagicMethod' => substr($method->name, 0, 2) === '__',
                         'isStatic' => $method->isStatic(),
-                        'titleText' => $method->name . '()',
+                        'titleText' => "`{$shortClassName}::{$method->name}()`",
+                        'titleLink' => $this->buildSafeAnchor("`{$shortClassName}::{$method->name}()`"),
                         'description' => trim($phpdoc->getSummary() . "\n\n" . $phpdoc->getDescription()->render()),
                         'hasReturn' => (bool)$return,
                         'returnType' => $return ? (string)$return->getType() : '',
@@ -155,12 +158,13 @@ class DocGen
             ),
             // handle (virtual) methods from PHPDoc
             array_map(
-                function(\phpDocumentor\Reflection\DocBlock\Tags\Method $method){
+                function (\phpDocumentor\Reflection\DocBlock\Tags\Method $method) use ($shortClassName) {
                     return (object) [
                         'name' => $method->getMethodName(),
                         'isMagicMethod' => substr($method->getMethodName(), 0, 2) === '__',
                         'isStatic' => $method->isStatic(),
-                        'titleText' => $method->getMethodName() . '()',
+                        'titleText' => "`{$shortClassName}::{$method->getMethodName()}()`",
+                        'titleLink' => $this->buildSafeAnchor("`{$shortClassName}::{$method->getMethodName()}()`"),
                         'description' => $method->getDescription()->render(),
                         'hasReturn' => !($method->getReturnType() instanceof \phpDocumentor\Reflection\Types\Void_),
                         'returnType' => (string)$method->getReturnType(),
@@ -241,6 +245,7 @@ interface ClassDoc {}
  * @property bool $isMagicMethod
  * @property bool $isStatic
  * @property string $titleText
+ * @property string $titleLink
  * @property string $description
  * @property bool $hasReturn
  * @property string $returnType

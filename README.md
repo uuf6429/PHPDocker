@@ -15,9 +15,33 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
   - [Usage](#usage)
   - [API](#api)
     - [Manager](#phpdockermanager)
+      - [`isDockerToolbox()`](#managerisdockertoolbox)
+      - [`isInstalled()`](#managerisinstalled)
     - [Machine](#phpdockercomponentmachine)
+      - [`clearCommandsCache()`](#machineclearcommandscache)
+      - [`getActive()`](#machinegetactive)
+      - [`getCommands()`](#machinegetcommands)
+      - [`getIPs()`](#machinegetips)
+      - [`getVersion()`](#machinegetversion)
+      - [`isInstalled()`](#machineisinstalled)
     - [Docker](#phpdockercomponentdocker)
+      - [`clearCommandsCache()`](#dockerclearcommandscache)
+      - [`copy()`](#dockercopy)
+      - [`getCommands()`](#dockergetcommands)
+      - [`getVersion()`](#dockergetversion)
+      - [`isInstalled()`](#dockerisinstalled)
+      - [`setDockerFile()`](#dockersetdockerfile)
+      - [`withFile()`](#dockerwithfile)
     - [Compose](#phpdockercomponentcompose)
+      - [`build()`](#composebuild)
+      - [`clearCommandsCache()`](#composeclearcommandscache)
+      - [`down()`](#composedown)
+      - [`getCommands()`](#composegetcommands)
+      - [`getVersion()`](#composegetversion)
+      - [`isInstalled()`](#composeisinstalled)
+      - [`remove()`](#composeremove)
+      - [`setComposeFile()`](#composesetcomposefile)
+      - [`withFile()`](#composewithfile)
 
 ## Installation
 
@@ -29,7 +53,9 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 
 - Full name: PHPDocker\Manager
 
-#### isDockerToolbox()
+----
+
+#### `Manager::isDockerToolbox()`
 
 ```php
 $manager->isDockerToolbox(): bool
@@ -39,7 +65,9 @@ $manager->isDockerToolbox(): bool
 
 `bool`
 
-#### isInstalled()
+----
+
+#### `Manager::isInstalled()`
 
 ```php
 $manager->isInstalled(): bool
@@ -54,7 +82,9 @@ $manager->isInstalled(): bool
 - Full name: PHPDocker\Component\Machine
 - Extends: PHPDocker\Component\Component
 
-#### clearCommandsCache()
+----
+
+#### `Machine::clearCommandsCache()`
 
 ```php
 $machine->clearCommandsCache()
@@ -62,7 +92,9 @@ $machine->clearCommandsCache()
 
 Clears the cache holding the result of `getCommands()`.
 
-#### getActive()
+----
+
+#### `Machine::getActive()`
 
 ```php
 $machine->getActive($timeout): string
@@ -80,7 +112,9 @@ Returns name of active machine.
 
 `string`
 
-#### getCommands()
+----
+
+#### `Machine::getCommands()`
 
 ```php
 $machine->getCommands(string[] $parentCommands): array
@@ -99,7 +133,9 @@ app, however the program itself could support a different set of commands.
 
 `array` - the key is the command, the value is the description
 
-#### getIPs()
+----
+
+#### `Machine::getIPs()`
 
 ```php
 $machine->getIPs(null|string[] $machineNames): string|string[]
@@ -117,7 +153,9 @@ Returns IP of default machine (if $names is null), otherwise IPs of the specifie
 
 `string|string[]` - IP of default machine or an array of IPs for the specified machines
 
-#### getVersion()
+----
+
+#### `Machine::getVersion()`
 
 ```php
 $machine->getVersion(): string
@@ -127,7 +165,9 @@ $machine->getVersion(): string
 
 `string`
 
-#### isInstalled()
+----
+
+#### `Machine::isInstalled()`
 
 ```php
 $machine->isInstalled(): bool
@@ -142,7 +182,9 @@ $machine->isInstalled(): bool
 - Full name: PHPDocker\Component\Docker
 - Extends: PHPDocker\Component\Component
 
-#### clearCommandsCache()
+----
+
+#### `Docker::clearCommandsCache()`
 
 ```php
 $docker->clearCommandsCache()
@@ -150,7 +192,9 @@ $docker->clearCommandsCache()
 
 Clears the cache holding the result of `getCommands()`.
 
-#### copy()
+----
+
+#### `Docker::copy()`
 
 ```php
 $docker->copy(string $containerName, string $sourcePath, string $targetPath): $this
@@ -168,7 +212,9 @@ $docker->copy(string $containerName, string $sourcePath, string $targetPath): $t
 
 `$this`
 
-#### getCommands()
+----
+
+#### `Docker::getCommands()`
 
 ```php
 $docker->getCommands(string[] $parentCommands): array
@@ -187,7 +233,9 @@ app, however the program itself could support a different set of commands.
 
 `array` - the key is the command, the value is the description
 
-#### getVersion()
+----
+
+#### `Docker::getVersion()`
 
 ```php
 $docker->getVersion(): string
@@ -197,7 +245,9 @@ $docker->getVersion(): string
 
 `string`
 
-#### isInstalled()
+----
+
+#### `Docker::isInstalled()`
 
 ```php
 $docker->isInstalled(): bool
@@ -207,7 +257,9 @@ $docker->isInstalled(): bool
 
 `bool`
 
-#### setDockerFile()
+----
+
+#### `Docker::setDockerFile()`
 
 ```php
 $docker->setDockerFile(string $dockerFile): $this
@@ -223,7 +275,9 @@ $docker->setDockerFile(string $dockerFile): $this
 
 `$this`
 
-#### withFile()
+----
+
+#### `Docker::withFile()`
 
 ```php
 $docker->withFile(string $dockerFile): $this
@@ -244,7 +298,9 @@ $docker->withFile(string $dockerFile): $this
 - Full name: PHPDocker\Component\Compose
 - Extends: PHPDocker\Component\Component
 
-#### build()
+----
+
+#### `Compose::build()`
 
 ```php
 $compose->build(null $file, bool $noCache, bool $forceRemove, bool $forcePull)
@@ -259,7 +315,9 @@ $compose->build(null $file, bool $noCache, bool $forceRemove, bool $forcePull)
 | <code>$forceRemove</code> | <code>bool</code> |             |
 | <code>$forcePull</code>   | <code>bool</code> |             |
 
-#### clearCommandsCache()
+----
+
+#### `Compose::clearCommandsCache()`
 
 ```php
 $compose->clearCommandsCache()
@@ -267,7 +325,9 @@ $compose->clearCommandsCache()
 
 Clears the cache holding the result of `getCommands()`.
 
-#### down()
+----
+
+#### `Compose::down()`
 
 ```php
 $compose->down(null|string $file, null|string $removeImages, bool $removeVolumes)
@@ -281,7 +341,9 @@ $compose->down(null|string $file, null|string $removeImages, bool $removeVolumes
 | <code>$removeImages</code>  | <code>null&#124;string</code> | 'local' or 'all', see `docker-compose down --help` for more info |
 | <code>$removeVolumes</code> | <code>bool</code>        |                                                                  |
 
-#### getCommands()
+----
+
+#### `Compose::getCommands()`
 
 ```php
 $compose->getCommands(string[] $parentCommands): array
@@ -300,7 +362,9 @@ app, however the program itself could support a different set of commands.
 
 `array` - the key is the command, the value is the description
 
-#### getVersion()
+----
+
+#### `Compose::getVersion()`
 
 ```php
 $compose->getVersion(): string
@@ -310,7 +374,9 @@ $compose->getVersion(): string
 
 `string`
 
-#### isInstalled()
+----
+
+#### `Compose::isInstalled()`
 
 ```php
 $compose->isInstalled(): bool
@@ -320,7 +386,9 @@ $compose->isInstalled(): bool
 
 `bool`
 
-#### remove()
+----
+
+#### `Compose::remove()`
 
 ```php
 $compose->remove($file, $stopContainers, $removeVolumes)
@@ -334,7 +402,9 @@ $compose->remove($file, $stopContainers, $removeVolumes)
 | <code>$stopContainers</code> |               |             |
 | <code>$removeVolumes</code>  |               |             |
 
-#### setComposeFile()
+----
+
+#### `Compose::setComposeFile()`
 
 ```php
 $compose->setComposeFile(string $composeFile): $this
@@ -350,7 +420,9 @@ $compose->setComposeFile(string $composeFile): $this
 
 `$this`
 
-#### withFile()
+----
+
+#### `Compose::withFile()`
 
 ```php
 $compose->withFile(string $configFile): $this

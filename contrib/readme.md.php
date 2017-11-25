@@ -19,6 +19,11 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 <?php
 	foreach ($generator->getClasses() as $class) {
 		echo "    - [{$class->name}](#{$class->titleLink})\n";
+		foreach ($class->methods as $method) {
+			if (!$method->isMagicMethod) {
+				echo "      - [`{$method->name}()`](#{$method->titleLink})\n";
+			}
+		}
 	}
 ?>
 
@@ -58,6 +63,8 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 			if ($method->isMagicMethod) {
 				continue;
 			}
+
+			echo "\n----\n";
 
 			echo "\n#### {$method->titleText}\n\n";
 
