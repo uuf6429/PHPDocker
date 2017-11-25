@@ -10,6 +10,7 @@
 PHP library providing a simple API for [Docker cli](https://docs.docker.com/engine/reference/commandline/cli/).
 
 ## Table of Contents
+
 - [PHPDocker](#phpdocker)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
@@ -26,15 +27,19 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 ## Usage
 
 ## API
-
 <?php
 	foreach ($generator->getClasses() as $class) {
-		echo "### {$class->titleText}\n\n";
+		echo "\n### {$class->titleText}\n\n";
 
 		echo "- Full name: {$class->fullName}\n";
 
 		if ($class->hasParent) {
-			echo "- Extends: [{$class->parentTitleText}](#{$class->parentTitleLink})\n";
+			printf(
+				"- Extends: %s\n",
+				$class->parentTitleLink
+					? "[{$class->parentTitleText}](#{$class->parentTitleLink})"
+					: $class->parentTitleText
+			);
 		}
 
 		if (count($class->interfaceTextLinks)) {
@@ -45,8 +50,6 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 			echo "- Implements: " . implode(', ', $interfaces) . "\n";
 		}
 
-		echo "\n";
-
 		if ($class->description) {
 			echo "\n{$class->description}\n\n";
 		}
@@ -56,7 +59,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 				continue;
 			}
 
-			echo "#### {$method->titleText}\n\n";
+			echo "\n#### {$method->titleText}\n\n";
 
 			echo "```php\n";
 			echo sprintf(
@@ -66,34 +69,38 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 				$method->name,
 				implode(', ', array_map(
 					function ($argument) {
-						return "{$argument->type} \${$argument->name}";
+						return trim("{$argument->type} \${$argument->name}");
 					},
 					$method->arguments
 				)),
 				$method->hasReturn ? ": {$method->returnType}" : ''
 			);
-			echo "```\n\n";
+			echo "```\n";
 
 			if ($method->description) {
-				echo "{$method->description}\n\n";
+				echo "\n{$method->description}\n";
 			}
 
 			if (count($method->arguments)) {
-				echo "##### Arguments:\n";
-				$col1 = $generator->calcMaxLen($method->arguments, 'name', 9, 3);
-				$col2 = $generator->calcMaxLen($method->arguments, 'type', 4, 2);
+				echo "\n**Arguments:**\n\n";
+				$col1 = $generator->calcMaxLen($method->arguments, 'name', 9, 14);
+				$col2 = $generator->calcMaxLen($method->arguments, 'type', 4, 13);
 				$col3 = $generator->calcMaxLen($method->arguments, 'text', 11);
 				printf("| %s | %s | %s |\n", str_pad('Parameter', $col1), str_pad('Type', $col2), str_pad('Description', $col3));
 				printf("|-%s-|-%s-|-%s-|\n", str_repeat('-', $col1), str_repeat('-', $col2), str_repeat('-', $col3));
 				foreach ($method->arguments as $argument) {
-					printf("| %s | %s | %s |\n", str_pad("`\$$argument->name`", $col1), str_pad("`$argument->type`", $col2), str_pad($argument->text, $col3));
+					printf(
+						"| %s | %s | %s |\n",
+						str_replace('|', '&#124;', str_pad("<code>\${$argument->name}</code>", $col1)),
+						str_replace('|', '&#124;', str_pad($argument->type ? "<code>{$argument->type}</code>" : '', $col2)),
+						str_replace('|', '&#124;', str_pad($argument->text, $col3))
+					);
 				}
-				echo "\n";
 			}
 
 			if ($method->hasReturn) {
-				echo "##### Return Value:\n";
-				printf("`%s` - %s\n\n", $method->returnType, $method->returnText ?: '_No Description_');
+				echo "\n**Return Value:**\n\n";
+				echo "`{$method->returnType}`" . ($method->returnText ? " - {$method->returnText}" : '') . "\n";
 			}
 		}
 	}

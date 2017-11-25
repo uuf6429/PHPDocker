@@ -96,7 +96,8 @@ class DocGen
                 'titleLink' => $this->buildSafeAnchor($class->getName()),
                 'hasParent' => (bool) $parent,
                 'parentTitleText' => $parent ? $parent->getName() : null,
-                'parentTitleLink' => $parent ? $this->buildSafeAnchor($parent->getName()) : null,
+                'parentTitleLink' => $parent && in_array($parent->getName(), self::$SYMBOLS_TO_DOCUMENT)
+                    ? $this->buildSafeAnchor($parent->getName()) : null,
                 'interfaceTextLinks' => array_combine($interfaceNames, $interfaceLinks),
                 'parentFullName' => $parent ? $parent->getName() : null,
                 'methods' => $this->buildClassMethods($class, $phpdoc),
