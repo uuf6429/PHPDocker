@@ -9,7 +9,7 @@ class CommandSupportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param \PHPDocker\Component\Component $component
-     * @param array<string, string> $alternativeCommands
+     * @param array $alternativeCommands
      * @param string[] $uselessCommands
      *
      * @dataProvider commandSupportDataProvider

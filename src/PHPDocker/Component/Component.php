@@ -71,7 +71,7 @@ abstract class Component
      *
      * @param string[] $parentCommands get sub-commands of this command path (mostly internal use only)
      *
-     * @return array<string, string> the key is the command, the value is the description
+     * @return array the key is the command, the value is the description
      */
     public function getCommands($parentCommands = [])
     {

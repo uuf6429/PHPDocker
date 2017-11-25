@@ -1,3 +1,5 @@
+<!-- This file is generated automatically and any changes will be overwritten! -->
+
 # PHPDocker
 
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
@@ -6,661 +8,329 @@
 PHP library providing a simple API for [Docker cli](https://docs.docker.com/engine/reference/commandline/cli/).
 
 ## Table of Contents
+- [PHPDocker](#phpdocker)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [API](#api)
+    - [Manager](#phpdockermanager)
+    - [Machine](#phpdockercomponentmachine)
+    - [Docker](#phpdockercomponentdocker)
+    - [Compose](#phpdockercomponentcompose)
 
-* [Compose](#compose)
-    * [__construct](#__construct)
-    * [getVersion](#getversion)
-    * [isInstalled](#isinstalled)
-    * [getCommands](#getcommands)
-    * [clearCommandsCache](#clearcommandscache)
-    * [withFile](#withfile)
-    * [setComposeFile](#setcomposefile)
-    * [down](#down)
-    * [build](#build)
-    * [remove](#remove)
-* [Docker](#docker)
-    * [__construct](#__construct-1)
-    * [getVersion](#getversion-1)
-    * [isInstalled](#isinstalled-1)
-    * [getCommands](#getcommands-1)
-    * [clearCommandsCache](#clearcommandscache-1)
-    * [withFile](#withfile-1)
-    * [setDockerFile](#setdockerfile)
-    * [copy](#copy)
-* [Machine](#machine)
-    * [__construct](#__construct-2)
-    * [getVersion](#getversion-2)
-    * [isInstalled](#isinstalled-2)
-    * [getCommands](#getcommands-2)
-    * [clearCommandsCache](#clearcommandscache-2)
-    * [getActive](#getactive)
-    * [getIPs](#getips)
-* [Manager](#manager)
-    * [__construct](#__construct-3)
-    * [isInstalled](#isinstalled-3)
-    * [isDockerToolbox](#isdockertoolbox)
+## Installation
 
-## Compose
+## Usage
 
+## API
 
+### PHPDocker\Manager
 
+- Full name: PHPDocker\Manager
 
-
-* Full name: \PHPDocker\Component\Compose
-* Parent class: \PHPDocker\Component\Component
-
-
-### __construct
-
-
+#### isDockerToolbox()
 
 ```php
-Compose::__construct( null|string $binPath = null, null|\Psr\Log\LoggerInterface $logger = null )
+$manager->isDockerToolbox(): bool
 ```
 
+##### Return Value:
+`bool` - _No Description_
 
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$binPath` | **null&#124;string** |  |
-| `$logger` | **null&#124;\Psr\Log\LoggerInterface** |  |
-
-
-
-
----
-
-### getVersion
-
-
+#### isInstalled()
 
 ```php
-Compose::getVersion(  ): string
+$manager->isInstalled(): bool
 ```
 
+##### Return Value:
+`bool` - _No Description_
 
+### PHPDocker\Component\Machine
 
+- Full name: PHPDocker\Component\Machine
+- Extends: [PHPDocker\Component\Component](#phpdockercomponentcomponent)
 
-
-
-
----
-
-### isInstalled
-
-
+#### clearCommandsCache()
 
 ```php
-Compose::isInstalled(  ): boolean
+$machine->clearCommandsCache()
 ```
-
-
-
-
-
-
-
----
-
-### getCommands
-
-Caution! This method gives a rough idea of functionality as reported by the console
-app, however the program itself could support a different set of commands.
-
-```php
-Compose::getCommands( array&lt;mixed,string&gt; $parentCommands = array() ): \PHPDocker\Component\array&lt;string,
-```
-
-
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$parentCommands` | **array<mixed,string>** | get sub-commands of this command path (mostly internal use only) |
-
-
-**Return Value:**
-
-string> the key is the command, the value is the description
-
-
-
----
-
-### clearCommandsCache
 
 Clears the cache holding the result of `getCommands()`.
 
-```php
-Compose::clearCommandsCache(  )
-```
-
-
-
-
-
-
-
----
-
-### withFile
-
-
+#### getActive()
 
 ```php
-Compose::withFile( string $configFile ): $this
+$machine->getActive( $timeout): string
 ```
-
-
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$configFile` | **string** |  |
-
-
-
-
----
-
-### setComposeFile
-
-
-
-```php
-Compose::setComposeFile( string $composeFile ): $this
-```
-
-
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$composeFile` | **string** |  |
-
-
-
-
----
-
-### down
-
-
-
-```php
-Compose::down( null|string $file = null, null|string $removeImages = null, boolean $removeVolumes = false )
-```
-
-
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$file` | **null&#124;string** |  |
-| `$removeImages` | **null&#124;string** | 'local' or 'all', see `docker-compose down --help` for more info |
-| `$removeVolumes` | **boolean** |  |
-
-
-
-
----
-
-### build
-
-
-
-```php
-Compose::build( null $file = null, boolean $noCache = false, boolean $forceRemove = false, boolean $forcePull = false )
-```
-
-
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$file` | **null** |  |
-| `$noCache` | **boolean** |  |
-| `$forceRemove` | **boolean** |  |
-| `$forcePull` | **boolean** |  |
-
-
-
-
----
-
-### remove
-
-
-
-```php
-Compose::remove(  $file = null,  $stopContainers = false,  $removeVolumes = false )
-```
-
-
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$file` | **** |  |
-| `$stopContainers` | **** |  |
-| `$removeVolumes` | **** |  |
-
-
-
-
----
-
-## Docker
-
-
-
-
-
-* Full name: \PHPDocker\Component\Docker
-* Parent class: \PHPDocker\Component\Component
-
-
-### __construct
-
-
-
-```php
-Docker::__construct( null|string $binPath = null, null|\Psr\Log\LoggerInterface $logger = null )
-```
-
-
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$binPath` | **null&#124;string** |  |
-| `$logger` | **null&#124;\Psr\Log\LoggerInterface** |  |
-
-
-
-
----
-
-### getVersion
-
-
-
-```php
-Docker::getVersion(  ): string
-```
-
-
-
-
-
-
-
----
-
-### isInstalled
-
-
-
-```php
-Docker::isInstalled(  ): boolean
-```
-
-
-
-
-
-
-
----
-
-### getCommands
-
-Caution! This method gives a rough idea of functionality as reported by the console
-app, however the program itself could support a different set of commands.
-
-```php
-Docker::getCommands( array&lt;mixed,string&gt; $parentCommands = array() ): \PHPDocker\Component\array&lt;string,
-```
-
-
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$parentCommands` | **array<mixed,string>** | get sub-commands of this command path (mostly internal use only) |
-
-
-**Return Value:**
-
-string> the key is the command, the value is the description
-
-
-
----
-
-### clearCommandsCache
-
-Clears the cache holding the result of `getCommands()`.
-
-```php
-Docker::clearCommandsCache(  )
-```
-
-
-
-
-
-
-
----
-
-### withFile
-
-
-
-```php
-Docker::withFile( string $dockerFile ): $this
-```
-
-
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$dockerFile` | **string** |  |
-
-
-
-
----
-
-### setDockerFile
-
-
-
-```php
-Docker::setDockerFile( string $dockerFile ): $this
-```
-
-
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$dockerFile` | **string** |  |
-
-
-
-
----
-
-### copy
-
-
-
-```php
-Docker::copy( string $containerName, string $sourcePath, string $targetPath ): $this
-```
-
-
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$containerName` | **string** |  |
-| `$sourcePath` | **string** |  |
-| `$targetPath` | **string** |  |
-
-
-
-
----
-
-## Machine
-
-
-
-
-
-* Full name: \PHPDocker\Component\Machine
-* Parent class: \PHPDocker\Component\Component
-
-
-### __construct
-
-
-
-```php
-Machine::__construct( null|string $binPath = null, null|\Psr\Log\LoggerInterface $logger = null )
-```
-
-
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$binPath` | **null&#124;string** |  |
-| `$logger` | **null&#124;\Psr\Log\LoggerInterface** |  |
-
-
-
-
----
-
-### getVersion
-
-
-
-```php
-Machine::getVersion(  ): string
-```
-
-
-
-
-
-
-
----
-
-### isInstalled
-
-
-
-```php
-Machine::isInstalled(  ): boolean
-```
-
-
-
-
-
-
-
----
-
-### getCommands
-
-Caution! This method gives a rough idea of functionality as reported by the console
-app, however the program itself could support a different set of commands.
-
-```php
-Machine::getCommands( array&lt;mixed,string&gt; $parentCommands = array() ): \PHPDocker\Component\array&lt;string,
-```
-
-
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$parentCommands` | **array<mixed,string>** | get sub-commands of this command path (mostly internal use only) |
-
-
-**Return Value:**
-
-string> the key is the command, the value is the description
-
-
-
----
-
-### clearCommandsCache
-
-Clears the cache holding the result of `getCommands()`.
-
-```php
-Machine::clearCommandsCache(  )
-```
-
-
-
-
-
-
-
----
-
-### getActive
 
 Returns name of active machine.
 
+##### Arguments:
+| Parameter  | Type | Description |
+|------------|------|-------------|
+| `$timeout` | ``   |             |
+
+##### Return Value:
+`string` - _No Description_
+
+#### getCommands()
+
 ```php
-Machine::getActive(  $timeout = null ): string
+$machine->getCommands(string[] $parentCommands): array
 ```
 
+Caution! This method gives a rough idea of functionality as reported by the console
+app, however the program itself could support a different set of commands.
 
+##### Arguments:
+| Parameter         | Type       | Description                                                      |
+|-------------------|------------|------------------------------------------------------------------|
+| `$parentCommands` | `string[]` | get sub-commands of this command path (mostly internal use only) |
 
+##### Return Value:
+`array` - the key is the command, the value is the description
 
-**Parameters:**
+#### getIPs()
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$timeout` | **** |  |
-
-
-
-
----
-
-### getIPs
+```php
+$machine->getIPs(null|string[] $machineNames): string|string[]
+```
 
 Returns IP of default machine (if $names is null), otherwise IPs of the specified machines.
 
-```php
-Machine::getIPs( null|array&lt;mixed,string&gt; $machineNames = null ): string|array&lt;mixed,string&gt;
-```
+##### Arguments:
+| Parameter       | Type            | Description |
+|-----------------|-----------------|-------------|
+| `$machineNames` | `null|string[]` |             |
 
+##### Return Value:
+`string|string[]` - IP of default machine or an array of IPs for the specified machines
 
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$machineNames` | **null&#124;array<mixed,string>** |  |
-
-
-**Return Value:**
-
-IP of default machine or an array of IPs for the specified machines
-
-
-
----
-
-## Manager
-
-
-
-
-
-* Full name: \PHPDocker\Manager
-
-
-### __construct
-
-
+#### getVersion()
 
 ```php
-Manager::__construct( null|\Psr\Log\LoggerInterface $logger = null )
+$machine->getVersion(): string
 ```
 
+##### Return Value:
+`string` - _No Description_
 
-
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$logger` | **null&#124;\Psr\Log\LoggerInterface** |  |
-
-
-
-
----
-
-### isInstalled
-
-
+#### isInstalled()
 
 ```php
-Manager::isInstalled(  ): boolean
+$machine->isInstalled(): bool
 ```
 
+##### Return Value:
+`bool` - _No Description_
 
+### PHPDocker\Component\Docker
 
+- Full name: PHPDocker\Component\Docker
+- Extends: [PHPDocker\Component\Component](#phpdockercomponentcomponent)
 
-
-
-
----
-
-### isDockerToolbox
-
-
+#### clearCommandsCache()
 
 ```php
-Manager::isDockerToolbox(  ): boolean
+$docker->clearCommandsCache()
 ```
 
+Clears the cache holding the result of `getCommands()`.
 
+#### copy()
 
+```php
+$docker->copy(string $containerName, string $sourcePath, string $targetPath): $this
+```
 
+##### Arguments:
+| Parameter        | Type     | Description |
+|------------------|----------|-------------|
+| `$containerName` | `string` |             |
+| `$sourcePath`    | `string` |             |
+| `$targetPath`    | `string` |             |
 
+##### Return Value:
+`$this` - _No Description_
 
+#### getCommands()
 
----
+```php
+$docker->getCommands(string[] $parentCommands): array
+```
 
+Caution! This method gives a rough idea of functionality as reported by the console
+app, however the program itself could support a different set of commands.
 
+##### Arguments:
+| Parameter         | Type       | Description                                                      |
+|-------------------|------------|------------------------------------------------------------------|
+| `$parentCommands` | `string[]` | get sub-commands of this command path (mostly internal use only) |
 
---------
-> This document was automatically generated from source code comments on 2017-11-19 using [phpDocumentor](http://www.phpdoc.org/) and [cvuorinen/phpdoc-markdown-public](https://github.com/cvuorinen/phpdoc-markdown-public)
+##### Return Value:
+`array` - the key is the command, the value is the description
+
+#### getVersion()
+
+```php
+$docker->getVersion(): string
+```
+
+##### Return Value:
+`string` - _No Description_
+
+#### isInstalled()
+
+```php
+$docker->isInstalled(): bool
+```
+
+##### Return Value:
+`bool` - _No Description_
+
+#### setDockerFile()
+
+```php
+$docker->setDockerFile(string $dockerFile): $this
+```
+
+##### Arguments:
+| Parameter     | Type     | Description |
+|---------------|----------|-------------|
+| `$dockerFile` | `string` |             |
+
+##### Return Value:
+`$this` - _No Description_
+
+#### withFile()
+
+```php
+$docker->withFile(string $dockerFile): $this
+```
+
+##### Arguments:
+| Parameter     | Type     | Description |
+|---------------|----------|-------------|
+| `$dockerFile` | `string` |             |
+
+##### Return Value:
+`$this` - _No Description_
+
+### PHPDocker\Component\Compose
+
+- Full name: PHPDocker\Component\Compose
+- Extends: [PHPDocker\Component\Component](#phpdockercomponentcomponent)
+
+#### build()
+
+```php
+$compose->build(null $file, bool $noCache, bool $forceRemove, bool $forcePull)
+```
+
+##### Arguments:
+| Parameter      | Type   | Description |
+|----------------|--------|-------------|
+| `$file`        | `null` |             |
+| `$noCache`     | `bool` |             |
+| `$forceRemove` | `bool` |             |
+| `$forcePull`   | `bool` |             |
+
+#### clearCommandsCache()
+
+```php
+$compose->clearCommandsCache()
+```
+
+Clears the cache holding the result of `getCommands()`.
+
+#### down()
+
+```php
+$compose->down(null|string $file, null|string $removeImages, bool $removeVolumes)
+```
+
+##### Arguments:
+| Parameter        | Type          | Description                                                      |
+|------------------|---------------|------------------------------------------------------------------|
+| `$file`          | `null|string` |                                                                  |
+| `$removeImages`  | `null|string` | 'local' or 'all', see `docker-compose down --help` for more info |
+| `$removeVolumes` | `bool`        |                                                                  |
+
+#### getCommands()
+
+```php
+$compose->getCommands(string[] $parentCommands): array
+```
+
+Caution! This method gives a rough idea of functionality as reported by the console
+app, however the program itself could support a different set of commands.
+
+##### Arguments:
+| Parameter         | Type       | Description                                                      |
+|-------------------|------------|------------------------------------------------------------------|
+| `$parentCommands` | `string[]` | get sub-commands of this command path (mostly internal use only) |
+
+##### Return Value:
+`array` - the key is the command, the value is the description
+
+#### getVersion()
+
+```php
+$compose->getVersion(): string
+```
+
+##### Return Value:
+`string` - _No Description_
+
+#### isInstalled()
+
+```php
+$compose->isInstalled(): bool
+```
+
+##### Return Value:
+`bool` - _No Description_
+
+#### remove()
+
+```php
+$compose->remove( $file,  $stopContainers,  $removeVolumes)
+```
+
+##### Arguments:
+| Parameter         | Type | Description |
+|-------------------|------|-------------|
+| `$file`           | ``   |             |
+| `$stopContainers` | ``   |             |
+| `$removeVolumes`  | ``   |             |
+
+#### setComposeFile()
+
+```php
+$compose->setComposeFile(string $composeFile): $this
+```
+
+##### Arguments:
+| Parameter      | Type     | Description |
+|----------------|----------|-------------|
+| `$composeFile` | `string` |             |
+
+##### Return Value:
+`$this` - _No Description_
+
+#### withFile()
+
+```php
+$compose->withFile(string $configFile): $this
+```
+
+##### Arguments:
+| Parameter     | Type     | Description |
+|---------------|----------|-------------|
+| `$configFile` | `string` |             |
+
+##### Return Value:
+`$this` - _No Description_
+
