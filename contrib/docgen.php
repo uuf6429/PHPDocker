@@ -44,25 +44,6 @@ class DocGen
     }
 
     /**
-     * @param array $items
-     * @param string $key
-     * @param int $min
-     * @param int $off
-     *
-     * @return int
-     */
-    public function calcMaxLen($items, $key, $min, $off = 0)
-    {
-        $max = $min;
-
-        foreach ($items as $item) {
-            $max = max($max, strlen($item->$key) + $off);
-        }
-
-        return $max;
-    }
-
-    /**
      * @return ClassDoc[]
      */
     public function getClasses()
@@ -144,14 +125,19 @@ class DocGen
                     return (object) [
                         'name' => $method->name,
                         'isMagicMethod' => substr($method->name, 0, 2) === '__',
-                        'isStatic' => $method->isStatic(),
                         'titleText' => "`{$shortClassName}::{$method->name}()`",
                         'titleLink' => $this->buildSafeAnchor("`{$shortClassName}::{$method->name}()`"),
                         'description' => trim($phpdoc->getSummary() . "\n\n" . $phpdoc->getDescription()->render()),
-                        'hasReturn' => (bool)$return,
-                        'returnType' => $return ? (string)$return->getType() : '',
-                        'returnText' => $return ? $return->getDescription()->render() : '',
-                        'arguments' => $params,
+                        'signature' => $this->buildMethodSignature(
+                            sprintf(
+                                $method->isStatic() ? '%s::%s' : '$%s->%s',
+                                $method->isStatic() ? $shortClassName : strtolower($shortClassName),
+                                $method->getName()
+                            ),
+                            $params,
+                            $return ? (string)$return->getType() : '',
+                            $return ? $return->getDescription()->render() : ''
+                        ),
                     ];
                 },
                 $class->getMethods(ReflectionMethod::IS_PUBLIC)
@@ -162,22 +148,27 @@ class DocGen
                     return (object) [
                         'name' => $method->getMethodName(),
                         'isMagicMethod' => substr($method->getMethodName(), 0, 2) === '__',
-                        'isStatic' => $method->isStatic(),
                         'titleText' => "`{$shortClassName}::{$method->getMethodName()}()`",
                         'titleLink' => $this->buildSafeAnchor("`{$shortClassName}::{$method->getMethodName()}()`"),
                         'description' => $method->getDescription()->render(),
-                        'hasReturn' => !($method->getReturnType() instanceof \phpDocumentor\Reflection\Types\Void_),
-                        'returnType' => (string)$method->getReturnType(),
-                        'returnText' => '', // cannot be defined from virtual methods
-                        'arguments' => array_map(
-                            function ($name) {
-                                return (object) [
-                                    'name' => $name,
-                                    'type' => '',
-                                    'text' => '',
-                                ];
-                            },
-                            $method->getArguments()
+                        'signature' => $this->buildMethodSignature(
+                            sprintf(
+                                $method->isStatic() ? '%s::%s' : '$%s->%s',
+                                $method->isStatic() ? $shortClassName : strtolower($shortClassName),
+                                $method->getMethodName()
+                            ),
+                            array_map(
+                                function ($argument) {
+                                    return (object) [
+                                        'name' => $argument['name'],
+                                        'type' => $argument['type'],
+                                        'text' => '', // cannot be defined from virtual methods
+                                    ];
+                                },
+                                $method->getArguments()
+                            ),
+                            (string) $method->getReturnType(),
+                            '' // returned value cannot be descried from virtual methods
                         ),
                     ];
                 },
@@ -221,6 +212,54 @@ class DocGen
             ? $this->docBlockFactory->create($phpdoc)
             : new \phpDocumentor\Reflection\DocBlock();
     }
+
+    /**
+     * @param string $methodCall
+     * @param array $arguments
+     * @param string $returnType
+     * @param string $returnText
+     *
+     * @return string
+     */
+    private function buildMethodSignature($methodCall, $arguments, $returnType, $returnText)
+    {
+        $result = $methodCall . '(';
+
+        if ($arguments) {
+            $result .= "\n";
+        }
+
+        $typeWidth = 0;
+        $nameWidth = 0;
+        foreach ($arguments as $argument) {
+            $typeWidth = max($typeWidth, strlen($argument->type) + 1);
+            $nameWidth = max($nameWidth, strlen($argument->name) + 5);
+        }
+
+        foreach ($arguments as $argument) {
+            $result .= '    ';
+            $result .= str_pad($argument->type, $typeWidth);
+            $result .= str_pad("\${$argument->name}", $nameWidth);
+            if ($argument->text) {
+                $result .= "// {$argument->text}";
+            } else {
+                $result = rtrim($result);
+            }
+            $result .= "\n";
+        }
+
+        $result .= ")";
+
+        if ($returnType) {
+            $result .= ": $returnType";
+        }
+
+        if ($returnText) {
+            $result .= "    // $returnText";
+        }
+
+        return $result;
+    }
 }
 
 /**
@@ -243,24 +282,12 @@ interface ClassDoc {}
  * Stub class for describing anonymous object.
  * @property string $name
  * @property bool $isMagicMethod
- * @property bool $isStatic
  * @property string $titleText
  * @property string $titleLink
  * @property string $description
- * @property bool $hasReturn
- * @property string $returnType
- * @property string $returnText
- * @property \ArgumentDoc[] $arguments
+ * @property string $signature
  */
 interface MethodDoc {}
-
-/**
- * Stub class for describing anonymous object.
- * @property string $name
- * @property string $type
- * @property string $text
- */
-interface ArgumentDoc {}
 
 ob_start();
 $generator = new DocGen();

@@ -65,49 +65,11 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 			}
 
 			echo "\n----\n";
-
-			echo "\n#### {$method->titleText}\n\n";
-
-			echo "```php\n";
-			echo sprintf(
-				"%s%s%s(%s)%s\n",
-				$method->isStatic ? $class->name : strtolower("\${$class->name}"),
-				$method->isStatic ? '::' : '->',
-				$method->name,
-				implode(', ', array_map(
-					function ($argument) {
-						return trim("{$argument->type} \${$argument->name}");
-					},
-					$method->arguments
-				)),
-				$method->hasReturn ? ": {$method->returnType}" : ''
-			);
-			echo "```\n";
+			echo "\n#### {$method->titleText}\n";
+			echo "\n```php\n$method->signature\n```\n";
 
 			if ($method->description) {
 				echo "\n{$method->description}\n";
-			}
-
-			if (count($method->arguments)) {
-				echo "\n**Arguments:**\n\n";
-				$col1 = $generator->calcMaxLen($method->arguments, 'name', 9, 14);
-				$col2 = $generator->calcMaxLen($method->arguments, 'type', 4, 13);
-				$col3 = $generator->calcMaxLen($method->arguments, 'text', 11);
-				printf("| %s | %s | %s |\n", str_pad('Parameter', $col1), str_pad('Type', $col2), str_pad('Description', $col3));
-				printf("|-%s-|-%s-|-%s-|\n", str_repeat('-', $col1), str_repeat('-', $col2), str_repeat('-', $col3));
-				foreach ($method->arguments as $argument) {
-					printf(
-						"| %s | %s | %s |\n",
-						str_replace('|', '&#124;', str_pad("<code>\${$argument->name}</code>", $col1)),
-						str_replace('|', '&#124;', str_pad($argument->type ? "<code>{$argument->type}</code>" : '', $col2)),
-						str_replace('|', '&#124;', str_pad($argument->text, $col3))
-					);
-				}
-			}
-
-			if ($method->hasReturn) {
-				echo "\n**Return Value:**\n\n";
-				echo "`{$method->returnType}`" . ($method->returnText ? " - {$method->returnText}" : '') . "\n";
 			}
 		}
 	}

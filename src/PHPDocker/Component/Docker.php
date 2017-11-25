@@ -21,9 +21,9 @@ class Docker extends Component
     }
 
     /**
-     * @param string $dockerFile
+     * @param string $dockerFile Full file name to a '.dockerfile'.
      *
-     * @return $this
+     * @return self New instance using the specified docker file.
      */
     public function withFile($dockerFile)
     {
@@ -33,9 +33,9 @@ class Docker extends Component
     }
 
     /**
-     * @param string $dockerFile
+     * @param string $dockerFile Full file name to a '.dockerfile'.
      *
-     * @return $this
+     * @return $this Current instance, for method chaining.
      */
     public function setDockerFile($dockerFile)
     {
@@ -45,11 +45,11 @@ class Docker extends Component
     }
 
     /**
-     * @param string $containerName
-     * @param string $sourcePath
-     * @param string $targetPath
+     * @param string $containerName Name of the target container.
+     * @param string $sourcePath Source file or directory to copy.
+     * @param string $targetPath Destination where to copy to.
      *
-     * @return $this
+     * @return $this Current instance, for method chaining.
      */
     public function copy($containerName, $sourcePath, $targetPath)
     {

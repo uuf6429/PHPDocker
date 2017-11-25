@@ -61,10 +61,6 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 $manager->isDockerToolbox(): bool
 ```
 
-**Return Value:**
-
-`bool`
-
 ----
 
 #### `Manager::isInstalled()`
@@ -72,10 +68,6 @@ $manager->isDockerToolbox(): bool
 ```php
 $manager->isInstalled(): bool
 ```
-
-**Return Value:**
-
-`bool`
 
 ### PHPDocker\Component\Machine
 
@@ -97,61 +89,37 @@ Clears the cache holding the result of `getCommands()`.
 #### `Machine::getActive()`
 
 ```php
-$machine->getActive($timeout): string
+$machine->getActive(
+    null|int $timeout    // Timeout in seconds.
+): string    // Name of active machine.
 ```
 
-Returns name of active machine.
-
-**Arguments:**
-
-| Parameter             | Type          | Description |
-|-----------------------|---------------|-------------|
-| <code>$timeout</code> |               |             |
-
-**Return Value:**
-
-`string`
+Finds the currently active machine.
 
 ----
 
 #### `Machine::getCommands()`
 
 ```php
-$machine->getCommands(string[] $parentCommands): array
+$machine->getCommands(
+    string[] $parentCommands    // get sub-commands of this command path (mostly internal use only)
+): array    // the key is the command, the value is the description
 ```
 
 Caution! This method gives a rough idea of functionality as reported by the console
 app, however the program itself could support a different set of commands.
-
-**Arguments:**
-
-| Parameter                    | Type                  | Description                                                      |
-|------------------------------|-----------------------|------------------------------------------------------------------|
-| <code>$parentCommands</code> | <code>string[]</code> | get sub-commands of this command path (mostly internal use only) |
-
-**Return Value:**
-
-`array` - the key is the command, the value is the description
 
 ----
 
 #### `Machine::getIPs()`
 
 ```php
-$machine->getIPs(null|string[] $machineNames): string|string[]
+$machine->getIPs(
+    null|string[] $machineNames    // Names of desired machines or `null` for the default machine.
+): string|string[]    // IP of default machine or an array of IPs for the specified machines
 ```
 
 Returns IP of default machine (if $names is null), otherwise IPs of the specified machines.
-
-**Arguments:**
-
-| Parameter                  | Type                       | Description |
-|----------------------------|----------------------------|-------------|
-| <code>$machineNames</code> | <code>null&#124;string[]</code> |             |
-
-**Return Value:**
-
-`string|string[]` - IP of default machine or an array of IPs for the specified machines
 
 ----
 
@@ -161,10 +129,6 @@ Returns IP of default machine (if $names is null), otherwise IPs of the specifie
 $machine->getVersion(): string
 ```
 
-**Return Value:**
-
-`string`
-
 ----
 
 #### `Machine::isInstalled()`
@@ -172,10 +136,6 @@ $machine->getVersion(): string
 ```php
 $machine->isInstalled(): bool
 ```
-
-**Return Value:**
-
-`bool`
 
 ### PHPDocker\Component\Docker
 
@@ -197,41 +157,25 @@ Clears the cache holding the result of `getCommands()`.
 #### `Docker::copy()`
 
 ```php
-$docker->copy(string $containerName, string $sourcePath, string $targetPath): $this
+$docker->copy(
+    string $containerName    // Name of the target container.
+    string $sourcePath       // Source file or directory to copy.
+    string $targetPath       // Destination where to copy to.
+): $this    // Current instance, for method chaining.
 ```
-
-**Arguments:**
-
-| Parameter                   | Type                | Description |
-|-----------------------------|---------------------|-------------|
-| <code>$containerName</code> | <code>string</code> |             |
-| <code>$sourcePath</code>    | <code>string</code> |             |
-| <code>$targetPath</code>    | <code>string</code> |             |
-
-**Return Value:**
-
-`$this`
 
 ----
 
 #### `Docker::getCommands()`
 
 ```php
-$docker->getCommands(string[] $parentCommands): array
+$docker->getCommands(
+    string[] $parentCommands    // get sub-commands of this command path (mostly internal use only)
+): array    // the key is the command, the value is the description
 ```
 
 Caution! This method gives a rough idea of functionality as reported by the console
 app, however the program itself could support a different set of commands.
-
-**Arguments:**
-
-| Parameter                    | Type                  | Description                                                      |
-|------------------------------|-----------------------|------------------------------------------------------------------|
-| <code>$parentCommands</code> | <code>string[]</code> | get sub-commands of this command path (mostly internal use only) |
-
-**Return Value:**
-
-`array` - the key is the command, the value is the description
 
 ----
 
@@ -241,10 +185,6 @@ app, however the program itself could support a different set of commands.
 $docker->getVersion(): string
 ```
 
-**Return Value:**
-
-`string`
-
 ----
 
 #### `Docker::isInstalled()`
@@ -253,45 +193,25 @@ $docker->getVersion(): string
 $docker->isInstalled(): bool
 ```
 
-**Return Value:**
-
-`bool`
-
 ----
 
 #### `Docker::setDockerFile()`
 
 ```php
-$docker->setDockerFile(string $dockerFile): $this
+$docker->setDockerFile(
+    string $dockerFile    // Full file name to a '.dockerfile'.
+): $this    // Current instance, for method chaining.
 ```
-
-**Arguments:**
-
-| Parameter                | Type                | Description |
-|--------------------------|---------------------|-------------|
-| <code>$dockerFile</code> | <code>string</code> |             |
-
-**Return Value:**
-
-`$this`
 
 ----
 
 #### `Docker::withFile()`
 
 ```php
-$docker->withFile(string $dockerFile): $this
+$docker->withFile(
+    string $dockerFile    // Full file name to a '.dockerfile'.
+): self    // New instance using the specified docker file.
 ```
-
-**Arguments:**
-
-| Parameter                | Type                | Description |
-|--------------------------|---------------------|-------------|
-| <code>$dockerFile</code> | <code>string</code> |             |
-
-**Return Value:**
-
-`$this`
 
 ### PHPDocker\Component\Compose
 
@@ -303,17 +223,13 @@ $docker->withFile(string $dockerFile): $this
 #### `Compose::build()`
 
 ```php
-$compose->build(null $file, bool $noCache, bool $forceRemove, bool $forcePull)
+$compose->build(
+    null $file
+    bool $noCache
+    bool $forceRemove
+    bool $forcePull
+)
 ```
-
-**Arguments:**
-
-| Parameter                 | Type              | Description |
-|---------------------------|-------------------|-------------|
-| <code>$file</code>        | <code>null</code> |             |
-| <code>$noCache</code>     | <code>bool</code> |             |
-| <code>$forceRemove</code> | <code>bool</code> |             |
-| <code>$forcePull</code>   | <code>bool</code> |             |
 
 ----
 
@@ -330,37 +246,25 @@ Clears the cache holding the result of `getCommands()`.
 #### `Compose::down()`
 
 ```php
-$compose->down(null|string $file, null|string $removeImages, bool $removeVolumes)
+$compose->down(
+    null|string $file
+    null|string $removeImages     // 'local' or 'all', see `docker-compose down --help` for more info
+    bool        $removeVolumes
+)
 ```
-
-**Arguments:**
-
-| Parameter                   | Type                     | Description                                                      |
-|-----------------------------|--------------------------|------------------------------------------------------------------|
-| <code>$file</code>          | <code>null&#124;string</code> |                                                                  |
-| <code>$removeImages</code>  | <code>null&#124;string</code> | 'local' or 'all', see `docker-compose down --help` for more info |
-| <code>$removeVolumes</code> | <code>bool</code>        |                                                                  |
 
 ----
 
 #### `Compose::getCommands()`
 
 ```php
-$compose->getCommands(string[] $parentCommands): array
+$compose->getCommands(
+    string[] $parentCommands    // get sub-commands of this command path (mostly internal use only)
+): array    // the key is the command, the value is the description
 ```
 
 Caution! This method gives a rough idea of functionality as reported by the console
 app, however the program itself could support a different set of commands.
-
-**Arguments:**
-
-| Parameter                    | Type                  | Description                                                      |
-|------------------------------|-----------------------|------------------------------------------------------------------|
-| <code>$parentCommands</code> | <code>string[]</code> | get sub-commands of this command path (mostly internal use only) |
-
-**Return Value:**
-
-`array` - the key is the command, the value is the description
 
 ----
 
@@ -370,10 +274,6 @@ app, however the program itself could support a different set of commands.
 $compose->getVersion(): string
 ```
 
-**Return Value:**
-
-`string`
-
 ----
 
 #### `Compose::isInstalled()`
@@ -382,58 +282,34 @@ $compose->getVersion(): string
 $compose->isInstalled(): bool
 ```
 
-**Return Value:**
-
-`bool`
-
 ----
 
 #### `Compose::remove()`
 
 ```php
-$compose->remove($file, $stopContainers, $removeVolumes)
+$compose->remove(
+     $file
+     $stopContainers
+     $removeVolumes
+)
 ```
-
-**Arguments:**
-
-| Parameter                    | Type          | Description |
-|------------------------------|---------------|-------------|
-| <code>$file</code>           |               |             |
-| <code>$stopContainers</code> |               |             |
-| <code>$removeVolumes</code>  |               |             |
 
 ----
 
 #### `Compose::setComposeFile()`
 
 ```php
-$compose->setComposeFile(string $composeFile): $this
+$compose->setComposeFile(
+    string $composeFile
+): $this
 ```
-
-**Arguments:**
-
-| Parameter                 | Type                | Description |
-|---------------------------|---------------------|-------------|
-| <code>$composeFile</code> | <code>string</code> |             |
-
-**Return Value:**
-
-`$this`
 
 ----
 
 #### `Compose::withFile()`
 
 ```php
-$compose->withFile(string $configFile): $this
+$compose->withFile(
+    string $configFile
+): $this
 ```
-
-**Arguments:**
-
-| Parameter                | Type                | Description |
-|--------------------------|---------------------|-------------|
-| <code>$configFile</code> | <code>string</code> |             |
-
-**Return Value:**
-
-`$this`

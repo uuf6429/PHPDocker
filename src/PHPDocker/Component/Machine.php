@@ -16,11 +16,11 @@ class Machine extends Component
     }
 
     /**
-     * Returns name of active machine.
+     * Finds the currently active machine.
      *
-     * @param null|int timeout in seconds
+     * @param null|int $timeout Timeout in seconds.
      *
-     * @return string
+     * @return string Name of active machine.
      */
     public function getActive($timeout = null)
     {
@@ -41,7 +41,7 @@ class Machine extends Component
     /**
      * Returns IP of default machine (if $names is null), otherwise IPs of the specified machines.
      *
-     * @param null|string[] $machineNames
+     * @param null|string[] $machineNames Names of desired machines or `null` for the default machine.
      *
      * @return string|string[] IP of default machine or an array of IPs for the specified machines
      */
