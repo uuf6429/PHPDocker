@@ -51,8 +51,6 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 
 ### PHPDocker\Manager
 
-- Full name: PHPDocker\Manager
-
 ----
 
 #### `Manager::isDockerToolbox()`
@@ -71,8 +69,7 @@ $manager->isInstalled(): bool
 
 ### PHPDocker\Component\Machine
 
-- Full name: PHPDocker\Component\Machine
-- Extends: PHPDocker\Component\Component
+_**extends** `PHPDocker\Component\Component`_
 
 ----
 
@@ -139,8 +136,7 @@ $machine->isInstalled(): bool
 
 ### PHPDocker\Component\Docker
 
-- Full name: PHPDocker\Component\Docker
-- Extends: PHPDocker\Component\Component
+_**extends** `PHPDocker\Component\Component`_
 
 ----
 
@@ -215,8 +211,7 @@ $docker->withFile(
 
 ### PHPDocker\Component\Compose
 
-- Full name: PHPDocker\Component\Compose
-- Extends: PHPDocker\Component\Component
+_**extends** `PHPDocker\Component\Component`_
 
 ----
 

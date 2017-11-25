@@ -34,25 +34,41 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 ## API
 <?php
 	foreach ($generator->getClasses() as $class) {
-		echo "\n### {$class->titleText}\n\n";
+		echo "\n### {$class->titleText}\n";
 
-		echo "- Full name: {$class->fullName}\n";
+		if ($class->hasParent || count($class->interfaceTextLinks)) {
+			echo "\n_";
 
-		if ($class->hasParent) {
-			printf(
-				"- Extends: %s\n",
-				$class->parentTitleLink
-					? "[{$class->parentTitleText}](#{$class->parentTitleLink})"
-					: $class->parentTitleText
-			);
-		}
-
-		if (count($class->interfaceTextLinks)) {
-			$interfaces = [];
-			foreach ($class->interfaceTextLinks as $text => $link) {
-				$interfaces = $link ? "[{$text}](#{$link})" : $text;
+			if ($class->hasParent) {
+				printf(
+					"**extends** %s",
+					$class->parentTitleLink
+						? "[`{$class->parentTitleText}`](#{$class->parentTitleLink})"
+						: "`{$class->parentTitleText}`"
+				);
 			}
-			echo "- Implements: " . implode(', ', $interfaces) . "\n";
+
+			if ($class->hasParent && count($class->interfaceTextLinks)) {
+				echo '; ';
+			}
+
+			if (count($class->interfaceTextLinks)) {
+				printf(
+					"**implements** %s",
+					implode(
+						', ',
+						array_map(
+							function ($text, $link) {
+								return $link ? "[{$text}](#{$link})" : $text;
+							},
+							array_keys($class->interfaceTextLinks),
+							array_values($class->interfaceTextLinks)
+						)
+					)
+				);
+			}
+
+			echo "_\n";
 		}
 
 		if ($class->description) {
