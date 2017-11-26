@@ -41,7 +41,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 
 			if ($class->hasParent) {
 				printf(
-					"**extends** %s",
+					"extends %s",
 					$class->parentTitleLink
 						? "[`{$class->parentTitleText}`](#{$class->parentTitleLink})"
 						: "`{$class->parentTitleText}`"
@@ -54,7 +54,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 
 			if (count($class->interfaceTextLinks)) {
 				printf(
-					"**implements** %s",
+					"implements %s",
 					implode(
 						', ',
 						array_map(

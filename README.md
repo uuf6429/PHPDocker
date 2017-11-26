@@ -69,7 +69,7 @@ $manager->isInstalled(): bool
 
 ### PHPDocker\Component\Machine
 
-_**extends** `PHPDocker\Component\Component`_
+_extends `PHPDocker\Component\Component`_
 
 ----
 
@@ -136,7 +136,7 @@ $machine->isInstalled(): bool
 
 ### PHPDocker\Component\Docker
 
-_**extends** `PHPDocker\Component\Component`_
+_extends `PHPDocker\Component\Component`_
 
 ----
 
@@ -211,7 +211,7 @@ $docker->withFile(
 
 ### PHPDocker\Component\Compose
 
-_**extends** `PHPDocker\Component\Component`_
+_extends `PHPDocker\Component\Component`_
 
 ----
 
