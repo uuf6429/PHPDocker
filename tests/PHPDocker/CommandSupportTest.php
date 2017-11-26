@@ -66,6 +66,7 @@ class CommandSupportTest extends \PHPUnit_Framework_TestCase
                 '$alternativeCommands' => [
                     'active' => 'getActive',
                     'ip' => 'getIPs',
+                    'env' => 'getEnvVars',
                 ],
                 '$uselessCommands' => ['help'],
             ],

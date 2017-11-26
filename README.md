@@ -21,6 +21,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
       - [`clearCommandsCache()`](#machineclearcommandscache)
       - [`getActive()`](#machinegetactive)
       - [`getCommands()`](#machinegetcommands)
+      - [`getEnvVars()`](#machinegetenvvars)
       - [`getIPs()`](#machinegetips)
       - [`getVersion()`](#machinegetversion)
       - [`isInstalled()`](#machineisinstalled)
@@ -105,6 +106,18 @@ $machine->getCommands(
 
 Caution! This method gives a rough idea of functionality as reported by the console
 app, however the program itself could support a different set of commands.
+
+----
+
+#### `Machine::getEnvVars()`
+
+```php
+$machine->getEnvVars(
+    null|string $machineName    // Name of desired machine or `null` for the default machine.
+): array    // Array of environment variables as key=>value pairs.
+```
+
+Returns array of environment variables that must be set for docker to use a specific machine.
 
 ----
 

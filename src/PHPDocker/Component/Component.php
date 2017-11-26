@@ -104,11 +104,11 @@ abstract class Component
 
             $offset = 0;
             $result = [];
-            while (preg_match('/^.*Commands:\\r?\\n((  (\\w+)\\s+(.+)\\r?\\n)+)/m',
+            while (preg_match('/^.*Commands:\\r?\\n((  ([\\w-]+)\\s+(.+)\\r?\\n)+)/m',
                 $output, $matches, PREG_OFFSET_CAPTURE, $offset)) {
                 $offset = $matches[1][1];
 
-                if (preg_match_all('/^  (\\w+)\\s+(.+)$/m', $matches[1][0],
+                if (preg_match_all('/^  ([\\w-]+)\\s+(.+)$/m', $matches[1][0],
                     $matches)
                 ) {
                     list(, $commands, $descriptions) = $matches;

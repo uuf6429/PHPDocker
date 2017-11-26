@@ -66,4 +66,36 @@ class Machine extends Component
             ? (isset($output[0]) ? $output[0] : '')
             : array_combine($machineNames, $output);
     }
+
+    /**
+     * Returns array of environment variables that must be set for docker to use a specific machine.
+     *
+     * @param null|string $machineName Name of desired machine or `null` for the default machine.
+     *
+     * @return array Array of environment variables as key=>value pairs.
+     */
+    public function getEnvVars($machineName = null)
+    {
+        $builder = $this->getProcessBuilder();
+        $builder->add('env');
+
+        // force cmd-style output for parsing
+        $builder->add('--shell')->add('cmd');
+
+        if ($machineName !== null) {
+            $builder->add($machineName);
+        }
+
+        $process = $builder->getProcess();
+
+        $this->logger->debug('> ' . $process->getCommandLine());
+
+        $output = $process->mustRun()->getOutput();
+
+        if (!preg_match_all('/^SET (\\w+)=(.+)$/m', $output, $matches)) {
+            throw new \RuntimeException('Could not parse environment variables.');
+        }
+
+        return array_combine($matches[1], $matches[2]);
+    }
 }
