@@ -51,16 +51,17 @@ class Compose extends Component
      */
 
     /**
-     * @param null|string $file
-     * @param null|string $removeImages 'local' or 'all', see `docker-compose down --help` for more info
-     * @param bool $removeVolumes
+     * @param null|string $removeImages Either 'local' or 'all', see `docker-compose down --help` for more info.
+     * @param bool $removeVolumes True to remove volumes as well.
+     *
+     * @return $this Returns current instance, for method chaining.
      */
-    public function down($file = null, $removeImages = null, $removeVolumes = false)
+    public function down($removeImages = null, $removeVolumes = false)
     {
         $builder = $this->getProcessBuilder();
 
         if ($this->composeFile) {
-            $builder->add('--file')->add($file);
+            $builder->add('--file')->add($this->composeFile);
         }
 
         $builder->add('down');
@@ -78,20 +79,23 @@ class Compose extends Component
         $this->logger->debug('> ' . $process->getCommandLine());
 
         $process->mustRun(); // TODO handle output
+
+        return $this;
     }
 
     /**
-     * @param null $file
      * @param bool $noCache
      * @param bool $forceRemove
      * @param bool $forcePull
+     *
+     * @return $this Returns current instance, for method chaining.
      */
-    public function build($file = null, $noCache = false, $forceRemove = false, $forcePull = false)
+    public function build($noCache = false, $forceRemove = false, $forcePull = false)
     {
         $builder = $this->getProcessBuilder();
 
         if ($this->composeFile) {
-            $builder->add('--file')->add($file);
+            $builder->add('--file')->add($this->composeFile);
         }
 
         $builder->add('build');
@@ -113,14 +117,22 @@ class Compose extends Component
         $this->logger->debug('> ' . $process->getCommandLine());
 
         $process->mustRun(); // TODO handle output
+
+        return $this;
     }
 
-    public function remove($file = null, $stopContainers = false, $removeVolumes = false)
+    /**
+     * @param bool $stopContainers
+     * @param bool $removeVolumes
+     *
+     * @return $this Returns current instance, for method chaining.
+     */
+    public function remove($stopContainers = false, $removeVolumes = false)
     {
         $builder = $this->getProcessBuilder();
 
         if ($this->composeFile) {
-            $builder->add('--file')->add($file);
+            $builder->add('--file')->add($this->composeFile);
         }
 
         $builder->add('rm');
@@ -141,5 +153,56 @@ class Compose extends Component
         $this->logger->debug('> ' . $process->getCommandLine());
 
         $process->mustRun(); // TODO handle output
+
+        return $this;
+    }
+
+    /**
+     * @param string $service The name of the service from the docker file where the command will execute.
+     * @param string $command The command(s) to run. Multiple commands can be joined with '&&' (stop on first failure), '||' (stop on first success) or ';' (ignore failures) as appropriate.
+     * @param bool $background Runs the command in the background (command output won't be logged).
+     * @param bool $isPrivileged
+     * @param null|string $asUser
+     * @param bool $noTty Disables pseudo-TTY (enabled by default since it's more often needed).
+     *
+     * @return $this Returns current instance, for method chaining.
+     */
+    public function execute($service, $command, $background = false, $isPrivileged = false, $asUser = null, $noTty = true)
+    {
+        $builder = $this->getProcessBuilder();
+
+        if ($this->composeFile) {
+            $builder->add('--file')->add($this->composeFile);
+        }
+
+        $builder->add('exec');
+
+        if ($background) {
+            $builder->add('-d');
+        }
+
+        if ($noTty) {
+            $builder->add('-T');
+        }
+
+        if ($isPrivileged) {
+            $builder->add('--privileged');
+        }
+
+        if ($asUser) {
+            $builder->add('--user')->add($asUser);
+        }
+
+        $builder->add($service);
+
+        $builder->add('sh')->add('-c')->add($command);
+
+        $process = $builder->getProcess();
+
+        $this->logger->debug('> ' . $process->getCommandLine());
+
+        $process->mustRun(); // TODO handle output
+
+        return $this;
     }
 }

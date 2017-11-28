@@ -114,7 +114,7 @@ abstract class Component
                     list(, $commands, $descriptions) = $matches;
 
                     $commandPath = implode(' ', $parentCommands) . ' ';
-                    $commands    = array_map(function ($command) use (
+                    $commands = array_map(function ($command) use (
                         $commandPath
                     ) {
                         return trim($commandPath . $command);

@@ -37,6 +37,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
       - [`build()`](#composebuild)
       - [`clearCommandsCache()`](#composeclearcommandscache)
       - [`down()`](#composedown)
+      - [`execute()`](#composeexecute)
       - [`getCommands()`](#composegetcommands)
       - [`getVersion()`](#composegetversion)
       - [`isInstalled()`](#composeisinstalled)
@@ -232,11 +233,10 @@ _extends `PHPDocker\Component\Component`_
 
 ```php
 $compose->build(
-    null $file
     bool $noCache
     bool $forceRemove
     bool $forcePull
-)
+): $this    // returns current instance, for method chaining
 ```
 
 ----
@@ -255,10 +255,24 @@ Clears the cache holding the result of `getCommands()`.
 
 ```php
 $compose->down(
-    null|string $file
     null|string $removeImages     // 'local' or 'all', see `docker-compose down --help` for more info
-    bool        $removeVolumes
-)
+    bool        $removeVolumes    // true to remove volumes as well
+): $this    // returns current instance, for method chaining
+```
+
+----
+
+#### `Compose::execute()`
+
+```php
+$compose->execute(
+    string      $service         // the name of the service from the docker file where the command will execute
+    string      $command         // The command(s) to run. Multiple commands can be joined with '&&' (stop on first failure), '||' (stop on first success) or ';' (ignore failures) as appropriate.
+    bool        $background      // runs the command in the background (command output won't be logged)
+    bool        $isPrivileged
+    null|string $asUser
+    bool        $noTty           // disables pseudo-TTY (enabled by default since it's more often needed)
+): $this    // returns current instance, for method chaining
 ```
 
 ----
@@ -296,10 +310,9 @@ $compose->isInstalled(): bool
 
 ```php
 $compose->remove(
-     $file
-     $stopContainers
-     $removeVolumes
-)
+    bool $stopContainers
+    bool $removeVolumes
+): $this    // returns current instance, for method chaining
 ```
 
 ----

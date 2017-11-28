@@ -2,7 +2,6 @@
 
 namespace PHPDocker\Tests;
 
-use PHPDocker\Component;
 use PHPDocker\Manager;
 
 class PlatformTest extends \PHPUnit_Framework_TestCase

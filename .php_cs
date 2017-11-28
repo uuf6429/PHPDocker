@@ -8,6 +8,10 @@ return PhpCsFixer\Config::create()
         'phpdoc_align' => false,
         'concat_space' => ['spacing' => 'one'],
     ])
-    ->setFinder(PhpCsFixer\Finder::create()->in(__DIR__))
+    ->setFinder(
+        PhpCsFixer\Finder::create()->in(__DIR__)
+            ->exclude(['temp', 'vendor']
+        )
+    )
     ->setCacheFile(__DIR__ . '/temp/.php_cs.cache')
 ;

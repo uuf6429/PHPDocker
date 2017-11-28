@@ -58,7 +58,10 @@ class CommandSupportTest extends \PHPUnit_Framework_TestCase
             ],
             'Docker-Compose Commands' => [
                 '$component' => $manager->compose,
-                '$alternativeCommands' => [],
+                '$alternativeCommands' => [
+                    'rm' => 'remove',
+                    'exec' => 'execute',
+                ],
                 '$uselessCommands' => ['help', 'version'],
             ],
             'Docker-Machine Commands' => [
