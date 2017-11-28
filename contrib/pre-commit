@@ -11,7 +11,7 @@ php "${PROJECT_ROOT}/contrib/docgen.php"
 git add -A "${PROJECT_ROOT}/README.md"
 
 # Run PHP-CS-Fixer
-"${PHP_CS_FIXER}" fix --verbose --show-progress=estimating --config "${PROJECT_ROOT}/.php_cs"
+"${PHP_CS_FIXER}" fix --verbose --show-progress=estimating --config "${PROJECT_ROOT}/.php_cs" --allow-risky yes
 
 # Handle PHP-CS-Fixer result
 if [ $? = 0 ]; then

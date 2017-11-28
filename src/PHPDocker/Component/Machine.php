@@ -18,9 +18,9 @@ class Machine extends Component
     /**
      * Finds the currently active machine.
      *
-     * @param null|int $timeout Timeout in seconds.
+     * @param null|int $timeout timeout in seconds
      *
-     * @return string Name of active machine.
+     * @return string name of active machine
      */
     public function getActive($timeout = null)
     {
@@ -41,7 +41,7 @@ class Machine extends Component
     /**
      * Returns IP of default machine (if $names is null), otherwise IPs of the specified machines.
      *
-     * @param null|string[] $machineNames Names of desired machines or `null` for the default machine.
+     * @param null|string[] $machineNames names of desired machines or `null` for the default machine
      *
      * @return string|string[] IP of default machine or an array of IPs for the specified machines
      */
@@ -70,9 +70,9 @@ class Machine extends Component
     /**
      * Returns array of environment variables that must be set for docker to use a specific machine.
      *
-     * @param null|string $machineName Name of desired machine or `null` for the default machine.
+     * @param null|string $machineName name of desired machine or `null` for the default machine
      *
-     * @return array Array of environment variables as key=>value pairs.
+     * @return array array of environment variables as key=>value pairs
      */
     public function getEnvVars($machineName = null)
     {

@@ -2,10 +2,10 @@
 
 namespace PHPDocker\Component;
 
-use Psr\Log\NullLogger;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Process\ProcessBuilder;
+use Psr\Log\NullLogger;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\ProcessBuilder;
 
 abstract class Component
 {
@@ -48,9 +48,8 @@ abstract class Component
 
         if (preg_match('/version ([\\.\\w-]+), build/', $process->getOutput(), $matches)) {
             return $matches[1];
-        } else {
-            throw new \RuntimeException('Could not determine version.');
         }
+        throw new \RuntimeException('Could not determine version.');
     }
 
     /**

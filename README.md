@@ -89,8 +89,8 @@ Clears the cache holding the result of `getCommands()`.
 
 ```php
 $machine->getActive(
-    null|int $timeout    // Timeout in seconds.
-): string    // Name of active machine.
+    null|int $timeout    // timeout in seconds
+): string    // name of active machine
 ```
 
 Finds the currently active machine.
@@ -114,8 +114,8 @@ app, however the program itself could support a different set of commands.
 
 ```php
 $machine->getEnvVars(
-    null|string $machineName    // Name of desired machine or `null` for the default machine.
-): array    // Array of environment variables as key=>value pairs.
+    null|string $machineName    // name of desired machine or `null` for the default machine
+): array    // array of environment variables as key=>value pairs
 ```
 
 Returns array of environment variables that must be set for docker to use a specific machine.
@@ -126,7 +126,7 @@ Returns array of environment variables that must be set for docker to use a spec
 
 ```php
 $machine->getIPs(
-    null|string[] $machineNames    // Names of desired machines or `null` for the default machine.
+    null|string[] $machineNames    // names of desired machines or `null` for the default machine
 ): string|string[]    // IP of default machine or an array of IPs for the specified machines
 ```
 
@@ -168,10 +168,10 @@ Clears the cache holding the result of `getCommands()`.
 
 ```php
 $docker->copy(
-    string $containerName    // Name of the target container.
-    string $sourcePath       // Source file or directory to copy.
-    string $targetPath       // Destination where to copy to.
-): $this    // Current instance, for method chaining.
+    string $containerName    // name of the target container
+    string $sourcePath       // source file or directory to copy
+    string $targetPath       // destination where to copy to
+): $this    // current instance, for method chaining
 ```
 
 ----
@@ -210,7 +210,7 @@ $docker->isInstalled(): bool
 ```php
 $docker->setDockerFile(
     string $dockerFile    // Full file name to a '.dockerfile'.
-): $this    // Current instance, for method chaining.
+): $this    // current instance, for method chaining
 ```
 
 ----
@@ -220,7 +220,7 @@ $docker->setDockerFile(
 ```php
 $docker->withFile(
     string $dockerFile    // Full file name to a '.dockerfile'.
-): self    // New instance using the specified docker file.
+): self    // new instance using the specified docker file
 ```
 
 ### PHPDocker\Component\Compose
@@ -255,7 +255,7 @@ Clears the cache holding the result of `getCommands()`.
 
 ```php
 $compose->down(
-    null|string $removeImages     // 'local' or 'all', see `docker-compose down --help` for more info
+    null|string $removeImages     // either 'local' or 'all', see `docker-compose down --help` for more info
     bool        $removeVolumes    // true to remove volumes as well
 ): $this    // returns current instance, for method chaining
 ```

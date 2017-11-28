@@ -106,7 +106,7 @@ class DocGen
                     $return = $phpdoc->hasTag('return') ? $phpdoc->getTagsByName('return')[0] : null;
                     $params = [];
                     foreach ($method->getParameters() as $param) {
-                        $params[$param->getName()] = (object)[
+                        $params[$param->getName()] = (object) [
                             'name' => $param->getName(),
                             'type' => $param->getType() ? $param->getType()->getName() : '',
                             'text' => '',
@@ -116,7 +116,7 @@ class DocGen
                         /** @var \phpDocumentor\Reflection\DocBlock\Tags\Param $param */
                         if (isset($params[$param->getVariableName()])) {
                             if (!$params[$param->getVariableName()]->type) {
-                                $params[$param->getVariableName()]->type = (string)$param->getType();
+                                $params[$param->getVariableName()]->type = (string) $param->getType();
                             }
                             $params[$param->getVariableName()]->text = $param->getDescription()->render();
                         }
@@ -135,7 +135,7 @@ class DocGen
                                 $method->getName()
                             ),
                             $params,
-                            $return ? (string)$return->getType() : '',
+                            $return ? (string) $return->getType() : '',
                             $return ? $return->getDescription()->render() : ''
                         ),
                     ];
@@ -194,7 +194,7 @@ class DocGen
     private function buildSafeAnchor($title)
     {
         return preg_replace(
-            ['/[^\\w\\- ]/', '/ /' ],
+            ['/[^\\w\\- ]/', '/ /'],
             ['', '-'],
             strtolower($title)
         );
@@ -248,7 +248,7 @@ class DocGen
             $result .= "\n";
         }
 
-        $result .= ")";
+        $result .= ')';
 
         if ($returnType) {
             $result .= ": $returnType";
@@ -264,6 +264,7 @@ class DocGen
 
 /**
  * Stub class for describing anonymous object.
+ *
  * @property string $name
  * @property string $fullName
  * @property string $titleText
@@ -276,10 +277,13 @@ class DocGen
  * @property \MethodDoc[] $methods
  * @property string $description
  */
-interface ClassDoc {}
+interface ClassDoc
+{
+}
 
 /**
  * Stub class for describing anonymous object.
+ *
  * @property string $name
  * @property bool $isMagicMethod
  * @property string $titleText
@@ -287,7 +291,9 @@ interface ClassDoc {}
  * @property string $description
  * @property string $signature
  */
-interface MethodDoc {}
+interface MethodDoc
+{
+}
 
 ob_start();
 $generator = new DocGen();
