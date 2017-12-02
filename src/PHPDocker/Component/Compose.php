@@ -14,10 +14,11 @@ class Compose extends Component
     /**
      * @param null|string $binPath
      * @param null|LoggerInterface $logger
+     * @param callable|null $outputHandler
      */
-    public function __construct($binPath = null, LoggerInterface $logger = null)
+    public function __construct($binPath = null, LoggerInterface $logger = null, callable $outputHandler = null)
     {
-        parent::__construct($binPath ?: 'docker-compose', $logger);
+        parent::__construct($binPath ?: 'docker-compose', $logger, $outputHandler);
     }
 
     /**
@@ -30,18 +31,6 @@ class Compose extends Component
         $clone = clone $this;
 
         return $clone->setComposeFile($configFile);
-    }
-
-    /**
-     * @param string $composeFile
-     *
-     * @return $this
-     */
-    public function setComposeFile($composeFile)
-    {
-        $this->composeFile = $composeFile;
-
-        return $this;
     }
 
     /**
@@ -202,6 +191,18 @@ class Compose extends Component
         $this->logger->debug('> ' . $process->getCommandLine());
 
         $process->mustRun(); // TODO handle output
+
+        return $this;
+    }
+
+    /**
+     * @param string $composeFile
+     *
+     * @return $this
+     */
+    protected function setComposeFile($composeFile)
+    {
+        $this->composeFile = $composeFile;
 
         return $this;
     }

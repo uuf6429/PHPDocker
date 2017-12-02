@@ -18,6 +18,11 @@ class Manager
     protected $logger;
 
     /**
+     * @var callable
+     */
+    protected $outputHandler;
+
+    /**
      * @var Component\Component[]
      */
     protected $components = [
@@ -27,11 +32,15 @@ class Manager
     ];
 
     /**
-     * @param null|LoggerInterface $logger
+     * @param \Psr\Log\LoggerInterface|null $logger
+     * @param callable|null $outputHandler
      */
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(LoggerInterface $logger = null, callable $outputHandler = null)
     {
         $this->logger = $logger ? $logger : new NullLogger();
+        $this->outputHandler = $outputHandler ?: function () {
+            // no op
+        };
     }
 
     /**
@@ -63,11 +72,11 @@ class Manager
     {
         switch ($key) {
             case 'docker':
-                return new Component\Docker(null, $this->logger);
+                return new Component\Docker(null, $this->logger, $this->outputHandler);
             case 'compose':
-                return new Component\Compose(null, $this->logger);
+                return new Component\Compose(null, $this->logger, $this->outputHandler);
             case 'machine':
-                return new Component\Machine(null, $this->logger);
+                return new Component\Machine(null, $this->logger, $this->outputHandler);
             default:
                 throw new \LogicException("Cannot build unknown component \"$key\".");
         }

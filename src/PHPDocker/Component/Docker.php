@@ -14,10 +14,11 @@ class Docker extends Component
     /**
      * @param null|string $binPath
      * @param null|LoggerInterface $logger
+     * @param callable|null $outputHandler
      */
-    public function __construct($binPath = null, LoggerInterface $logger = null)
+    public function __construct($binPath = null, LoggerInterface $logger = null, callable $outputHandler = null)
     {
-        parent::__construct($binPath ?: 'docker', $logger);
+        parent::__construct($binPath ?: 'docker', $logger, $outputHandler);
     }
 
     /**
@@ -30,18 +31,6 @@ class Docker extends Component
         $clone = clone $this;
 
         return $clone->setDockerFile($dockerFile);
-    }
-
-    /**
-     * @param string $dockerFile Full file name to a '.dockerfile'.
-     *
-     * @return $this current instance, for method chaining
-     */
-    public function setDockerFile($dockerFile)
-    {
-        $this->dockerFile = $dockerFile;
-
-        return $this;
     }
 
     /**
@@ -60,6 +49,18 @@ class Docker extends Component
         $this->logger->debug('> ' . $process->getCommandLine());
 
         $process->run($this->outputHandler);
+
+        return $this;
+    }
+
+    /**
+     * @param string $dockerFile Full file name to a '.dockerfile'.
+     *
+     * @return $this current instance, for method chaining
+     */
+    protected function setDockerFile($dockerFile)
+    {
+        $this->dockerFile = $dockerFile;
 
         return $this;
     }

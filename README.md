@@ -25,14 +25,15 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
       - [`getIPs()`](#machinegetips)
       - [`getVersion()`](#machinegetversion)
       - [`isInstalled()`](#machineisinstalled)
+      - [`withOutputHandler()`](#machinewithoutputhandler)
     - [Docker](#phpdockercomponentdocker)
       - [`clearCommandsCache()`](#dockerclearcommandscache)
       - [`copy()`](#dockercopy)
       - [`getCommands()`](#dockergetcommands)
       - [`getVersion()`](#dockergetversion)
       - [`isInstalled()`](#dockerisinstalled)
-      - [`setDockerFile()`](#dockersetdockerfile)
       - [`withFile()`](#dockerwithfile)
+      - [`withOutputHandler()`](#dockerwithoutputhandler)
     - [Compose](#phpdockercomponentcompose)
       - [`build()`](#composebuild)
       - [`clearCommandsCache()`](#composeclearcommandscache)
@@ -42,8 +43,8 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
       - [`getVersion()`](#composegetversion)
       - [`isInstalled()`](#composeisinstalled)
       - [`remove()`](#composeremove)
-      - [`setComposeFile()`](#composesetcomposefile)
       - [`withFile()`](#composewithfile)
+      - [`withOutputHandler()`](#composewithoutputhandler)
 
 ## Installation
 
@@ -148,6 +149,16 @@ $machine->getVersion(): string
 $machine->isInstalled(): bool
 ```
 
+----
+
+#### `Machine::withOutputHandler()`
+
+```php
+$machine->withOutputHandler(
+    callable $outputHandler
+): static    // new instance using the specified output handler
+```
+
 ### PHPDocker\Component\Docker
 
 _extends `PHPDocker\Component\Component`_
@@ -205,22 +216,22 @@ $docker->isInstalled(): bool
 
 ----
 
-#### `Docker::setDockerFile()`
-
-```php
-$docker->setDockerFile(
-    string $dockerFile    // Full file name to a '.dockerfile'.
-): $this    // current instance, for method chaining
-```
-
-----
-
 #### `Docker::withFile()`
 
 ```php
 $docker->withFile(
     string $dockerFile    // Full file name to a '.dockerfile'.
 ): self    // new instance using the specified docker file
+```
+
+----
+
+#### `Docker::withOutputHandler()`
+
+```php
+$docker->withOutputHandler(
+    callable $outputHandler
+): static    // new instance using the specified output handler
 ```
 
 ### PHPDocker\Component\Compose
@@ -317,20 +328,20 @@ $compose->remove(
 
 ----
 
-#### `Compose::setComposeFile()`
-
-```php
-$compose->setComposeFile(
-    string $composeFile
-): $this
-```
-
-----
-
 #### `Compose::withFile()`
 
 ```php
 $compose->withFile(
     string $configFile
 ): $this
+```
+
+----
+
+#### `Compose::withOutputHandler()`
+
+```php
+$compose->withOutputHandler(
+    callable $outputHandler
+): static    // new instance using the specified output handler
 ```

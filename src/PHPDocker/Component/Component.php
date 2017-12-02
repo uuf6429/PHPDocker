@@ -20,6 +20,11 @@ abstract class Component
     protected $logger;
 
     /**
+     * @var callable
+     */
+    protected $outputHandler;
+
+    /**
      * @var string[]
      */
     private $binCommands;
@@ -27,15 +32,19 @@ abstract class Component
     /**
      * @param null|string $binPath
      * @param null|LoggerInterface $logger
+     * @param callable|null $outputHandler
      */
-    public function __construct($binPath = null, LoggerInterface $logger = null)
+    public function __construct($binPath = null, LoggerInterface $logger = null, callable $outputHandler = null)
     {
         if (!$binPath) {
             throw new \InvalidArgumentException('Argument $binPath must not be empty.');
         }
 
         $this->bin = $binPath;
-        $this->logger = $logger ? $logger : new NullLogger();
+        $this->logger = $logger ?: new NullLogger();
+        $this->outputHandler = $outputHandler ?: function () {
+            // no op
+        };
     }
 
     /**
@@ -159,10 +168,34 @@ abstract class Component
     }
 
     /**
+     * @param callable $outputHandler
+     *
+     * @return static new instance using the specified output handler
+     */
+    public function withOutputHandler(callable $outputHandler)
+    {
+        $copy = clone $this;
+
+        return $copy->setOutputHandler($outputHandler);
+    }
+
+    /**
      * @return ProcessBuilder
      */
     protected function getProcessBuilder()
     {
         return ProcessBuilder::create([$this->bin]);
+    }
+
+    /**
+     * @param callable $outputHandler
+     *
+     * @return $this
+     */
+    protected function setOutputHandler(callable $outputHandler)
+    {
+        $this->outputHandler = $outputHandler;
+
+        return $this;
     }
 }

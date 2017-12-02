@@ -8,10 +8,10 @@ class PlatformTest extends \PHPUnit_Framework_TestCase
 {
     public function testDockerAvailability()
     {
-        if (isset($_ENV['RUN_DOCKER_NATIVE_TESTS'])) {
+        if (getenv('RUN_DOCKER_NATIVE_TESTS')) {
             $this->assertFalse((new Manager())->isDockerToolbox());
             $this->assertTrue((new Manager())->isInstalled());
-        } elseif (isset($_ENV['RUN_DOCKER_TOOLBOX_TESTS'])) {
+        } elseif (getenv('RUN_DOCKER_TOOLBOX_TESTS')) {
             $this->assertTrue((new Manager())->isDockerToolbox());
             $this->assertTrue((new Manager())->isInstalled());
         } else {
