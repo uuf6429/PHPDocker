@@ -108,7 +108,7 @@ class DocGen
                     foreach ($method->getParameters() as $param) {
                         $params[$param->getName()] = (object) [
                             'name' => $param->getName(),
-                            'type' => $param->getType() ? $param->getType()->getName() : '',
+                            'type' => $param->getType(),
                             'text' => '',
                         ];
                     }
