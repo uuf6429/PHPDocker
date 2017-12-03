@@ -10,7 +10,11 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "PHPDocker\\Tests\\": "tests/PHPDocker/"
+            "PHPDocker\\Tests\\": [
+                "tests/PHPDocker/integration/",
+                "tests/PHPDocker/unit/",
+                "tests/PHPDocker/"
+            ]
         }
     },
     "require": {

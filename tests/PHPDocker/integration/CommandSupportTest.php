@@ -17,7 +17,7 @@ class CommandSupportTest extends \PHPUnit_Framework_TestCase
     public function testCommandSupport(Component $component, $alternativeCommands, $uselessCommands)
     {
         if (!$component->isInstalled()) {
-            $this->markTestSkipped('Component is not installed.');
+            $this->markTestSkipped(sprintf('Component %s is not installed.', basename(get_class($component))));
         }
 
         $binCommands = array_diff(array_keys($component->getCommands()), $uselessCommands);
