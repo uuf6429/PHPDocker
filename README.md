@@ -32,6 +32,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
       - [`getCommands()`](#dockergetcommands)
       - [`getVersion()`](#dockergetversion)
       - [`isInstalled()`](#dockerisinstalled)
+      - [`run()`](#dockerrun)
       - [`withFile()`](#dockerwithfile)
       - [`withOutputHandler()`](#dockerwithoutputhandler)
     - [Compose](#phpdockercomponentcompose)
@@ -49,6 +50,42 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 ## Installation
 
 ## Usage
+
+This library requires either [native Docker](https://www.docker.com/community-edition#download) or [Docker Toolbox](https://docs.docker.com/toolbox/overview/).
+
+Two interfaces are provided, both of which start with the [Manager](#phpdockermanager) class:
+
+- **Procedural**
+
+  Everything can be done through the manager object and a whole process can be achieved through the use of method chaining.
+
+  ```php
+  $manager = new \PHPDocker\Manager();
+  $manager->docker->run('some-image', 'my-service-name');
+
+  // ... later on ...
+  $manager->docker->stop('my-container-name');
+  ```
+
+- **Object Oriented**
+
+  A reference object can be "created" for easy passing through your code while avoiding passing the manager object or state/config.
+
+  The example below shows how one can save a reference to the running container and load it back later on to stop it (assuming the container is still running).
+
+  ```php
+  $manager = new \PHPDocker\Manager();
+  $container = $manager->docker
+      ->run('some-image', 'my-container-name')
+      ->find('my-container-name');
+  file_put_contents('cont1.txt', serialize($container));
+
+  // ... later on ...
+  $container = unserialize(file_get_contents('cont1.txt'));
+  $container->stop('my-service-name');
+  ```
+
+**TL:DR;** In short, `->docker->%action%('xyz')` is equivalent to `->docker->find('xyz')->%action%()`.
 
 ## API
 
@@ -213,6 +250,25 @@ $docker->getVersion(): string
 ```php
 $docker->isInstalled(): bool
 ```
+
+----
+
+#### `Docker::run()`
+
+```php
+$docker->run(
+    string       $image           // name of docker image
+    array        $containerCmd    // Array of command (first item) and arguments (every other item) to execute in container
+    bool         $background      // True to run container in the background.
+Important! If you want container to keep running after your code ends, this must be true.
+However, if set to true you won't be able to capture execution output directly.
+    array        $envVars         // a list of key=>value pairs of environments to be used inside container
+    array|string $portMap         // A list of ports to expose to the host (key) from container (value).
+If an asterisk is passed in place of an array, all exportable ports are exposed (--publish-all=true).
+): $this
+```
+
+Creates a new container from an image and (optionally) runs a command in it.
 
 ----
 

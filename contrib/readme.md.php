@@ -31,6 +31,42 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 
 ## Usage
 
+This library requires either [native Docker](https://www.docker.com/community-edition#download) or [Docker Toolbox](https://docs.docker.com/toolbox/overview/).
+
+Two interfaces are provided, both of which start with the [Manager](#phpdockermanager) class:
+
+- **Procedural**
+
+  Everything can be done through the manager object and a whole process can be achieved through the use of method chaining.
+
+  ```php
+  $manager = new \PHPDocker\Manager();
+  $manager->docker->run('some-image', 'my-service-name');
+
+  // ... later on ...
+  $manager->docker->stop('my-container-name');
+  ```
+
+- **Object Oriented**
+
+  A reference object can be "created" for easy passing through your code while avoiding passing the manager object or state/config.
+
+  The example below shows how one can save a reference to the running container and load it back later on to stop it (assuming the container is still running).
+
+  ```php
+  $manager = new \PHPDocker\Manager();
+  $container = $manager->docker
+      ->run('some-image', 'my-container-name')
+      ->find('my-container-name');
+  file_put_contents('cont1.txt', serialize($container));
+
+  // ... later on ...
+  $container = unserialize(file_get_contents('cont1.txt'));
+  $container->stop('my-service-name');
+  ```
+
+**TL:DR;** In short, `->docker->%action%('xyz')` is equivalent to `->docker->find('xyz')->%action%()`.
+
 ## API
 <?php
     foreach ($generator->getClasses() as $class) {
