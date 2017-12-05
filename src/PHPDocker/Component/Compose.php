@@ -22,9 +22,9 @@ class Compose extends Component
     }
 
     /**
-     * @param string $configFile
+     * @param string $configFile Full file name to a 'docker-compose.yml'.
      *
-     * @return $this
+     * @return self new instance using the specified docker compose file
      */
     public function withFile($configFile)
     {

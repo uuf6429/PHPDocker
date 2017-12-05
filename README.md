@@ -388,8 +388,8 @@ $compose->remove(
 
 ```php
 $compose->withFile(
-    string $configFile
-): $this
+    string $configFile    // Full file name to a 'docker-compose.yml'.
+): self    // new instance using the specified docker compose file
 ```
 
 ----
