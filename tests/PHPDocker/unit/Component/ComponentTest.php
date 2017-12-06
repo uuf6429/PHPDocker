@@ -3,9 +3,9 @@
 namespace PHPDocker\Tests\Component;
 
 use PHPDocker\Component\Component;
+use PHPDocker\ProcessBuilder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 
 class ComponentTest extends \PHPUnit_Framework_TestCase
 {
@@ -113,6 +113,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getProcessBuilder'])
             ->getMock();
         $processBuilder = $this->getMockBuilder(ProcessBuilder::class)
+            ->disableOriginalConstructor()
             ->setMethods($processMock ? ['getProcess'] : [])
             ->getMock();
 
