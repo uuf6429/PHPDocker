@@ -15,6 +15,11 @@ abstract class Component
     private $bin;
 
     /**
+     * @var null|array
+     */
+    private $env;
+
+    /**
      * @var LoggerInterface
      */
     protected $logger;
@@ -31,16 +36,22 @@ abstract class Component
 
     /**
      * @param null|string $binPath
+     * @param null|array $envVars
      * @param null|LoggerInterface $logger
-     * @param callable|null $outputHandler
+     * @param null|callable $outputHandler
      */
-    public function __construct($binPath = null, LoggerInterface $logger = null, callable $outputHandler = null)
-    {
+    public function __construct(
+        $binPath = null,
+        array $envVars = null,
+        LoggerInterface $logger = null,
+        callable $outputHandler = null
+    ) {
         if (!$binPath) {
             throw new \InvalidArgumentException('Argument $binPath must not be empty.');
         }
 
         $this->bin = $binPath;
+        $this->env = $envVars;
         $this->logger = $logger ?: new NullLogger();
         $this->setOutputHandler($outputHandler);
     }
@@ -182,7 +193,13 @@ abstract class Component
      */
     protected function getProcessBuilder()
     {
-        return ProcessBuilder::create($this->bin);
+        $builder = ProcessBuilder::create($this->bin);
+
+        if ($this->env) {
+            $builder->addEnvVars($this->env);
+        }
+
+        return $builder;
     }
 
     /**

@@ -15,6 +15,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
   - [Usage](#usage)
   - [API](#api)
     - [Manager](#phpdockermanager)
+      - [`isDockerEnvSet()`](#managerisdockerenvset)
       - [`isDockerToolbox()`](#managerisdockertoolbox)
       - [`isInstalled()`](#managerisinstalled)
     - [Machine](#phpdockercomponentmachine)
@@ -112,11 +113,25 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
 
 ----
 
+#### `Manager::isDockerEnvSet()`
+
+```php
+$manager->isDockerEnvSet(): bool
+```
+
+Checks if Docker environment variables are set, in particular DOCKER_HOST.
+
+----
+
 #### `Manager::isDockerToolbox()`
 
 ```php
 $manager->isDockerToolbox(): bool
 ```
+
+Returns true if Docker Toolbox is installed (by checking environment variables).
+
+Note that in some messed up installation scenarios, this might return a false positive.
 
 ----
 

@@ -8,12 +8,17 @@ class Machine extends Component
 {
     /**
      * @param null|string $binPath
+     * @param null|array $envVars
      * @param null|LoggerInterface $logger
      * @param callable|null $outputHandler
      */
-    public function __construct($binPath = null, LoggerInterface $logger = null, callable $outputHandler = null)
-    {
-        parent::__construct($binPath ?: 'docker-machine', $logger, $outputHandler);
+    public function __construct(
+        $binPath = null,
+        array $envVars = null,
+        LoggerInterface $logger = null,
+        callable $outputHandler = null
+    ) {
+        parent::__construct($binPath ?: 'docker-machine', $envVars, $logger, $outputHandler);
     }
 
     /**

@@ -52,6 +52,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     private function getManagerMock($mockMethods)
     {
         return $this->getMockBuilder(Manager::class)
+            ->setConstructorArgs([null, null, false])
             ->setMethods($mockMethods)
             ->getMock();
     }
