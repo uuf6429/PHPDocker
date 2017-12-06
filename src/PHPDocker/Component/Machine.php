@@ -34,9 +34,9 @@ class Machine extends Component
 
         $process = $builder->getProcess();
 
-        $this->logger->debug('> ' . $process->getCommandLine());
+        $this->logger->debug('RUN ' . $process->getCommandLine());
 
-        return trim($process->mustRun()->getOutput());
+        return trim($process->mustRun($this->outputHandler)->getOutput());
     }
 
     /**
@@ -57,9 +57,9 @@ class Machine extends Component
 
         $process = $builder->getProcess();
 
-        $this->logger->debug('> ' . $process->getCommandLine());
+        $this->logger->debug('RUN ' . $process->getCommandLine());
 
-        $output = $process->mustRun()->getOutput();
+        $output = $process->mustRun($this->outputHandler)->getOutput();
         $output = str_replace(["\r\n", "\r", "\0"], "\n", $output);
         $output = array_filter(array_map('trim', explode("\n", $output)));
 
@@ -89,9 +89,9 @@ class Machine extends Component
 
         $process = $builder->getProcess();
 
-        $this->logger->debug('> ' . $process->getCommandLine());
+        $this->logger->debug('RUN ' . $process->getCommandLine());
 
-        $output = $process->mustRun()->getOutput();
+        $output = $process->mustRun($this->outputHandler)->getOutput();
 
         if (!preg_match_all('/^SET (\\w+)=(.+)$/m', $output, $matches)) {
             throw new \RuntimeException('Could not parse environment variables.');

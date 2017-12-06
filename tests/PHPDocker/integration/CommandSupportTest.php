@@ -53,7 +53,10 @@ class CommandSupportTest extends \PHPUnit_Framework_TestCase
         return [
             'Docker Commands' => [
                 '$component' => $manager->docker,
-                '$alternativeCommands' => [],
+                '$alternativeCommands' => [
+                    'unpause' => 'resume',
+                    'rm' => 'remove',
+                ],
                 '$uselessCommands' => ['help'],
             ],
             'Docker-Compose Commands' => [

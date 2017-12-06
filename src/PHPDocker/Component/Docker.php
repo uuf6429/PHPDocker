@@ -7,6 +7,11 @@ use Psr\Log\LoggerInterface;
 class Docker extends Component
 {
     /**
+     * Publish all exported ports on host, randomly.
+     */
+    const ALL_PORTS = '--publish-all=true';
+
+    /**
      * @var null|string
      */
     private $dockerFile;
@@ -42,8 +47,9 @@ class Docker extends Component
      *                          Important! If you want container to keep running after your code ends, this must be true.
      *                          However, if set to true you won't be able to capture execution output directly.
      * @param array $envVars a list of key=>value pairs of environments to be used inside container
-     * @param array|string $portMap A list of ports to expose to the host (key) from container (value).
-     *                          If an asterisk is passed in place of an array, all exportable ports are exposed (--publish-all=true).
+     * @param array|string $portMap array with string keys - a list of key-value pairs for exposing ports (key is host, value is container) eg; ['3306' => '3306']
+     *                          array with integer keys - a list of port map specification strings (see docker documentation for specification) eg; ['3306:3306']
+     *                          self::ALL_PORTS - exposes all exported ports (--publish-all=true) randomly
      *
      * @return $this
      *
@@ -63,11 +69,15 @@ class Docker extends Component
             $builder->add('-e')->add("$name=$value");
         });
 
-        if ($portMap === '*') {
-            $builder->add('--publish-all=true');
+        if (is_string($portMap)) {
+            $builder->add($portMap);
         } else {
-            array_walk($portMap, function ($value) use ($builder) {
-                $builder->add('-p')->add($value);
+            array_walk($portMap, function ($value, $key) use ($builder) {
+                if (is_integer($key)) {
+                    $builder->add('-p')->add("$value");
+                } else {
+                    $builder->add('-p')->add("$key=$value");
+                }
             });
         }
 
@@ -81,7 +91,7 @@ class Docker extends Component
 
         $process = $builder->getProcess();
 
-        $this->logger->debug('> ' . $process->getCommandLine());
+        $this->logger->debug('RUN ' . $process->getCommandLine());
 
         $process->mustRun($this->outputHandler); // TODO handle output
 
@@ -101,7 +111,7 @@ class Docker extends Component
             ->add('cp')->add($sourcePath)->add("$containerName:$targetPath")
             ->getProcess();
 
-        $this->logger->debug('> ' . $process->getCommandLine());
+        $this->logger->debug('RUN ' . $process->getCommandLine());
 
         $process->run($this->outputHandler);
 

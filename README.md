@@ -263,8 +263,9 @@ $docker->run(
 Important! If you want container to keep running after your code ends, this must be true.
 However, if set to true you won't be able to capture execution output directly.
     array        $envVars         // a list of key=>value pairs of environments to be used inside container
-    array|string $portMap         // A list of ports to expose to the host (key) from container (value).
-If an asterisk is passed in place of an array, all exportable ports are exposed (--publish-all=true).
+    array|string $portMap         // array with string keys - a list of key-value pairs for exposing ports (key is host, value is container) eg; ['3306' => '3306']
+array with integer keys - a list of port map specification strings (see docker documentation for specification) eg; ['3306:3306']
+self::ALL_PORTS - exposes all exported ports (--publish-all=true) randomly
 ): $this
 ```
 

@@ -5,6 +5,7 @@ namespace PHPDocker\Component;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 
 abstract class Component
@@ -42,9 +43,7 @@ abstract class Component
 
         $this->bin = $binPath;
         $this->logger = $logger ?: new NullLogger();
-        $this->outputHandler = $outputHandler ?: function () {
-            // no op
-        };
+        $this->setOutputHandler($outputHandler);
     }
 
     /**
@@ -188,13 +187,29 @@ abstract class Component
     }
 
     /**
-     * @param callable $outputHandler
+     * @param callable|null $userOutputHandler
      *
      * @return $this
      */
-    protected function setOutputHandler(callable $outputHandler)
+    protected function setOutputHandler(callable $userOutputHandler = null)
     {
-        $this->outputHandler = $outputHandler;
+        $this->outputHandler = function ($type, $text) use ($userOutputHandler) {
+            switch ($type) {
+                case Process::OUT:
+                    $this->logger->info("OUT $text");
+                    break;
+                case Process::ERR:
+                    $this->logger->error("OUT $text");
+                    break;
+                default:
+                    $this->logger->warning("UNK $text");
+                    break;
+            }
+
+            if ($userOutputHandler) {
+                $userOutputHandler($type, $text);
+            }
+        };
 
         return $this;
     }

@@ -18,7 +18,7 @@ class Manager
     protected $logger;
 
     /**
-     * @var callable
+     * @var null|callable
      */
     protected $outputHandler;
 
@@ -38,9 +38,7 @@ class Manager
     public function __construct(LoggerInterface $logger = null, callable $outputHandler = null)
     {
         $this->logger = $logger ? $logger : new NullLogger();
-        $this->outputHandler = $outputHandler ?: function () {
-            // no op
-        };
+        $this->outputHandler = $outputHandler;
     }
 
     /**

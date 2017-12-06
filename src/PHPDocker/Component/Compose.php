@@ -65,7 +65,7 @@ class Compose extends Component
 
         $process = $builder->getProcess();
 
-        $this->logger->debug('> ' . $process->getCommandLine());
+        $this->logger->debug('RUN ' . $process->getCommandLine());
 
         $process->mustRun(); // TODO handle output
 
@@ -103,7 +103,7 @@ class Compose extends Component
 
         $process = $builder->getProcess();
 
-        $this->logger->debug('> ' . $process->getCommandLine());
+        $this->logger->debug('RUN ' . $process->getCommandLine());
 
         $process->mustRun(); // TODO handle output
 
@@ -139,7 +139,7 @@ class Compose extends Component
 
         $process = $builder->getProcess();
 
-        $this->logger->debug('> ' . $process->getCommandLine());
+        $this->logger->debug('RUN ' . $process->getCommandLine());
 
         $process->mustRun(); // TODO handle output
 
@@ -188,7 +188,7 @@ class Compose extends Component
 
         $process = $builder->getProcess();
 
-        $this->logger->debug('> ' . $process->getCommandLine());
+        $this->logger->debug('RUN ' . $process->getCommandLine());
 
         $process->mustRun(); // TODO handle output
 

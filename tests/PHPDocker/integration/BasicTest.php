@@ -4,10 +4,13 @@ namespace PHPDocker\Tests;
 
 use PHPDocker\Manager;
 
-class HelloWorldTest extends \PHPUnit_Framework_TestCase
+class BasicTest extends \PHPUnit_Framework_TestCase
 {
     use PlatformSpecificTrait;
 
+    /**
+     * Runs the hello-world image and checks output.
+     */
     public function testDockerHelloWorldWithOutput()
     {
         $this->skipIfUnknownDocker();
@@ -22,6 +25,9 @@ class HelloWorldTest extends \PHPUnit_Framework_TestCase
             ->run('hello-world');
     }
 
+    /**
+     * Runs the ubuntu image, queries bash version and checks output.
+     */
     public function testDockerAmbitiousTestWithOutput()
     {
         $this->skipIfUnknownDocker();
