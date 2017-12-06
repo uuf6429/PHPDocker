@@ -41,10 +41,10 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
 
   ```php
   $manager = new \PHPDocker\Manager();
-  $manager->docker->run('some-image', 'my-service-name');
+  $manager->docker->run('some-image', 'my-container');
 
   // ... later on ...
-  $manager->docker->stop('my-container-name');
+  $manager->docker->stop('my-container');
   ```
 
 - **Object Oriented**
@@ -56,13 +56,13 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
   ```php
   $manager = new \PHPDocker\Manager();
   $container = $manager->docker
-      ->run('some-image', 'my-container-name')
-      ->find('my-container-name');
+      ->run('some-image', 'my-container')
+      ->find('my-container');
   file_put_contents('cont1.txt', serialize($container));
 
   // ... later on ...
   $container = unserialize(file_get_contents('cont1.txt'));
-  $container->stop('my-service-name');
+  $container->stop();
   ```
 
 **TL:DR;** In short, `->docker->%action%('xyz')` is equivalent to `->docker->find('xyz')->%action%()`.

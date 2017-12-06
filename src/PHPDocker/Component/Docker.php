@@ -2,6 +2,7 @@
 
 namespace PHPDocker\Component;
 
+use PHPDocker\Container;
 use Psr\Log\LoggerInterface;
 
 class Docker extends Component
@@ -103,6 +104,81 @@ class Docker extends Component
         return $this;
     }
 
+    public function attach()
+    {
+        // TODO
+    }
+
+    public function commit()
+    {
+        // TODO
+    }
+
+    /**
+     * @param string $containerName name of the target container
+     * @param string $sourcePath source file or directory to copy
+     * @param string $targetPath destination where to copy to
+     *
+     * @return $this current instance, for method chaining
+     */
+    public function copy($containerName, $sourcePath, $targetPath)
+    {
+        $process = $this->getProcessBuilder()
+            ->add('cp')->add($sourcePath)->add("$containerName:$targetPath")
+            ->getProcess();
+
+        $this->logger->debug('RUN ' . $process->getCommandLine());
+
+        $process->run($this->outputHandler);
+
+        return $this;
+    }
+
+    public function diff()
+    {
+        // TODO
+    }
+
+    public function exec()
+    {
+        // TODO
+    }
+
+    public function export()
+    {
+        // TODO
+    }
+
+    public function kill()
+    {
+        // TODO
+    }
+
+    public function logs()
+    {
+        // TODO
+    }
+
+    public function pause()
+    {
+        // TODO
+    }
+
+    public function port()
+    {
+        // TODO
+    }
+
+    public function rename()
+    {
+        // TODO
+    }
+
+    public function restart()
+    {
+        // TODO
+    }
+
     /**
      * Removes one or more containers given names.
      *
@@ -145,24 +221,47 @@ class Docker extends Component
         return $this;
     }
 
-    /**
-     * @param string $containerName name of the target container
-     * @param string $sourcePath source file or directory to copy
-     * @param string $targetPath destination where to copy to
-     *
-     * @return $this current instance, for method chaining
-     */
-    public function copy($containerName, $sourcePath, $targetPath)
+    public function resume()
     {
-        $process = $this->getProcessBuilder()
-            ->add('cp')->add($sourcePath)->add("$containerName:$targetPath")
-            ->getProcess();
+        // TODO
+    }
 
-        $this->logger->debug('RUN ' . $process->getCommandLine());
+    public function start()
+    {
+        // TODO
+    }
 
-        $process->run($this->outputHandler);
+    public function stop()
+    {
+        // TODO
+    }
 
-        return $this;
+    public function top()
+    {
+        // TODO
+    }
+
+    public function update()
+    {
+        // TODO
+    }
+
+    public function wait()
+    {
+        // TODO
+    }
+
+    /**
+     * Returns an object representing a container given the container name.
+     * Note that the container might not exist at this or any point, so you should call exists().
+     *
+     * @param string $containerName
+     *
+     * @return Container
+     */
+    public function find($containerName)
+    {
+        return new Container($containerName, $this);
     }
 
     /**

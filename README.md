@@ -27,13 +27,31 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
       - [`isInstalled()`](#machineisinstalled)
       - [`withOutputHandler()`](#machinewithoutputhandler)
     - [Docker](#phpdockercomponentdocker)
+      - [`attach()`](#dockerattach)
       - [`clearCommandsCache()`](#dockerclearcommandscache)
+      - [`commit()`](#dockercommit)
       - [`copy()`](#dockercopy)
+      - [`diff()`](#dockerdiff)
+      - [`exec()`](#dockerexec)
+      - [`export()`](#dockerexport)
+      - [`find()`](#dockerfind)
       - [`getCommands()`](#dockergetcommands)
       - [`getVersion()`](#dockergetversion)
       - [`isInstalled()`](#dockerisinstalled)
+      - [`kill()`](#dockerkill)
+      - [`logs()`](#dockerlogs)
+      - [`pause()`](#dockerpause)
+      - [`port()`](#dockerport)
       - [`remove()`](#dockerremove)
+      - [`rename()`](#dockerrename)
+      - [`restart()`](#dockerrestart)
+      - [`resume()`](#dockerresume)
       - [`run()`](#dockerrun)
+      - [`start()`](#dockerstart)
+      - [`stop()`](#dockerstop)
+      - [`top()`](#dockertop)
+      - [`update()`](#dockerupdate)
+      - [`wait()`](#dockerwait)
       - [`withFile()`](#dockerwithfile)
       - [`withOutputHandler()`](#dockerwithoutputhandler)
     - [Compose](#phpdockercomponentcompose)
@@ -62,10 +80,10 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
 
   ```php
   $manager = new \PHPDocker\Manager();
-  $manager->docker->run('some-image', 'my-service-name');
+  $manager->docker->run('some-image', 'my-container');
 
   // ... later on ...
-  $manager->docker->stop('my-container-name');
+  $manager->docker->stop('my-container');
   ```
 
 - **Object Oriented**
@@ -77,13 +95,13 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
   ```php
   $manager = new \PHPDocker\Manager();
   $container = $manager->docker
-      ->run('some-image', 'my-container-name')
-      ->find('my-container-name');
+      ->run('some-image', 'my-container')
+      ->find('my-container');
   file_put_contents('cont1.txt', serialize($container));
 
   // ... later on ...
   $container = unserialize(file_get_contents('cont1.txt'));
-  $container->stop('my-service-name');
+  $container->stop();
   ```
 
 **TL:DR;** In short, `->docker->%action%('xyz')` is equivalent to `->docker->find('xyz')->%action%()`.
@@ -203,6 +221,14 @@ _extends `PHPDocker\Component\Component`_
 
 ----
 
+#### `Docker::attach()`
+
+```php
+$docker->attach()
+```
+
+----
+
 #### `Docker::clearCommandsCache()`
 
 ```php
@@ -210,6 +236,14 @@ $docker->clearCommandsCache()
 ```
 
 Clears the cache holding the result of `getCommands()`.
+
+----
+
+#### `Docker::commit()`
+
+```php
+$docker->commit()
+```
 
 ----
 
@@ -222,6 +256,44 @@ $docker->copy(
     string $targetPath       // destination where to copy to
 ): $this    // current instance, for method chaining
 ```
+
+----
+
+#### `Docker::diff()`
+
+```php
+$docker->diff()
+```
+
+----
+
+#### `Docker::exec()`
+
+```php
+$docker->exec()
+```
+
+----
+
+#### `Docker::export()`
+
+```php
+$docker->export()
+```
+
+----
+
+#### `Docker::find()`
+
+```php
+$docker->find(
+    string $containerName
+): \Container
+```
+
+Returns an object representing a container given the container name.
+
+Note that the container might not exist at this or any point, so you should call exists().
 
 ----
 
@@ -254,6 +326,38 @@ $docker->isInstalled(): bool
 
 ----
 
+#### `Docker::kill()`
+
+```php
+$docker->kill()
+```
+
+----
+
+#### `Docker::logs()`
+
+```php
+$docker->logs()
+```
+
+----
+
+#### `Docker::pause()`
+
+```php
+$docker->pause()
+```
+
+----
+
+#### `Docker::port()`
+
+```php
+$docker->port()
+```
+
+----
+
 #### `Docker::remove()`
 
 ```php
@@ -265,6 +369,30 @@ $docker->remove(
 ```
 
 Removes one or more containers given names.
+
+----
+
+#### `Docker::rename()`
+
+```php
+$docker->rename()
+```
+
+----
+
+#### `Docker::restart()`
+
+```php
+$docker->restart()
+```
+
+----
+
+#### `Docker::resume()`
+
+```php
+$docker->resume()
+```
 
 ----
 
@@ -286,6 +414,46 @@ self::ALL_PORTS - exposes all exported ports (--publish-all=true) randomly
 ```
 
 Creates a new container from an image and (optionally) runs a command in it.
+
+----
+
+#### `Docker::start()`
+
+```php
+$docker->start()
+```
+
+----
+
+#### `Docker::stop()`
+
+```php
+$docker->stop()
+```
+
+----
+
+#### `Docker::top()`
+
+```php
+$docker->top()
+```
+
+----
+
+#### `Docker::update()`
+
+```php
+$docker->update()
+```
+
+----
+
+#### `Docker::wait()`
+
+```php
+$docker->wait()
+```
 
 ----
 
