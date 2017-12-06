@@ -15,6 +15,41 @@ class DocGen
     ];
 
     /**
+     * @see \PHPDocker\Manager::$components
+     *
+     * @var string[]
+     */
+    private static $SUPPORTED_COMPONENTS = [
+        'docker', 'compose', 'machine',
+    ];
+
+    /**
+     * @var array
+     */
+    private static $SUPPORTED_COMMANDS_RENAMED = [
+        'docker unpause' => 'resume',
+        'docker rm' => 'remove',
+        'docker cp' => 'copy',
+        'compose rm' => 'remove',
+        'compose exec' => 'execute',
+        'machine active' => 'getActive',
+        'machine ip' => 'getIPs',
+        'machine env' => 'getEnvVars',
+    ];
+
+    /**
+     * @var string[]
+     */
+    private static $SUPPORTED_COMMANDS_IGNORED = [
+        'docker help',
+        'docker version',
+        'compose help',
+        'compose version',
+        'machine help',
+        'machine version',
+    ];
+
+    /**
      * @var \ReflectionClass[]
      */
     private $classes;
@@ -51,6 +86,38 @@ class DocGen
         static $result;
 
         return $result ? $result : ($result = $this->buildClasses());
+    }
+
+    /**
+     * @return ComponentSupport[]|\Exception
+     */
+    public function getComponentSupport()
+    {
+        try {
+            $manager = new \PHPDocker\Manager();
+
+            return array_map(function ($name) use ($manager) {
+                $component = $manager->$name;
+                $commands = $this->buildCommandSupport($component, $name);
+                $notIgnored = $supported = 0;
+                array_walk($commands, function ($command) use (&$notIgnored, &$supported) {
+                    /** @var \ComponentCommandSupport $command */
+                    $notIgnored += $command->isIgnored ? 0 : 1;
+                    $supported += ($command->isSupported && !$command->isIgnored) ? 1 : 0;
+                });
+
+                return (object) [
+                    'name' => ($name == 'docker' ? '' : 'Docker ') . ucfirst($name),
+                    'shortName' => $name,
+                    'fqClassName' => get_class($component),
+                    'classLink' => $this->buildSafeAnchor(get_class($component)),
+                    'commands' => $commands,
+                    'supportPercent' => $supported / max($notIgnored, 1) * 100,
+                ];
+            }, self::$SUPPORTED_COMPONENTS);
+        } catch (\Exception $exception) {
+            return $exception;
+        }
     }
 
     /**
@@ -266,6 +333,39 @@ class DocGen
 
         return $result;
     }
+
+    /**
+     * @param \PHPDocker\Component\Component $component
+     * @param string $shortName
+     *
+     * @return ComponentCommandSupport[]
+     */
+    private function buildCommandSupport(PHPDocker\Component\Component $component, $shortName)
+    {
+        $componentClass = get_class($component);
+        $componentMethods = get_class_methods($component);
+
+        if (!$component->isInstalled()) {
+            throw new \RuntimeException(sprintf('Component %s is not installed.', basename($componentClass)));
+        }
+
+        return array_map(
+            function ($command) use ($shortName, $componentClass, $componentMethods) {
+                $fullCommand = "$shortName $command";
+                $actualName = isset(self::$SUPPORTED_COMMANDS_RENAMED[$fullCommand])
+                    ? self::$SUPPORTED_COMMANDS_RENAMED[$fullCommand] : $command; // TODO what about spaces / sub commands?
+
+                return (object) [
+                    'fqCommandName' => $fullCommand,
+                    'methodText' => ucfirst($shortName) . '::' . $actualName,
+                    'methodLink' => '#' . $this->buildSafeAnchor(ucfirst($shortName) . '::' . $actualName),
+                    'isSupported' => in_array($actualName, $componentMethods),
+                    'isIgnored' => in_array($fullCommand, self::$SUPPORTED_COMMANDS_IGNORED),
+                ];
+            },
+            array_keys($component->getCommands())
+        );
+    }
 }
 
 /**
@@ -298,6 +398,33 @@ interface ClassDoc
  * @property string $signature
  */
 interface MethodDoc
+{
+}
+
+/**
+ * Stub class for describing anonymous object.
+ *
+ * @property string $name
+ * @property string $shortName
+ * @property string $fqClassName
+ * @property string $classLink
+ * @property ComponentCommandSupport[] $commands
+ * @property float $supportPercent
+ */
+interface ComponentSupport
+{
+}
+
+/**
+ * Stub class for describing anonymous object.
+ *
+ * @property string $fqCommandName
+ * @property string $methodText
+ * @property string $methodLink
+ * @property bool $isSupported
+ * @property bool $isIgnored
+ */
+interface ComponentCommandSupport
 {
 }
 

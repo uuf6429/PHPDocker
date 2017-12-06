@@ -1,11 +1,26 @@
 <?php /** @var \DocGen $generator */ ?>
 <?php echo $generator->getOverwriteWarning(); ?>
+<?php $componentSupport = $generator->getComponentSupport(); ?>
 
 
 # PHPDocker
 
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/uuf6429/rune/master/LICENSE)
+<?php
+    if (is_array($componentSupport)) {
+        foreach ($componentSupport as $component) {
+            printf(
+                '[![%s](https://img.shields.io/badge/%s-%s-0db7ed.svg)](%s)%s',
+                $component->name,
+                substr($component->shortName, 0, 1),
+                round($component->supportPercent) . '%25', // %25 is url-encoded %
+                '#supported-commands',
+                "\n"
+            );
+        }
+    }
+?>
 
 PHP library providing a simple API for [Docker cli](https://docs.docker.com/engine/reference/commandline/cli/).
 
@@ -15,6 +30,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
   - [Usage](#usage)
+  - [Supported Commands](#supported-commands)
   - [API](#api)
 <?php
     foreach ($generator->getClasses() as $class) {
@@ -126,3 +142,48 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
         }
     }
 ?>
+
+## Supported Commands
+
+<?php if (is_array($componentSupport)) {
+    ?>
+
+<?php echo "\xE2\x9C\xB1 _Not (and won't be) implemented._"; ?>
+
+<table>
+    <thead>
+<?php
+    foreach ($componentSupport as $component) {
+        printf(
+            '<th>%s (%s%%)</th>',
+            $component->name,
+            round($component->supportPercent)
+        );
+    } ?>
+
+    </thead><tbody>
+        <tr>
+<?php foreach ($componentSupport as $component) {
+        ?>
+            <td valign="top">
+<?php
+        foreach ($component->commands as $command) {
+            echo $command->isSupported ? "\xE2\x9C\x85" : ($command->isIgnored ? "&nbsp;\xE2\x9C\xB1" : "\xE2\x9D\x8C");
+            echo $command->isSupported
+                ? sprintf(' <a href="%s" title="%s">%s</a><br/>', $command->methodLink, $command->methodText, $command->fqCommandName)
+                : sprintf(' %s<br/>', $command->fqCommandName);
+        }
+        echo '&nbsp;'; ?>
+
+            </td>
+<?php
+    } ?>
+        </tr>
+    </tbody>
+</table>
+<?php
+} else {
+        ?>
+<?php echo "```text\n\xE2\x9A\xA0 $componentSupport\n```\n"; ?>
+<?php
+    } ?>
