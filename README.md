@@ -404,12 +404,12 @@ $docker->run(
     null|string  $containerName    // name of the container (so you can find() it later on)
     array        $containerCmd     // Array of command (first item) and arguments (every other item) to execute in container
     bool         $background       // True to run container in the background.
-Important! If you want container to keep running after your code ends, this must be true.
-However, if set to true you won't be able to capture execution output directly.
+                                   // Important! If you want container to keep running after your code ends, this must be true.
+                                   // However, if set to true you won't be able to capture execution output directly.
     array        $envVars          // a list of key=>value pairs of environments to be used inside container
     array|string $portMap          // array with string keys - a list of key-value pairs for exposing ports (key is host, value is container) eg; ['3306' => '3306']
-array with integer keys - a list of port map specification strings (see docker documentation for specification) eg; ['3306:3306']
-self::ALL_PORTS - exposes all exported ports (--publish-all=true) randomly
+                                   // array with integer keys - a list of port map specification strings (see docker documentation for specification) eg; ['3306:3306']
+                                   // self::ALL_PORTS - exposes all exported ports (--publish-all=true) randomly
 ): $this
 ```
 

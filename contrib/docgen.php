@@ -237,26 +237,32 @@ class DocGen
         }
 
         foreach ($arguments as $argument) {
-            $result .= '    ';
-            $result .= str_pad($argument->type, $typeWidth);
-            $result .= str_pad("\${$argument->name}", $nameWidth);
+            $line = '    ';
+            $line .= str_pad($argument->type, $typeWidth);
+            $line .= str_pad("\${$argument->name}", $nameWidth);
             if ($argument->text) {
-                $result .= "// {$argument->text}";
+                $pad = str_repeat(' ', strlen($line));
+                $line .= '// ' . str_replace("\n", "\n{$pad}// ", $argument->text);
             } else {
-                $result = rtrim($result);
+                $line = rtrim($line);
             }
-            $result .= "\n";
+
+            $result .= "$line\n";
         }
 
-        $result .= ')';
+        $line = ')';
 
         if ($returnType) {
-            $result .= ": $returnType";
+            $line .= ": $returnType";
         }
 
         if ($returnText) {
-            $result .= "    // $returnText";
+            $line .= '    ';
+            $pad = str_repeat(' ', strlen($line));
+            $line .= '// ' . str_replace("\n", "\n{$pad}// ", $returnText);
         }
+
+        $result .= $line;
 
         return $result;
     }
