@@ -42,6 +42,7 @@ class Docker extends Component
      * Creates a new container from an image and (optionally) runs a command in it.
      *
      * @param string $image name of docker image
+     * @param null|string $containerName name of the container (so you can find() it later on)
      * @param array $containerCmd Array of command (first item) and arguments (every other item) to execute in container
      * @param bool $background True to run container in the background.
      *                          Important! If you want container to keep running after your code ends, this must be true.
@@ -55,11 +56,15 @@ class Docker extends Component
      *
      * @todo Handle more options and switches
      */
-    public function run($image, $containerCmd = [], $background = false, $envVars = [], $portMap = [])
+    public function run($image, $containerName = null, $containerCmd = [], $background = false, $envVars = [], $portMap = [])
     {
         $builder = $this->getProcessBuilder();
 
         $builder->add('run');
+
+        if ($containerName) {
+            $builder->add('--name')->add($containerName);
+        }
 
         if ($background) {
             $builder->add('-d');
@@ -93,7 +98,49 @@ class Docker extends Component
 
         $this->logger->debug('RUN ' . $process->getCommandLine());
 
-        $process->mustRun($this->outputHandler); // TODO handle output
+        $process->mustRun($this->outputHandler);
+
+        return $this;
+    }
+
+    /**
+     * Removes one or more containers given names.
+     *
+     * @param string|string[] $containerNames either the container name as a string or a list of container names
+     * @param bool $forceRemove if true, the container will be removed forcefully, even if it is running
+     * @param bool $removeVolumes if trues, also remove volumes associated to container
+     *
+     * @return $this
+     *
+     * @todo Handle --link as well
+     */
+    public function remove($containerNames, $forceRemove = false, $removeVolumes = false)
+    {
+        $builder = $this->getProcessBuilder();
+
+        $builder->add('rm');
+
+        if ($forceRemove) {
+            $builder->add('--force');
+        }
+
+        if ($removeVolumes) {
+            $builder->add('--volumes');
+        }
+
+        if (is_string($containerNames)) {
+            $containerNames = [$containerNames];
+        }
+
+        foreach ($containerNames as $containerName) {
+            $builder->add($containerName);
+        }
+
+        $process = $builder->getProcess();
+
+        $this->logger->debug('RUN ' . $process->getCommandLine());
+
+        $process->mustRun($this->outputHandler);
 
         return $this;
     }

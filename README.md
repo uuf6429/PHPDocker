@@ -32,6 +32,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
       - [`getCommands()`](#dockergetcommands)
       - [`getVersion()`](#dockergetversion)
       - [`isInstalled()`](#dockerisinstalled)
+      - [`remove()`](#dockerremove)
       - [`run()`](#dockerrun)
       - [`withFile()`](#dockerwithfile)
       - [`withOutputHandler()`](#dockerwithoutputhandler)
@@ -253,17 +254,32 @@ $docker->isInstalled(): bool
 
 ----
 
+#### `Docker::remove()`
+
+```php
+$docker->remove(
+    string|string[] $containerNames    // either the container name as a string or a list of container names
+    bool            $forceRemove       // if true, the container will be removed forcefully, even if it is running
+    bool            $removeVolumes     // if trues, also remove volumes associated to container
+): $this
+```
+
+Removes one or more containers given names.
+
+----
+
 #### `Docker::run()`
 
 ```php
 $docker->run(
-    string       $image           // name of docker image
-    array        $containerCmd    // Array of command (first item) and arguments (every other item) to execute in container
-    bool         $background      // True to run container in the background.
+    string       $image            // name of docker image
+    null|string  $containerName    // name of the container (so you can find() it later on)
+    array        $containerCmd     // Array of command (first item) and arguments (every other item) to execute in container
+    bool         $background       // True to run container in the background.
 Important! If you want container to keep running after your code ends, this must be true.
 However, if set to true you won't be able to capture execution output directly.
-    array        $envVars         // a list of key=>value pairs of environments to be used inside container
-    array|string $portMap         // array with string keys - a list of key-value pairs for exposing ports (key is host, value is container) eg; ['3306' => '3306']
+    array        $envVars          // a list of key=>value pairs of environments to be used inside container
+    array|string $portMap          // array with string keys - a list of key-value pairs for exposing ports (key is host, value is container) eg; ['3306' => '3306']
 array with integer keys - a list of port map specification strings (see docker documentation for specification) eg; ['3306:3306']
 self::ALL_PORTS - exposes all exported ports (--publish-all=true) randomly
 ): $this

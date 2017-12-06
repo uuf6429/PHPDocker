@@ -24,30 +24,36 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
         $host = $manager->machine->getIPs();
         $user = 'user';
         $pass = 'pass';
+        $containerName = 'mysql-server1';
 
-        $manager->docker->run('mysql:5.7', [], true, [
-            //'MYSQL_ROOT_PASSWORD' => uniqid(),
+        $manager->docker->run('mysql:5.7', $containerName, [], true, [
             'MYSQL_RANDOM_ROOT_PASSWORD' => 'yes',
             'MYSQL_USER' => $user,
             'MYSQL_PASSWORD' => $pass,
         ], ['3306:3306']);
 
-        $start = time();
-        $logger->info('Waiting for db...');
-        while (!$this->checkConnection($host, $user, $pass)) {
-            if (time() - 60 > $start) { // time out in 60s
-                $this->fail(
-                    'Gave up trying to connect to db. Full output: '
-                    . PHP_EOL . implode(PHP_EOL, array_column($logger->cleanLogs(), 1))
-                );
+        try {
+            $start = time();
+
+            $logger->info('Waiting for db...');
+
+            while (!($success = $this->checkConnection($host, $user, $pass))) {
+                if (time() - 60 > $start) { // time out in 60s
+                    $this->fail(
+                        'Gave up trying to connect to db. Full output: ' . PHP_EOL
+                        . implode(PHP_EOL, array_column($logger->cleanLogs(), 1))
+                    );
+                }
+
+                $logger->info('Still waiting...');
+
+                sleep(1);
             }
 
-            $logger->info('Still waiting...');
-
-            sleep(1);
+            $this->assertTrue($success); // can't be false, but assertion still counts :)
+        } finally {
+            $manager->docker->remove($containerName, true, true);
         }
-
-        // TODO kill mysql container
     }
 
     /**

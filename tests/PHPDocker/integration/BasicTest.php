@@ -22,7 +22,8 @@ class BasicTest extends \PHPUnit_Framework_TestCase
             ->withOutputHandler(function ($type, $text) {
                 echo "$type: $text\n";
             })
-            ->run('hello-world');
+            ->run('hello-world', 'test-container')
+            ->remove('test-container', true, true);
     }
 
     /**
@@ -39,6 +40,7 @@ class BasicTest extends \PHPUnit_Framework_TestCase
             ->withOutputHandler(function ($type, $text) {
                 echo "$type: $text\n";
             })
-            ->run('ubuntu', ['bash', '--version']);
+            ->run('ubuntu', 'test-container', ['bash', '--version'])
+            ->remove('test-container', true, true);
     }
 }
