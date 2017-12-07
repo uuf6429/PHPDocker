@@ -45,6 +45,12 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 
 ## Installation
 
+First [install Composer](https://getcomposer.org/download/) and then run the following command in your project directory:
+
+```bash
+composer require uuf6429/phpdocker
+```
+
 ## Usage
 
 This library requires either [native Docker](https://www.docker.com/community-edition#download) or [Docker Toolbox](https://docs.docker.com/toolbox/overview/).
@@ -82,6 +88,58 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
   ```
 
 **TL:DR;** In short, `->docker->%action%('xyz')` is equivalent to `->docker->find('xyz')->%action%()`.
+
+## Supported Commands
+
+<?php if (is_array($componentSupport)) {
+    $bulletCheck = "\xE2\x9C\x85";
+    $bulletQuest = "&nbsp;&nbsp;\x3F&nbsp;";
+    $bulletCross = "\xE2\x9D\x8C";
+    $bulletAster = "&nbsp;\xE2\x9C\xB1&nbsp;"; ?>
+- <?=$bulletCheck; ?> _Fully implemented._
+- <?=$bulletQuest; ?> _Incomplete (check method for details)._
+- <?=$bulletCross; ?> _Not implemented yet._
+- <?=$bulletAster; ?> _Not (and won't be) implemented._
+
+<table>
+    <thead>
+<?php
+    foreach ($componentSupport as $component) {
+        printf(
+            '<th>%s (%s%%)</th>',
+            $component->name,
+            round($component->supportPercent)
+        );
+    } ?>
+
+    </thead><tbody>
+        <tr>
+<?php foreach ($componentSupport as $component) {
+        ?>
+            <td valign="top">
+<?php
+        foreach ($component->commands as $command) {
+            echo '                ';
+            echo $command->isSupported
+                ? ($command->isIncomplete ? $bulletQuest : $bulletCheck)
+                : ($command->isIgnored ? $bulletAster : $bulletCross);
+            echo $command->isSupported
+                ? sprintf(' <a href="%s" title="%s">%s</a><br/>', $command->methodLink, $command->methodText, $command->fqCommandName)
+                : sprintf(' %s<br/>', $command->fqCommandName);
+            echo "\n";
+        } ?>
+            </td>
+<?php
+    } ?>
+        </tr>
+    </tbody>
+</table>
+<?php
+} else {
+        ?>
+<?php echo "```text\n\xE2\x9A\xA0 $componentSupport\n```\n"; ?>
+<?php
+    } ?>
 
 ## API
 <?php
@@ -143,54 +201,3 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
     }
 ?>
 
-## Supported Commands
-
-<?php if (is_array($componentSupport)) {
-    $bulletCheck = "\xE2\x9C\x85";
-    $bulletQuest = "&nbsp;&nbsp;\x3F&nbsp;";
-    $bulletCross = "\xE2\x9D\x8C";
-    $bulletAster = "&nbsp;\xE2\x9C\xB1&nbsp;"; ?>
-- <?=$bulletCheck; ?> _Fully implemented._
-- <?=$bulletQuest; ?> _Incomplete (check method for details)._
-- <?=$bulletCross; ?> _Not implemented yet._
-- <?=$bulletAster; ?> _Not (and won't be) implemented._
-
-<table>
-    <thead>
-<?php
-    foreach ($componentSupport as $component) {
-        printf(
-            '<th>%s (%s%%)</th>',
-            $component->name,
-            round($component->supportPercent)
-        );
-    } ?>
-
-    </thead><tbody>
-        <tr>
-<?php foreach ($componentSupport as $component) {
-        ?>
-            <td valign="top">
-<?php
-        foreach ($component->commands as $command) {
-            echo '                ';
-            echo $command->isSupported
-                ? ($command->isIncomplete ? $bulletQuest : $bulletCheck)
-                : ($command->isIgnored ? $bulletAster : $bulletCross);
-            echo $command->isSupported
-                ? sprintf(' <a href="%s" title="%s">%s</a><br/>', $command->methodLink, $command->methodText, $command->fqCommandName)
-                : sprintf(' %s<br/>', $command->fqCommandName);
-            echo "\n";
-        } ?>
-            </td>
-<?php
-    } ?>
-        </tr>
-    </tbody>
-</table>
-<?php
-} else {
-        ?>
-<?php echo "```text\n\xE2\x9A\xA0 $componentSupport\n```\n"; ?>
-<?php
-    } ?>
