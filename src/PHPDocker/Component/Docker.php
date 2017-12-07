@@ -109,14 +109,18 @@ class Docker extends Component
         return $this;
     }
 
+    /**
+     * @todo
+     */
     public function attach()
     {
-        // TODO
     }
 
+    /**
+     * @todo
+     */
     public function commit()
     {
-        // TODO
     }
 
     /**
@@ -139,49 +143,67 @@ class Docker extends Component
         return $this;
     }
 
+    /**
+     * @todo
+     */
     public function diff()
     {
-        // TODO
     }
 
+    /**
+     * @todo
+     */
     public function exec()
     {
-        // TODO
     }
 
+    /**
+     * @todo
+     */
     public function export()
     {
-        // TODO
     }
 
+    /**
+     * @todo
+     */
     public function kill()
     {
-        // TODO
     }
 
+    /**
+     * @todo
+     */
     public function logs()
     {
-        // TODO
     }
 
+    /**
+     * @todo
+     */
     public function pause()
     {
-        // TODO
     }
 
+    /**
+     * @todo
+     */
     public function port()
     {
-        // TODO
     }
 
+    /**
+     * @todo
+     */
     public function rename()
     {
-        // TODO
     }
 
+    /**
+     * @todo
+     */
     public function restart()
     {
-        // TODO
     }
 
     /**
@@ -226,34 +248,46 @@ class Docker extends Component
         return $this;
     }
 
+    /**
+     * @todo
+     */
     public function resume()
     {
-        // TODO
     }
 
+    /**
+     * @todo
+     */
     public function start()
     {
-        // TODO
     }
 
+    /**
+     * @todo
+     */
     public function stop()
     {
-        // TODO
     }
 
+    /**
+     * @todo
+     */
     public function top()
     {
-        // TODO
     }
 
+    /**
+     * @todo
+     */
     public function update()
     {
-        // TODO
     }
 
+    /**
+     * @todo
+     */
     public function wait()
     {
-        // TODO
     }
 
     /**

@@ -146,9 +146,14 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
 ## Supported Commands
 
 <?php if (is_array($componentSupport)) {
-    ?>
-
-<?php echo "\xE2\x9C\xB1 _Not (and won't be) implemented._"; ?>
+    $bulletCheck = "\xE2\x9C\x85";
+    $bulletQuest = "&nbsp;&nbsp;\x3F&nbsp;";
+    $bulletCross = "\xE2\x9D\x8C";
+    $bulletAster = "&nbsp;\xE2\x9C\xB1&nbsp;"; ?>
+- <?=$bulletCheck; ?> _Fully implemented._
+- <?=$bulletQuest; ?> _Incomplete (check method for details)._
+- <?=$bulletCross; ?> _Not implemented yet._
+- <?=$bulletAster; ?> _Not (and won't be) implemented._
 
 <table>
     <thead>
@@ -168,13 +173,15 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
             <td valign="top">
 <?php
         foreach ($component->commands as $command) {
-            echo $command->isSupported ? "\xE2\x9C\x85" : ($command->isIgnored ? "&nbsp;\xE2\x9C\xB1" : "\xE2\x9D\x8C");
+            echo '                ';
+            echo $command->isSupported
+                ? ($command->isIncomplete ? $bulletQuest : $bulletCheck)
+                : ($command->isIgnored ? $bulletAster : $bulletCross);
             echo $command->isSupported
                 ? sprintf(' <a href="%s" title="%s">%s</a><br/>', $command->methodLink, $command->methodText, $command->fqCommandName)
                 : sprintf(' %s<br/>', $command->fqCommandName);
-        }
-        echo '&nbsp;'; ?>
-
+            echo "\n";
+        } ?>
             </td>
 <?php
     } ?>

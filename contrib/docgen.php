@@ -59,6 +59,10 @@ class DocGen
      */
     private $docBlockFactory;
 
+    private static $COMMAND_COMPLETE = 1;
+    private static $COMMAND_HASTODOS = 2;
+    private static $COMMAND_NOTFOUND = 3;
+
     public function __construct()
     {
         $this->docBlockFactory = \phpDocumentor\Reflection\DocBlockFactory::createInstance();
@@ -103,7 +107,8 @@ class DocGen
                 array_walk($commands, function ($command) use (&$notIgnored, &$supported) {
                     /** @var \ComponentCommandSupport $command */
                     $notIgnored += $command->isIgnored ? 0 : 1;
-                    $supported += ($command->isSupported && !$command->isIgnored) ? 1 : 0;
+                    $supported += ($command->isSupported && !$command->isIgnored)
+                        ? ($command->isIncomplete ? 0.5 : 1) : 0;
                 });
 
                 return (object) [
@@ -353,18 +358,39 @@ class DocGen
             function ($command) use ($shortName, $componentClass, $componentMethods) {
                 $fullCommand = "$shortName $command";
                 $actualName = isset(self::$SUPPORTED_COMMANDS_RENAMED[$fullCommand])
-                    ? self::$SUPPORTED_COMMANDS_RENAMED[$fullCommand] : $command; // TODO what about spaces / sub commands?
+                    ? self::$SUPPORTED_COMMANDS_RENAMED[$fullCommand] : $command;
+                $methodStatus = $this->detectMethodStatus($componentClass, $actualName);
 
                 return (object) [
                     'fqCommandName' => $fullCommand,
                     'methodText' => ucfirst($shortName) . '::' . $actualName,
                     'methodLink' => '#' . $this->buildSafeAnchor(ucfirst($shortName) . '::' . $actualName),
-                    'isSupported' => in_array($actualName, $componentMethods),
+                    'isSupported' => ($methodStatus !== self::$COMMAND_NOTFOUND) && in_array($actualName, $componentMethods),
                     'isIgnored' => in_array($fullCommand, self::$SUPPORTED_COMMANDS_IGNORED),
+                    'isIncomplete' => $methodStatus === self::$COMMAND_HASTODOS,
                 ];
             },
             array_keys($component->getCommands())
         );
+    }
+
+    /**
+     * @param string $class
+     * @param string $method
+     *
+     * @return bool|null True if complete, false if incomplete and null on error (method is actually missing or something)
+     */
+    private function detectMethodStatus($class, $method)
+    {
+        try {
+            $reflector = new \ReflectionMethod($class, $method);
+
+            return preg_match('/\\*\\s+\\@(todo|fixme)/i', $reflector->getDocComment())
+                ? self::$COMMAND_HASTODOS
+                : self::$COMMAND_COMPLETE;
+        } catch (\Exception $ex) {
+            return self::$COMMAND_NOTFOUND;
+        }
     }
 }
 
@@ -423,6 +449,7 @@ interface ComponentSupport
  * @property string $methodLink
  * @property bool $isSupported
  * @property bool $isIgnored
+ * @property bool $isIncomplete
  */
 interface ComponentCommandSupport
 {
