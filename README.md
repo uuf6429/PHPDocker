@@ -4,9 +4,9 @@
 
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/uuf6429/rune/master/LICENSE)
-[![Docker](https://img.shields.io/badge/d-19%25-0db7ed.svg)](#supported-commands)
-[![Docker Compose](https://img.shields.io/badge/c-17%25-0db7ed.svg)](#supported-commands)
-[![Docker Machine](https://img.shields.io/badge/m-37%25-0db7ed.svg)](#supported-commands)
+[![Docker](https://img.shields.io/badge/d-21%25-0db7ed.svg)](#supported-commands)
+[![Docker Compose](https://img.shields.io/badge/c-20%25-0db7ed.svg)](#supported-commands)
+[![Docker Machine](https://img.shields.io/badge/m-40%25-0db7ed.svg)](#supported-commands)
 
 PHP library providing a simple API for [Docker cli](https://docs.docker.com/engine/reference/commandline/cli/).
 
@@ -130,7 +130,7 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
 
 <table>
     <thead>
-<th>Docker (19%)</th><th>Docker Compose (17%)</th><th>Docker Machine (37%)</th>
+<th>Docker (21%)</th><th>Docker Compose (20%)</th><th>Docker Machine (40%)</th>
     </thead><tbody>
         <tr>
             <td valign="top">
@@ -188,7 +188,7 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockertop" title="Docker::top">docker top</a><br/>
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerresume" title="Docker::resume">docker unpause</a><br/>
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerupdate" title="Docker::update">docker update</a><br/>
-                &nbsp;✱&nbsp; docker version<br/>
+                ✅ <a href="#dockergetversion" title="Docker::getVersion">docker version</a><br/>
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerwait" title="Docker::wait">docker wait</a><br/>
             </td>
             <td valign="top">
@@ -217,7 +217,7 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
                 ❌ compose top<br/>
                 ❌ compose unpause<br/>
                 ❌ compose up<br/>
-                &nbsp;✱&nbsp; compose version<br/>
+                ✅ <a href="#composegetversion" title="Compose::getVersion">compose version</a><br/>
             </td>
             <td valign="top">
                 ✅ <a href="#machinegetactive" title="Machine::getActive">machine active</a><br/>
@@ -239,7 +239,7 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
                 ❌ machine stop<br/>
                 ❌ machine upgrade<br/>
                 ✅ <a href="#machinegeturl" title="Machine::getURL">machine url</a><br/>
-                &nbsp;✱&nbsp; machine version<br/>
+                ✅ <a href="#machinegetversion" title="Machine::getVersion">machine version</a><br/>
                 &nbsp;✱&nbsp; machine help<br/>
             </td>
         </tr>

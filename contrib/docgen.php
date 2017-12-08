@@ -30,14 +30,17 @@ class DocGen
         'docker unpause' => 'resume',
         'docker rm' => 'remove',
         'docker cp' => 'copy',
+        'docker version' => 'getVersion',
         'compose rm' => 'remove',
         'compose exec' => 'execute',
+        'compose version' => 'getVersion',
         'machine active' => 'getActive',
         'machine ip' => 'getIPs',
         'machine url' => 'getURL',
         'machine status' => 'getStatus',
         'machine rm' => 'remove',
         'machine env' => 'getEnvVars',
+        'machine version' => 'getVersion',
     ];
 
     /**
@@ -45,11 +48,8 @@ class DocGen
      */
     private static $SUPPORTED_COMMANDS_IGNORED = [
         'docker help',
-        'docker version',
         'compose help',
-        'compose version',
         'machine help',
-        'machine version',
     ];
 
     /**
