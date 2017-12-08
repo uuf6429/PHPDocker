@@ -6,6 +6,14 @@ use Psr\Log\LoggerInterface;
 
 class Machine extends Component
 {
+    const STATE_RUNNING = 'Running';
+    const STATE_PAUSED = 'Paused';
+    const STATE_SAVED = 'Saved';
+    const STATE_STOPPED = 'Stopped';
+    const STATE_STOPPING = 'Stopping';
+    const STATE_STARTING = 'Starting';
+    const STATE_ERROR = 'Error';
+
     /**
      * @param null|string $binPath
      * @param null|array $envVars
@@ -67,10 +75,74 @@ class Machine extends Component
         $output = $process->mustRun($this->outputHandler)->getOutput();
         $output = str_replace(["\r\n", "\r", "\0"], "\n", $output);
         $output = array_filter(array_map('trim', explode("\n", $output)));
+        // for some odd reason, output is reversed, eg, first ip is of last machine arg
+        $output = array_reverse($output);
 
         return $machineNames === null
             ? (isset($output[0]) ? $output[0] : '')
             : array_combine($machineNames, $output);
+    }
+
+    /**
+     * Returns URL of default machine (if $name is null), otherwise URL of the specified machine.
+     *
+     * @param null|string $machineName name of desired machine or `null` for the default machine
+     *
+     * @return string URL of the requested machine
+     */
+    public function getURL($machineName = null)
+    {
+        $builder = $this->getProcessBuilder();
+        $builder->add('url');
+
+        if ($machineName !== null) {
+            $builder->add($machineName);
+        }
+
+        $process = $builder->getProcess();
+
+        $this->logger->debug('RUN ' . $process->getCommandLine());
+
+        $output = $process->mustRun($this->outputHandler)->getOutput();
+        $output = str_replace(["\r\n", "\r", "\0"], "\n", $output);
+        $output = array_filter(array_map('trim', explode("\n", $output)));
+
+        if (count($output) !== 1) {
+            throw new \RuntimeException('Expected one line in output, but got ' . count($output) . ' instead.');
+        }
+
+        return array_pop($output);
+    }
+
+    /**
+     * Returns status of default machine (if $name is null), otherwise status of the specified machine.
+     *
+     * @param null|string $machineName name of desired machine or `null` for the default machine
+     *
+     * @return string Status of the requested machine (see self::STATE_* constants)
+     */
+    public function getStatus($machineName = null)
+    {
+        $builder = $this->getProcessBuilder();
+        $builder->add('status');
+
+        if ($machineName !== null) {
+            $builder->add($machineName);
+        }
+
+        $process = $builder->getProcess();
+
+        $this->logger->debug('RUN ' . $process->getCommandLine());
+
+        $output = $process->mustRun($this->outputHandler)->getOutput();
+        $output = str_replace(["\r\n", "\r", "\0"], "\n", $output);
+        $output = array_filter(array_map('trim', explode("\n", $output)));
+
+        if (count($output) !== 1) {
+            throw new \RuntimeException('Expected one line in output, but got ' . count($output) . ' instead.');
+        }
+
+        return array_pop($output);
     }
 
     /**
@@ -103,5 +175,62 @@ class Machine extends Component
         }
 
         return array_combine($matches[1], $matches[2]);
+    }
+
+    /**
+     * Removes the specified machine.
+     *
+     * @param string[] $machineNames names of machines to remove
+     * @param bool $forcedRemoval If true, machine config is removed even if machine cannot be removed
+     *
+     * @return $this current instance, for method chaining
+     */
+    public function remove($machineNames = [], $forcedRemoval = false)
+    {
+        $builder = $this->getProcessBuilder();
+        $builder->add('rm');
+
+        $builder->add('-y'); // do not ask for confirmation
+
+        if ($forcedRemoval) {
+            $builder->add('--force');
+        }
+
+        foreach ((array) $machineNames as $name) {
+            $builder->add($name);
+        }
+
+        $process = $builder->getProcess();
+
+        $this->logger->debug('RUN ' . $process->getCommandLine());
+
+        $process->mustRun($this->outputHandler);
+
+        return $this;
+    }
+
+    /**
+     * Restarts the specified machines.
+     *
+     * @param null|string[] $machineNames names of machines to restart or the default one if `null`
+     *
+     * @return $this current instance, for method chaining
+     */
+    public function restart($machineNames = null)
+    {
+        $builder = $this->getProcessBuilder();
+        $builder->add('restart');
+
+        foreach ((array) $machineNames as $name) {
+            $builder->add($name);
+        }
+
+        $process = $builder->getProcess();
+
+        $this->logger->debug('RUN ' . $process->getCommandLine());
+
+        $process->mustRun($this->outputHandler);
+
+        return $this;
     }
 }

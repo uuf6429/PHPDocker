@@ -34,6 +34,9 @@ class DocGen
         'compose exec' => 'execute',
         'machine active' => 'getActive',
         'machine ip' => 'getIPs',
+        'machine url' => 'getURL',
+        'machine status' => 'getStatus',
+        'machine rm' => 'remove',
         'machine env' => 'getEnvVars',
     ];
 

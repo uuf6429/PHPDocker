@@ -93,7 +93,7 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
 
 <?php if (is_array($componentSupport)) {
     $bulletCheck = "\xE2\x9C\x85";
-    $bulletQuest = "&nbsp;&nbsp;\x3F&nbsp;";
+    $bulletQuest = "&nbsp;&nbsp;\x3F&nbsp;&nbsp;";
     $bulletCross = "\xE2\x9D\x8C";
     $bulletAster = "&nbsp;\xE2\x9C\xB1&nbsp;"; ?>
 - <?=$bulletCheck; ?> _Fully implemented._

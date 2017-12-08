@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/uuf6429/rune/master/LICENSE)
 [![Docker](https://img.shields.io/badge/d-19%25-0db7ed.svg)](#supported-commands)
 [![Docker Compose](https://img.shields.io/badge/c-17%25-0db7ed.svg)](#supported-commands)
-[![Docker Machine](https://img.shields.io/badge/m-16%25-0db7ed.svg)](#supported-commands)
+[![Docker Machine](https://img.shields.io/badge/m-37%25-0db7ed.svg)](#supported-commands)
 
 PHP library providing a simple API for [Docker cli](https://docs.docker.com/engine/reference/commandline/cli/).
 
@@ -28,8 +28,12 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
       - [`getCommands()`](#machinegetcommands)
       - [`getEnvVars()`](#machinegetenvvars)
       - [`getIPs()`](#machinegetips)
+      - [`getStatus()`](#machinegetstatus)
+      - [`getURL()`](#machinegeturl)
       - [`getVersion()`](#machinegetversion)
       - [`isInstalled()`](#machineisinstalled)
+      - [`remove()`](#machineremove)
+      - [`restart()`](#machinerestart)
       - [`withOutputHandler()`](#machinewithoutputhandler)
     - [Docker](#phpdockercomponentdocker)
       - [`attach()`](#dockerattach)
@@ -120,13 +124,13 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
 ## Supported Commands
 
 - ✅ _Fully implemented._
-- &nbsp;&nbsp;?&nbsp; _Incomplete (check method for details)._
+- &nbsp;&nbsp;?&nbsp;&nbsp; _Incomplete (check method for details)._
 - ❌ _Not implemented yet._
 - &nbsp;✱&nbsp; _Not (and won't be) implemented._
 
 <table>
     <thead>
-<th>Docker (19%)</th><th>Docker Compose (17%)</th><th>Docker Machine (16%)</th>
+<th>Docker (19%)</th><th>Docker Compose (17%)</th><th>Docker Machine (37%)</th>
     </thead><tbody>
         <tr>
             <td valign="top">
@@ -146,46 +150,46 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
                 ❌ docker config inspect<br/>
                 ❌ docker config ls<br/>
                 ❌ docker config rm<br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerattach" title="Docker::attach">docker attach</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerattach" title="Docker::attach">docker attach</a><br/>
                 ❌ docker build<br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockercommit" title="Docker::commit">docker commit</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockercommit" title="Docker::commit">docker commit</a><br/>
                 ✅ <a href="#dockercopy" title="Docker::copy">docker cp</a><br/>
                 ❌ docker create<br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerdiff" title="Docker::diff">docker diff</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerdiff" title="Docker::diff">docker diff</a><br/>
                 ❌ docker events<br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerexec" title="Docker::exec">docker exec</a><br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerexport" title="Docker::export">docker export</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerexec" title="Docker::exec">docker exec</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerexport" title="Docker::export">docker export</a><br/>
                 ❌ docker history<br/>
                 ❌ docker images<br/>
                 ❌ docker import<br/>
                 ❌ docker info<br/>
                 ❌ docker inspect<br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerkill" title="Docker::kill">docker kill</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerkill" title="Docker::kill">docker kill</a><br/>
                 ❌ docker load<br/>
                 ❌ docker login<br/>
                 ❌ docker logout<br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerlogs" title="Docker::logs">docker logs</a><br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerpause" title="Docker::pause">docker pause</a><br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerport" title="Docker::port">docker port</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerlogs" title="Docker::logs">docker logs</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerpause" title="Docker::pause">docker pause</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerport" title="Docker::port">docker port</a><br/>
                 ❌ docker ps<br/>
                 ❌ docker pull<br/>
                 ❌ docker push<br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerrename" title="Docker::rename">docker rename</a><br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerrestart" title="Docker::restart">docker restart</a><br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerremove" title="Docker::remove">docker rm</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerrename" title="Docker::rename">docker rename</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerrestart" title="Docker::restart">docker restart</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerremove" title="Docker::remove">docker rm</a><br/>
                 ❌ docker rmi<br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerrun" title="Docker::run">docker run</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerrun" title="Docker::run">docker run</a><br/>
                 ❌ docker save<br/>
                 ❌ docker search<br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerstart" title="Docker::start">docker start</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerstart" title="Docker::start">docker start</a><br/>
                 ❌ docker stats<br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerstop" title="Docker::stop">docker stop</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerstop" title="Docker::stop">docker stop</a><br/>
                 ❌ docker tag<br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockertop" title="Docker::top">docker top</a><br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerresume" title="Docker::resume">docker unpause</a><br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerupdate" title="Docker::update">docker update</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockertop" title="Docker::top">docker top</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerresume" title="Docker::resume">docker unpause</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerupdate" title="Docker::update">docker update</a><br/>
                 &nbsp;✱&nbsp; docker version<br/>
-                &nbsp;&nbsp;?&nbsp; <a href="#dockerwait" title="Docker::wait">docker wait</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="#dockerwait" title="Docker::wait">docker wait</a><br/>
             </td>
             <td valign="top">
                 ✅ <a href="#composebuild" title="Compose::build">compose build</a><br/>
@@ -226,15 +230,15 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
                 ❌ machine ls<br/>
                 ❌ machine provision<br/>
                 ❌ machine regenerate-certs<br/>
-                ❌ machine restart<br/>
-                ❌ machine rm<br/>
+                ✅ <a href="#machinerestart" title="Machine::restart">machine restart</a><br/>
+                ✅ <a href="#machineremove" title="Machine::remove">machine rm</a><br/>
                 ❌ machine ssh<br/>
                 ❌ machine scp<br/>
                 ❌ machine start<br/>
-                ❌ machine status<br/>
+                ✅ <a href="#machinegetstatus" title="Machine::getStatus">machine status</a><br/>
                 ❌ machine stop<br/>
                 ❌ machine upgrade<br/>
-                ❌ machine url<br/>
+                ✅ <a href="#machinegeturl" title="Machine::getURL">machine url</a><br/>
                 &nbsp;✱&nbsp; machine version<br/>
                 &nbsp;✱&nbsp; machine help<br/>
             </td>
@@ -341,6 +345,30 @@ Returns IP of default machine (if $names is null), otherwise IPs of the specifie
 
 ----
 
+#### `Machine::getStatus()`
+
+```php
+$machine->getStatus(
+    null|string $machineName    // name of desired machine or `null` for the default machine
+): string    // Status of the requested machine (see self::STATE_* constants)
+```
+
+Returns status of default machine (if $name is null), otherwise status of the specified machine.
+
+----
+
+#### `Machine::getURL()`
+
+```php
+$machine->getURL(
+    null|string $machineName    // name of desired machine or `null` for the default machine
+): string    // URL of the requested machine
+```
+
+Returns URL of default machine (if $name is null), otherwise URL of the specified machine.
+
+----
+
 #### `Machine::getVersion()`
 
 ```php
@@ -354,6 +382,31 @@ $machine->getVersion(): string
 ```php
 $machine->isInstalled(): bool
 ```
+
+----
+
+#### `Machine::remove()`
+
+```php
+$machine->remove(
+    string[] $machineNames     // names of machines to remove
+    bool     $forcedRemoval    // If true, machine config is removed even if machine cannot be removed
+): $this    // current instance, for method chaining
+```
+
+Removes the specified machine.
+
+----
+
+#### `Machine::restart()`
+
+```php
+$machine->restart(
+    null|string[] $machineNames    // names of machines to restart or the default one if `null`
+): $this    // current instance, for method chaining
+```
+
+Restarts the specified machines.
 
 ----
 
