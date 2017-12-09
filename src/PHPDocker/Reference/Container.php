@@ -1,8 +1,9 @@
 <?php
 
-namespace PHPDocker;
+namespace PHPDocker\Reference;
 
 use PHPDocker\Component\Docker;
+use PHPDocker\Manager;
 
 class Container
 {

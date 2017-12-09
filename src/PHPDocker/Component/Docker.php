@@ -2,7 +2,7 @@
 
 namespace PHPDocker\Component;
 
-use PHPDocker\Container;
+use PHPDocker\Reference\Container as ContainerReference;
 use Psr\Log\LoggerInterface;
 
 class Docker extends Component
@@ -292,15 +292,15 @@ class Docker extends Component
 
     /**
      * Returns an object representing a container given the container name.
-     * Note that the container might not exist at this or any point, so you should call exists().
+     * Note that the container might not exist at this or any point.
      *
-     * @param string $containerName
+     * @param string $name
      *
-     * @return Container
+     * @return ContainerReference
      */
-    public function find($containerName)
+    public function find($name)
     {
-        return new Container($containerName, $this);
+        return new ContainerReference($name, $this);
     }
 
     /**

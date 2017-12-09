@@ -2,6 +2,7 @@
 
 namespace PHPDocker\Component;
 
+use PHPDocker\Reference\Machine as MachineReference;
 use Psr\Log\LoggerInterface;
 
 class Machine extends Component
@@ -232,5 +233,118 @@ class Machine extends Component
         $process->mustRun($this->outputHandler);
 
         return $this;
+    }
+
+    /**
+     * Upgrade the specified machines.
+     *
+     * @param null|string[] $machineNames names of machines to upgrade or the default one if `null`
+     *
+     * @return $this current instance, for method chaining
+     */
+    public function upgrade($machineNames = null)
+    {
+        $builder = $this->getProcessBuilder();
+        $builder->add('upgrade');
+
+        foreach ((array) $machineNames as $name) {
+            $builder->add($name);
+        }
+
+        $process = $builder->getProcess();
+
+        $this->logger->debug('RUN ' . $process->getCommandLine());
+
+        $process->mustRun($this->outputHandler);
+
+        return $this;
+    }
+
+    /**
+     * Start the specified machines.
+     *
+     * @param null|string[] $machineNames names of machines to start or the default one if `null`
+     *
+     * @return $this current instance, for method chaining
+     */
+    public function start($machineNames = null)
+    {
+        $builder = $this->getProcessBuilder();
+        $builder->add('start');
+
+        foreach ((array) $machineNames as $name) {
+            $builder->add($name);
+        }
+
+        $process = $builder->getProcess();
+
+        $this->logger->debug('RUN ' . $process->getCommandLine());
+
+        $process->mustRun($this->outputHandler);
+
+        return $this;
+    }
+
+    /**
+     * Stop the specified machines.
+     *
+     * @param null|string[] $machineNames names of machines to stop or the default one if `null`
+     *
+     * @return $this current instance, for method chaining
+     */
+    public function stop($machineNames = null)
+    {
+        $builder = $this->getProcessBuilder();
+        $builder->add('stop');
+
+        foreach ((array) $machineNames as $name) {
+            $builder->add($name);
+        }
+
+        $process = $builder->getProcess();
+
+        $this->logger->debug('RUN ' . $process->getCommandLine());
+
+        $process->mustRun($this->outputHandler);
+
+        return $this;
+    }
+
+    /**
+     * Kill the specified machines.
+     *
+     * @param null|string[] $machineNames names of machines to kill or the default one if `null`
+     *
+     * @return $this current instance, for method chaining
+     */
+    public function kill($machineNames = null)
+    {
+        $builder = $this->getProcessBuilder();
+        $builder->add('kill');
+
+        foreach ((array) $machineNames as $name) {
+            $builder->add($name);
+        }
+
+        $process = $builder->getProcess();
+
+        $this->logger->debug('RUN ' . $process->getCommandLine());
+
+        $process->mustRun($this->outputHandler);
+
+        return $this;
+    }
+
+    /**
+     * Returns an object representing a machine given the machine name.
+     * Note that the machine might not exist at this or any point.
+     *
+     * @param string $name
+     *
+     * @return MachineReference
+     */
+    public function find($name)
+    {
+        return new MachineReference($name, $this);
     }
 }

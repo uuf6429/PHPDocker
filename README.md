@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/uuf6429/rune/master/LICENSE)
 [![Docker](https://img.shields.io/badge/d-21%25-0db7ed.svg)](#supported-commands)
 [![Docker Compose](https://img.shields.io/badge/c-20%25-0db7ed.svg)](#supported-commands)
-[![Docker Machine](https://img.shields.io/badge/m-40%25-0db7ed.svg)](#supported-commands)
+[![Docker Machine](https://img.shields.io/badge/m-60%25-0db7ed.svg)](#supported-commands)
 
 PHP library providing a simple API for [Docker cli](https://docs.docker.com/engine/reference/commandline/cli/).
 
@@ -24,6 +24,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
       - [`isInstalled()`](#managerisinstalled)
     - [Machine](#phpdockercomponentmachine)
       - [`clearCommandsCache()`](#machineclearcommandscache)
+      - [`find()`](#machinefind)
       - [`getActive()`](#machinegetactive)
       - [`getCommands()`](#machinegetcommands)
       - [`getEnvVars()`](#machinegetenvvars)
@@ -32,8 +33,12 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
       - [`getURL()`](#machinegeturl)
       - [`getVersion()`](#machinegetversion)
       - [`isInstalled()`](#machineisinstalled)
+      - [`kill()`](#machinekill)
       - [`remove()`](#machineremove)
       - [`restart()`](#machinerestart)
+      - [`start()`](#machinestart)
+      - [`stop()`](#machinestop)
+      - [`upgrade()`](#machineupgrade)
       - [`withOutputHandler()`](#machinewithoutputhandler)
     - [Docker](#phpdockercomponentdocker)
       - [`attach()`](#dockerattach)
@@ -130,7 +135,7 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
 
 <table>
     <thead>
-<th>Docker (21%)</th><th>Docker Compose (20%)</th><th>Docker Machine (40%)</th>
+<th>Docker (21%)</th><th>Docker Compose (20%)</th><th>Docker Machine (60%)</th>
     </thead><tbody>
         <tr>
             <td valign="top">
@@ -226,7 +231,7 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
                 ✅ <a href="#machinegetenvvars" title="Machine::getEnvVars">machine env</a><br/>
                 ❌ machine inspect<br/>
                 ✅ <a href="#machinegetips" title="Machine::getIPs">machine ip</a><br/>
-                ❌ machine kill<br/>
+                ✅ <a href="#machinekill" title="Machine::kill">machine kill</a><br/>
                 ❌ machine ls<br/>
                 ❌ machine provision<br/>
                 ❌ machine regenerate-certs<br/>
@@ -234,10 +239,10 @@ Two interfaces are provided, both of which start with the [Manager](#phpdockerma
                 ✅ <a href="#machineremove" title="Machine::remove">machine rm</a><br/>
                 ❌ machine ssh<br/>
                 ❌ machine scp<br/>
-                ❌ machine start<br/>
+                ✅ <a href="#machinestart" title="Machine::start">machine start</a><br/>
                 ✅ <a href="#machinegetstatus" title="Machine::getStatus">machine status</a><br/>
-                ❌ machine stop<br/>
-                ❌ machine upgrade<br/>
+                ✅ <a href="#machinestop" title="Machine::stop">machine stop</a><br/>
+                ✅ <a href="#machineupgrade" title="Machine::upgrade">machine upgrade</a><br/>
                 ✅ <a href="#machinegeturl" title="Machine::getURL">machine url</a><br/>
                 ✅ <a href="#machinegetversion" title="Machine::getVersion">machine version</a><br/>
                 &nbsp;✱&nbsp; machine help<br/>
@@ -293,6 +298,20 @@ $machine->clearCommandsCache()
 ```
 
 Clears the cache holding the result of `getCommands()`.
+
+----
+
+#### `Machine::find()`
+
+```php
+$machine->find(
+    string $name
+): \MachineReference
+```
+
+Returns an object representing a machine given the machine name.
+
+Note that the machine might not exist at this or any point.
 
 ----
 
@@ -385,6 +404,18 @@ $machine->isInstalled(): bool
 
 ----
 
+#### `Machine::kill()`
+
+```php
+$machine->kill(
+    null|string[] $machineNames    // names of machines to kill or the default one if `null`
+): $this    // current instance, for method chaining
+```
+
+Kill the specified machines.
+
+----
+
 #### `Machine::remove()`
 
 ```php
@@ -407,6 +438,42 @@ $machine->restart(
 ```
 
 Restarts the specified machines.
+
+----
+
+#### `Machine::start()`
+
+```php
+$machine->start(
+    null|string[] $machineNames    // names of machines to start or the default one if `null`
+): $this    // current instance, for method chaining
+```
+
+Start the specified machines.
+
+----
+
+#### `Machine::stop()`
+
+```php
+$machine->stop(
+    null|string[] $machineNames    // names of machines to stop or the default one if `null`
+): $this    // current instance, for method chaining
+```
+
+Stop the specified machines.
+
+----
+
+#### `Machine::upgrade()`
+
+```php
+$machine->upgrade(
+    null|string[] $machineNames    // names of machines to upgrade or the default one if `null`
+): $this    // current instance, for method chaining
+```
+
+Upgrade the specified machines.
 
 ----
 
@@ -490,13 +557,13 @@ $docker->export()
 
 ```php
 $docker->find(
-    string $containerName
-): \Container
+    string $name
+): \ContainerReference
 ```
 
 Returns an object representing a container given the container name.
 
-Note that the container might not exist at this or any point, so you should call exists().
+Note that the container might not exist at this or any point.
 
 ----
 
