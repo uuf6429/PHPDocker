@@ -7,3 +7,5 @@
 phpunit.xml.dist export-ignore
 tests export-ignore
 contrib export-ignore
+DOCS.md
+README.md

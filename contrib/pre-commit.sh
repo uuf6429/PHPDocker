@@ -7,7 +7,7 @@ PHP_CS_FIXER="${PROJECT_ROOT}/vendor/bin/php-cs-fixer"
 mkdir -p "${PROJECT_ROOT}/temp"
 
 # Regenerate documentation and add to commit
-php "${PROJECT_ROOT}/contrib/docgen.php"
+php "${PROJECT_ROOT}/contrib/DocGen.php"
 git add -A "${PROJECT_ROOT}/README.md"
 
 # Run PHP-CS-Fixer

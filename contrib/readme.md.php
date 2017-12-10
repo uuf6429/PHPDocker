@@ -31,17 +31,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
   - [Installation](#installation)
   - [Usage](#usage)
   - [Supported Commands](#supported-commands)
-  - [API](#api)
-<?php
-    foreach ($generator->getClasses() as $class) {
-        echo "    - [{$class->name}](#{$class->titleLink})\n";
-        foreach ($class->methods as $method) {
-            if (!$method->isMagicMethod) {
-                echo "      - [`{$method->name}()`](#{$method->titleLink})\n";
-            }
-        }
-    }
-?>
+  - [Documentation](<?=$generator->getDocsPath(); ?>)
 
 ## Installation
 
@@ -55,7 +45,7 @@ composer require uuf6429/phpdocker
 
 This library requires either [native Docker](https://www.docker.com/community-edition#download) or [Docker Toolbox](https://docs.docker.com/toolbox/overview/).
 
-Two interfaces are provided, both of which start with the [Manager](#phpdockermanager) class:
+Two interfaces are provided, both of which start with the [Manager](<?=$generator->getDocsPath(); ?>#phpdockermanager) class:
 
 - **Procedural**
 

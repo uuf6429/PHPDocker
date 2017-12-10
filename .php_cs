@@ -101,9 +101,9 @@ return PhpCsFixer\Config::create()
         'whitespace_after_comma_in_array' => true,
     ])
     ->setFinder(
-        PhpCsFixer\Finder::create()->in(__DIR__)
-            ->exclude(['temp', 'vendor']
-        )
+        PhpCsFixer\Finder::create()
+            ->in(__DIR__)
+            ->exclude(['temp', 'vendor'])
     )
     ->setCacheFile(__DIR__ . '/temp/.php_cs.cache')
 ;

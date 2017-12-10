@@ -129,6 +129,36 @@ class DocGen
     }
 
     /**
+     * @return string
+     */
+    public function getRepoPath()
+    {
+        static $path;
+
+        if (!$path) {
+            if (!preg_match(
+                '/([^\\/:]*\\/[^\\/]*)\\.git/',
+                exec('git remote get-url --push origin'),
+                $match
+            )) {
+                throw new \RuntimeException('Could not parse user/repo from git remotes.');
+            }
+
+            $path = sprintf('/%s/blob/master/', $match[1]);
+        }
+
+        return $path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDocsPath()
+    {
+        return $this->getRepoPath() . 'DOCS.md';
+    }
+
+    /**
      * @return ClassDoc[]
      */
     private function buildClasses()
@@ -367,7 +397,7 @@ class DocGen
                 return (object) [
                     'fqCommandName' => $fullCommand,
                     'methodText' => ucfirst($shortName) . '::' . $actualName,
-                    'methodLink' => '#' . $this->buildSafeAnchor(ucfirst($shortName) . '::' . $actualName),
+                    'methodLink' => $this->getDocsPath() . '#' . $this->buildSafeAnchor(ucfirst($shortName) . '::' . $actualName),
                     'isSupported' => ($methodStatus !== self::$COMMAND_NOTFOUND) && in_array($actualName, $componentMethods),
                     'isIgnored' => in_array($fullCommand, self::$SUPPORTED_COMMANDS_IGNORED),
                     'isIncomplete' => $methodStatus === self::$COMMAND_HASTODOS,
@@ -458,7 +488,12 @@ interface ComponentCommandSupport
 {
 }
 
-ob_start();
 $generator = new DocGen();
+
+ob_start();
 require_once('readme.md.php');
 file_put_contents(__DIR__ . '/../README.md', ob_get_clean());
+
+ob_start();
+require_once('docs.md.php');
+file_put_contents(__DIR__ . '/../DOCS.md', ob_get_clean());
