@@ -358,6 +358,9 @@ class DocGen
      */
     private function buildCommandSupport(PHPDocker\Component\Component $component, $shortName)
     {
+        $reflector = new ReflectionProperty($component, 'bin');
+        $reflector->setAccessible(true);
+        $componentBin = $reflector->getValue($component);
         $componentClass = get_class($component);
         $componentMethods = get_class_methods($component);
 
@@ -366,8 +369,8 @@ class DocGen
         }
 
         return array_map(
-            function ($command) use ($shortName, $componentClass, $componentMethods) {
-                $fullCommand = ($shortName == 'docker' ?: "docker-$shortName") . ' ' . $command;
+            function ($command) use ($componentBin, $shortName, $componentClass, $componentMethods) {
+                $fullCommand = $componentBin . ' ' . $command;
                 $actualName = isset(self::$SUPPORTED_COMMANDS_RENAMED[$fullCommand])
                     ? self::$SUPPORTED_COMMANDS_RENAMED[$fullCommand] : $command;
                 $methodStatus = $this->detectMethodStatus($componentClass, $actualName);
