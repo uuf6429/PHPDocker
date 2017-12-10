@@ -31,16 +31,16 @@ class DocGen
         'docker rm' => 'remove',
         'docker cp' => 'copy',
         'docker version' => 'getVersion',
-        'compose rm' => 'remove',
-        'compose exec' => 'execute',
-        'compose version' => 'getVersion',
-        'machine active' => 'getActive',
-        'machine ip' => 'getIPs',
-        'machine url' => 'getURL',
-        'machine status' => 'getStatus',
-        'machine rm' => 'remove',
-        'machine env' => 'getEnvVars',
-        'machine version' => 'getVersion',
+        'docker-compose rm' => 'remove',
+        'docker-compose exec' => 'execute',
+        'docker-compose version' => 'getVersion',
+        'docker-machine active' => 'getActive',
+        'docker-machine ip' => 'getIPs',
+        'docker-machine url' => 'getURL',
+        'docker-machine status' => 'getStatus',
+        'docker-machine rm' => 'remove',
+        'docker-machine env' => 'getEnvVars',
+        'docker-machine version' => 'getVersion',
     ];
 
     /**
@@ -48,8 +48,8 @@ class DocGen
      */
     private static $SUPPORTED_COMMANDS_IGNORED = [
         'docker help',
-        'compose help',
-        'machine help',
+        'docker-compose help',
+        'docker-machine help',
     ];
 
     /**
@@ -367,7 +367,7 @@ class DocGen
 
         return array_map(
             function ($command) use ($shortName, $componentClass, $componentMethods) {
-                $fullCommand = "$shortName $command";
+                $fullCommand = ($shortName == 'docker' ?: "docker-$shortName") . ' ' . $command;
                 $actualName = isset(self::$SUPPORTED_COMMANDS_RENAMED[$fullCommand])
                     ? self::$SUPPORTED_COMMANDS_RENAMED[$fullCommand] : $command;
                 $methodStatus = $this->detectMethodStatus($componentClass, $actualName);

@@ -4,7 +4,7 @@
 
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/uuf6429/rune/master/LICENSE)
-[![Docker](https://img.shields.io/badge/d-21%25-0db7ed.svg)](#supported-commands)
+[![Docker](https://img.shields.io/badge/d-15%25-0db7ed.svg)](#supported-commands)
 [![Docker Compose](https://img.shields.io/badge/c-20%25-0db7ed.svg)](#supported-commands)
 [![Docker Machine](https://img.shields.io/badge/m-60%25-0db7ed.svg)](#supported-commands)
 
@@ -74,117 +74,117 @@ Two interfaces are provided, both of which start with the [Manager](/DOCS.md#php
 
 <table>
     <thead>
-<th>Docker (21%)</th><th>Docker Compose (20%)</th><th>Docker Machine (60%)</th>
+<th>Docker (15%)</th><th>Docker Compose (20%)</th><th>Docker Machine (60%)</th>
     </thead><tbody>
         <tr>
             <td valign="top">
-                ❌ docker config<br/>
-                ❌ docker container<br/>
-                ❌ docker image<br/>
-                ❌ docker network<br/>
-                ❌ docker node<br/>
-                ❌ docker plugin<br/>
-                ❌ docker secret<br/>
-                ❌ docker service<br/>
-                ❌ docker stack<br/>
-                ❌ docker swarm<br/>
-                ❌ docker system<br/>
-                ❌ docker volume<br/>
-                ❌ docker config create<br/>
-                ❌ docker config inspect<br/>
-                ❌ docker config ls<br/>
-                ❌ docker config rm<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerattach" title="Docker::attach">docker attach</a><br/>
-                ❌ docker build<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockercommit" title="Docker::commit">docker commit</a><br/>
-                ✅ <a href="/DOCS.md#dockercopy" title="Docker::copy">docker cp</a><br/>
-                ❌ docker create<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerdiff" title="Docker::diff">docker diff</a><br/>
-                ❌ docker events<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerexec" title="Docker::exec">docker exec</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerexport" title="Docker::export">docker export</a><br/>
-                ❌ docker history<br/>
-                ❌ docker images<br/>
-                ❌ docker import<br/>
-                ❌ docker info<br/>
-                ❌ docker inspect<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerkill" title="Docker::kill">docker kill</a><br/>
-                ❌ docker load<br/>
-                ❌ docker login<br/>
-                ❌ docker logout<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerlogs" title="Docker::logs">docker logs</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerpause" title="Docker::pause">docker pause</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerport" title="Docker::port">docker port</a><br/>
-                ❌ docker ps<br/>
-                ❌ docker pull<br/>
-                ❌ docker push<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerrename" title="Docker::rename">docker rename</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerrestart" title="Docker::restart">docker restart</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerremove" title="Docker::remove">docker rm</a><br/>
-                ❌ docker rmi<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerrun" title="Docker::run">docker run</a><br/>
-                ❌ docker save<br/>
-                ❌ docker search<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerstart" title="Docker::start">docker start</a><br/>
-                ❌ docker stats<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerstop" title="Docker::stop">docker stop</a><br/>
-                ❌ docker tag<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockertop" title="Docker::top">docker top</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerresume" title="Docker::resume">docker unpause</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerupdate" title="Docker::update">docker update</a><br/>
-                ✅ <a href="/DOCS.md#dockergetversion" title="Docker::getVersion">docker version</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerwait" title="Docker::wait">docker wait</a><br/>
+                ❌ 1 config<br/>
+                ❌ 1 container<br/>
+                ❌ 1 image<br/>
+                ❌ 1 network<br/>
+                ❌ 1 node<br/>
+                ❌ 1 plugin<br/>
+                ❌ 1 secret<br/>
+                ❌ 1 service<br/>
+                ❌ 1 stack<br/>
+                ❌ 1 swarm<br/>
+                ❌ 1 system<br/>
+                ❌ 1 volume<br/>
+                ❌ 1 config create<br/>
+                ❌ 1 config inspect<br/>
+                ❌ 1 config ls<br/>
+                ❌ 1 config rm<br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerattach" title="Docker::attach">1 attach</a><br/>
+                ❌ 1 build<br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockercommit" title="Docker::commit">1 commit</a><br/>
+                ❌ 1 cp<br/>
+                ❌ 1 create<br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerdiff" title="Docker::diff">1 diff</a><br/>
+                ❌ 1 events<br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerexec" title="Docker::exec">1 exec</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerexport" title="Docker::export">1 export</a><br/>
+                ❌ 1 history<br/>
+                ❌ 1 images<br/>
+                ❌ 1 import<br/>
+                ❌ 1 info<br/>
+                ❌ 1 inspect<br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerkill" title="Docker::kill">1 kill</a><br/>
+                ❌ 1 load<br/>
+                ❌ 1 login<br/>
+                ❌ 1 logout<br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerlogs" title="Docker::logs">1 logs</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerpause" title="Docker::pause">1 pause</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerport" title="Docker::port">1 port</a><br/>
+                ❌ 1 ps<br/>
+                ❌ 1 pull<br/>
+                ❌ 1 push<br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerrename" title="Docker::rename">1 rename</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerrestart" title="Docker::restart">1 restart</a><br/>
+                ❌ 1 rm<br/>
+                ❌ 1 rmi<br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerrun" title="Docker::run">1 run</a><br/>
+                ❌ 1 save<br/>
+                ❌ 1 search<br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerstart" title="Docker::start">1 start</a><br/>
+                ❌ 1 stats<br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerstop" title="Docker::stop">1 stop</a><br/>
+                ❌ 1 tag<br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockertop" title="Docker::top">1 top</a><br/>
+                ❌ 1 unpause<br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerupdate" title="Docker::update">1 update</a><br/>
+                ❌ 1 version<br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerwait" title="Docker::wait">1 wait</a><br/>
             </td>
             <td valign="top">
-                ✅ <a href="/DOCS.md#composebuild" title="Compose::build">compose build</a><br/>
-                ❌ compose bundle<br/>
-                ❌ compose config<br/>
-                ❌ compose create<br/>
-                ✅ <a href="/DOCS.md#composedown" title="Compose::down">compose down</a><br/>
-                ❌ compose events<br/>
-                ✅ <a href="/DOCS.md#composeexecute" title="Compose::execute">compose exec</a><br/>
-                &nbsp;✱&nbsp; compose help<br/>
-                ❌ compose images<br/>
-                ❌ compose kill<br/>
-                ❌ compose logs<br/>
-                ❌ compose pause<br/>
-                ❌ compose port<br/>
-                ❌ compose ps<br/>
-                ❌ compose pull<br/>
-                ❌ compose push<br/>
-                ❌ compose restart<br/>
-                ✅ <a href="/DOCS.md#composeremove" title="Compose::remove">compose rm</a><br/>
-                ❌ compose run<br/>
-                ❌ compose scale<br/>
-                ❌ compose start<br/>
-                ❌ compose stop<br/>
-                ❌ compose top<br/>
-                ❌ compose unpause<br/>
-                ❌ compose up<br/>
-                ✅ <a href="/DOCS.md#composegetversion" title="Compose::getVersion">compose version</a><br/>
+                ✅ <a href="/DOCS.md#composebuild" title="Compose::build">docker-compose build</a><br/>
+                ❌ docker-compose bundle<br/>
+                ❌ docker-compose config<br/>
+                ❌ docker-compose create<br/>
+                ✅ <a href="/DOCS.md#composedown" title="Compose::down">docker-compose down</a><br/>
+                ❌ docker-compose events<br/>
+                ✅ <a href="/DOCS.md#composeexecute" title="Compose::execute">docker-compose exec</a><br/>
+                &nbsp;✱&nbsp; docker-compose help<br/>
+                ❌ docker-compose images<br/>
+                ❌ docker-compose kill<br/>
+                ❌ docker-compose logs<br/>
+                ❌ docker-compose pause<br/>
+                ❌ docker-compose port<br/>
+                ❌ docker-compose ps<br/>
+                ❌ docker-compose pull<br/>
+                ❌ docker-compose push<br/>
+                ❌ docker-compose restart<br/>
+                ✅ <a href="/DOCS.md#composeremove" title="Compose::remove">docker-compose rm</a><br/>
+                ❌ docker-compose run<br/>
+                ❌ docker-compose scale<br/>
+                ❌ docker-compose start<br/>
+                ❌ docker-compose stop<br/>
+                ❌ docker-compose top<br/>
+                ❌ docker-compose unpause<br/>
+                ❌ docker-compose up<br/>
+                ✅ <a href="/DOCS.md#composegetversion" title="Compose::getVersion">docker-compose version</a><br/>
             </td>
             <td valign="top">
-                ✅ <a href="/DOCS.md#machinegetactive" title="Machine::getActive">machine active</a><br/>
-                ❌ machine config<br/>
-                ❌ machine create<br/>
-                ✅ <a href="/DOCS.md#machinegetenvvars" title="Machine::getEnvVars">machine env</a><br/>
-                ❌ machine inspect<br/>
-                ✅ <a href="/DOCS.md#machinegetips" title="Machine::getIPs">machine ip</a><br/>
-                ✅ <a href="/DOCS.md#machinekill" title="Machine::kill">machine kill</a><br/>
-                ❌ machine ls<br/>
-                ❌ machine provision<br/>
-                ❌ machine regenerate-certs<br/>
-                ✅ <a href="/DOCS.md#machinerestart" title="Machine::restart">machine restart</a><br/>
-                ✅ <a href="/DOCS.md#machineremove" title="Machine::remove">machine rm</a><br/>
-                ❌ machine ssh<br/>
-                ❌ machine scp<br/>
-                ✅ <a href="/DOCS.md#machinestart" title="Machine::start">machine start</a><br/>
-                ✅ <a href="/DOCS.md#machinegetstatus" title="Machine::getStatus">machine status</a><br/>
-                ✅ <a href="/DOCS.md#machinestop" title="Machine::stop">machine stop</a><br/>
-                ✅ <a href="/DOCS.md#machineupgrade" title="Machine::upgrade">machine upgrade</a><br/>
-                ✅ <a href="/DOCS.md#machinegeturl" title="Machine::getURL">machine url</a><br/>
-                ✅ <a href="/DOCS.md#machinegetversion" title="Machine::getVersion">machine version</a><br/>
-                &nbsp;✱&nbsp; machine help<br/>
+                ✅ <a href="/DOCS.md#machinegetactive" title="Machine::getActive">docker-machine active</a><br/>
+                ❌ docker-machine config<br/>
+                ❌ docker-machine create<br/>
+                ✅ <a href="/DOCS.md#machinegetenvvars" title="Machine::getEnvVars">docker-machine env</a><br/>
+                ❌ docker-machine inspect<br/>
+                ✅ <a href="/DOCS.md#machinegetips" title="Machine::getIPs">docker-machine ip</a><br/>
+                ✅ <a href="/DOCS.md#machinekill" title="Machine::kill">docker-machine kill</a><br/>
+                ❌ docker-machine ls<br/>
+                ❌ docker-machine provision<br/>
+                ❌ docker-machine regenerate-certs<br/>
+                ✅ <a href="/DOCS.md#machinerestart" title="Machine::restart">docker-machine restart</a><br/>
+                ✅ <a href="/DOCS.md#machineremove" title="Machine::remove">docker-machine rm</a><br/>
+                ❌ docker-machine ssh<br/>
+                ❌ docker-machine scp<br/>
+                ✅ <a href="/DOCS.md#machinestart" title="Machine::start">docker-machine start</a><br/>
+                ✅ <a href="/DOCS.md#machinegetstatus" title="Machine::getStatus">docker-machine status</a><br/>
+                ✅ <a href="/DOCS.md#machinestop" title="Machine::stop">docker-machine stop</a><br/>
+                ✅ <a href="/DOCS.md#machineupgrade" title="Machine::upgrade">docker-machine upgrade</a><br/>
+                ✅ <a href="/DOCS.md#machinegeturl" title="Machine::getURL">docker-machine url</a><br/>
+                ✅ <a href="/DOCS.md#machinegetversion" title="Machine::getVersion">docker-machine version</a><br/>
+                &nbsp;✱&nbsp; docker-machine help<br/>
             </td>
         </tr>
     </tbody>
