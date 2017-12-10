@@ -358,7 +358,7 @@ class DocGen
      */
     private function buildCommandSupport(PHPDocker\Component\Component $component, $shortName)
     {
-        $reflector = new ReflectionProperty($component, 'bin');
+        $reflector = new ReflectionProperty(PHPDocker\Component\Component::class, 'bin');
         $reflector->setAccessible(true);
         $componentBin = $reflector->getValue($component);
         $componentClass = get_class($component);
