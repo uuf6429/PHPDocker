@@ -5,6 +5,5 @@
 .scrutinizer.yml export-ignore
 .travis.yml export-ignore
 phpunit.xml.dist export-ignore
-phpdoc.xml export-ignore
-test export-ignore
+tests export-ignore
 contrib export-ignore
