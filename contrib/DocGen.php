@@ -384,8 +384,28 @@ class DocGen
                     'isIncomplete' => $methodStatus === self::$COMMAND_HASTODOS,
                 ];
             },
-            array_keys($component->getCommands())
+            array_keys($this->getCommandsCached($component))
         );
+    }
+
+    /**
+     * @param \PHPDocker\Component\Component $component
+     *
+     * @return array
+     */
+    private function getCommandsCached(PHPDocker\Component\Component $component)
+    {
+        $cacheFile = __DIR__ . '/../temp/dgcc-' . crc32(get_class($component)) . '.php';
+
+        if (!file_exists($cacheFile) || filemtime($cacheFile) < strtotime('-15 minutes')) {
+            mkdir(dirname($cacheFile), 0777, true);
+            $serializedCommands = sprintf('<?php return %s;', var_export($component->getCommands(), true));
+            if (!file_put_contents($cacheFile, $serializedCommands)) {
+                throw new \RuntimeException('Could not write commands to cache file: ' . $cacheFile);
+            }
+        }
+
+        return (array) (include_once($cacheFile));
     }
 
     /**

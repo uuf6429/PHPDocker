@@ -149,7 +149,7 @@ Finds the currently active machine.
 
 ```php
 $machine->getCommands(
-    string[] $parentCommands    // get sub-commands of this command path (mostly internal use only)
+    bool $ignoreCache    // ignore cached commands and run anyway
 ): array    // the key is the command, the value is the description
 ```
 
@@ -389,7 +389,7 @@ Note that the container might not exist at this or any point.
 
 ```php
 $docker->getCommands(
-    string[] $parentCommands    // get sub-commands of this command path (mostly internal use only)
+    bool $ignoreCache    // ignore cached commands and run anyway
 ): array    // the key is the command, the value is the description
 ```
 
@@ -621,7 +621,7 @@ $compose->execute(
 
 ```php
 $compose->getCommands(
-    string[] $parentCommands    // get sub-commands of this command path (mostly internal use only)
+    bool $ignoreCache    // ignore cached commands and run anyway
 ): array    // the key is the command, the value is the description
 ```
 

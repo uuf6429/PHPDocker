@@ -86,83 +86,72 @@ abstract class Component
      * Caution! This method gives a rough idea of functionality as reported by the console
      * app, however the program itself could support a different set of commands.
      *
-     * @param string[] $parentCommands get sub-commands of this command path (mostly internal use only)
+     * @param bool $ignoreCache ignore cached commands and run anyway
      *
      * @return array the key is the command, the value is the description
      */
-    public function getCommands($parentCommands = [])
+    public function getCommands($ignoreCache = false)
     {
-        if ($this->binCommands === null) {
-            $start = microtime(true);
-            $this->logger->debug(
-                sprintf(
-                    '%s->getCommands([%s])...',
-                    basename(get_class($this)),
-                    implode(', ', $parentCommands)
-                )
-            );
+        static $commandPathProp = 'commandPath';
 
-            $builder = $this->getProcessBuilder();
-            $builder->add('help');
-            array_map([$builder, 'add'], $parentCommands);
+        if ($ignoreCache || $this->binCommands === null) {
+            $this->binCommands = [];
+            $process = $this->getProcessBuilder()->add('help')->getProcess();
+            $processList = [$process];
+            $process->$commandPathProp = []; // first command has no parents
+            $process->start();
 
-            $process = $builder->getProcess();
-            $process->mustRun();
-            $output = $process->getOutput() ?: $process->getErrorOutput();
+            while (!empty(array_filter($processList))) {
+                foreach ($processList as $i => $process) {
+                    /** @var \Symfony\Component\Process\Process $process */
+                    if ($process && !$process->isRunning()) {
+                        // process exited, remove it from list
+                        $processList[$i] = null;
 
-            $this->logger->debug(
-                sprintf(
-                    '%s->getCommands([%s]) EXEC %.3fs',
-                    basename(get_class($this)),
-                    implode(', ', $parentCommands),
-                    microtime(true) - $start
-                )
-            );
+                        if ($process->getExitCode()) {
+                            // process failed for some reason, log error and continue
+                            $this->logger->warning(
+                                sprintf(
+                                    "Process exited with status %s:\nCommand: %s\nStdOut: %s\nStdErr: %s",
+                                    $process->getExitCode(),
+                                    $process->getCommandLine(),
+                                    $process->getOutput(),
+                                    $process->getErrorOutput()
+                                )
+                            );
+                        } else {
+                            // process successful, parse output, add new commands and inspect them too
+                            $output = $process->getOutput() ?: $process->getErrorOutput();
+                            $offset = 0;
+                            $pattern = '/^.*Commands:\\r?\\n((  ([\\w-]+)\\s+(.+)\\r?\\n)+)/m';
 
-            $offset = 0;
-            $result = [];
-            while (preg_match('/^.*Commands:\\r?\\n((  ([\\w-]+)\\s+(.+)\\r?\\n)+)/m',
-                $output, $matches, PREG_OFFSET_CAPTURE, $offset)) {
-                $offset = $matches[1][1];
+                            while (preg_match($pattern, $output, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+                                $offset = $matches[1][1];
 
-                if (preg_match_all('/^  ([\\w-]+)\\s+(.+)$/m', $matches[1][0],
-                    $matches)
-                ) {
-                    list(, $commands, $descriptions) = $matches;
+                                if (preg_match_all('/^  ([\\w-]+)\\s+(.+)$/m', $matches[1][0], $matches)) {
+                                    list(, $commands, $descriptions) = $matches;
 
-                    $commandPath = implode(' ', $parentCommands) . ' ';
-                    $commands = array_map(function ($command) use (
-                        $commandPath
-                    ) {
-                        return trim($commandPath . $command);
-                    }, $commands);
+                                    foreach (array_combine($commands, $descriptions) as $command => $description) {
+                                        $newCommandPath = array_merge($process->$commandPathProp, [trim($command)]);
 
-                    // add current list of commands
-                    $result = array_merge($result,
-                        array_combine($commands, $descriptions));
+                                        $this->binCommands[implode(' ', $newCommandPath)] = trim($description);
 
-                    // add any sub-commands
-                    foreach ($commands as $command) {
-                        $result = array_merge($result,
-                            $this->getCommands(explode(' ', $command)));
+                                        $builder = $this->getProcessBuilder()->add('help');
+                                        array_map([$builder, 'add'], $newCommandPath);
+                                        $newProcess = $builder->getProcess();
+                                        $processList[] = $newProcess;
+                                        $newProcess->$commandPathProp = $newCommandPath;
+                                        $newProcess->start();
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
 
-            if (!count($result) && !count($parentCommands)) {
-                throw new \RuntimeException('Could not retrieve list of commands.');
-            }
-
-            $this->binCommands = $result;
-
-            $this->logger->debug(
-                sprintf(
-                    '%s->getCommands([%s]) DONE %.3fs',
-                    basename(get_class($this)),
-                    implode(', ', $parentCommands),
-                    microtime(true) - $start
-                )
-            );
+            // sort results naturally (by key)
+            array_multisort(array_keys($this->binCommands), SORT_NATURAL, $this->binCommands);
         }
 
         return $this->binCommands;

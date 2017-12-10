@@ -4,7 +4,7 @@
 
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/uuf6429/rune/master/LICENSE)
-[![Docker](https://img.shields.io/badge/d-21%25-0db7ed.svg)](#supported-commands)
+[![Docker](https://img.shields.io/badge/d-8%25-0db7ed.svg)](#supported-commands)
 [![Docker Compose](https://img.shields.io/badge/c-20%25-0db7ed.svg)](#supported-commands)
 [![Docker Machine](https://img.shields.io/badge/m-60%25-0db7ed.svg)](#supported-commands)
 
@@ -88,29 +88,44 @@ Two interfaces are provided, both of which start with the [Manager](/DOCS.md#php
 
 <table>
     <thead>
-<th>Docker (21%)</th><th>Docker Compose (20%)</th><th>Docker Machine (60%)</th>
+<th>Docker (8%)</th><th>Docker Compose (20%)</th><th>Docker Machine (60%)</th>
     </thead><tbody>
         <tr>
             <td valign="top">
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerattach" title="Docker::attach">docker attach</a><br/>
+                ❌ docker build<br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockercommit" title="Docker::commit">docker commit</a><br/>
                 ❌ docker config<br/>
-                ❌ docker container<br/>
-                ❌ docker image<br/>
-                ❌ docker network<br/>
-                ❌ docker node<br/>
-                ❌ docker plugin<br/>
-                ❌ docker secret<br/>
-                ❌ docker service<br/>
-                ❌ docker stack<br/>
-                ❌ docker swarm<br/>
-                ❌ docker system<br/>
-                ❌ docker volume<br/>
                 ❌ docker config create<br/>
                 ❌ docker config inspect<br/>
                 ❌ docker config ls<br/>
                 ❌ docker config rm<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerattach" title="Docker::attach">docker attach</a><br/>
-                ❌ docker build<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockercommit" title="Docker::commit">docker commit</a><br/>
+                ❌ docker container<br/>
+                ❌ docker container attach<br/>
+                ❌ docker container commit<br/>
+                ❌ docker container cp<br/>
+                ❌ docker container create<br/>
+                ❌ docker container diff<br/>
+                ❌ docker container exec<br/>
+                ❌ docker container export<br/>
+                ❌ docker container inspect<br/>
+                ❌ docker container kill<br/>
+                ❌ docker container logs<br/>
+                ❌ docker container ls<br/>
+                ❌ docker container pause<br/>
+                ❌ docker container port<br/>
+                ❌ docker container prune<br/>
+                ❌ docker container rename<br/>
+                ❌ docker container restart<br/>
+                ❌ docker container rm<br/>
+                ❌ docker container run<br/>
+                ❌ docker container start<br/>
+                ❌ docker container stats<br/>
+                ❌ docker container stop<br/>
+                ❌ docker container top<br/>
+                ❌ docker container unpause<br/>
+                ❌ docker container update<br/>
+                ❌ docker container wait<br/>
                 ✅ <a href="/DOCS.md#dockercopy" title="Docker::copy">docker cp</a><br/>
                 ❌ docker create<br/>
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerdiff" title="Docker::diff">docker diff</a><br/>
@@ -118,7 +133,20 @@ Two interfaces are provided, both of which start with the [Manager](/DOCS.md#php
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerexec" title="Docker::exec">docker exec</a><br/>
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerexport" title="Docker::export">docker export</a><br/>
                 ❌ docker history<br/>
+                ❌ docker image<br/>
+                ❌ docker image build<br/>
+                ❌ docker image history<br/>
+                ❌ docker image import<br/>
+                ❌ docker image inspect<br/>
+                ❌ docker image load<br/>
+                ❌ docker image ls<br/>
+                ❌ docker image prune<br/>
+                ❌ docker image pull<br/>
+                ❌ docker image push<br/>
+                ❌ docker image rm<br/>
                 ❌ docker images<br/>
+                ❌ docker image save<br/>
+                ❌ docker image tag<br/>
                 ❌ docker import<br/>
                 ❌ docker info<br/>
                 ❌ docker inspect<br/>
@@ -127,7 +155,34 @@ Two interfaces are provided, both of which start with the [Manager](/DOCS.md#php
                 ❌ docker login<br/>
                 ❌ docker logout<br/>
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerlogs" title="Docker::logs">docker logs</a><br/>
+                ❌ docker network<br/>
+                ❌ docker network connect<br/>
+                ❌ docker network create<br/>
+                ❌ docker network disconnect<br/>
+                ❌ docker network inspect<br/>
+                ❌ docker network ls<br/>
+                ❌ docker network prune<br/>
+                ❌ docker network rm<br/>
+                ❌ docker node<br/>
+                ❌ docker node demote<br/>
+                ❌ docker node inspect<br/>
+                ❌ docker node ls<br/>
+                ❌ docker node promote<br/>
+                ❌ docker node ps<br/>
+                ❌ docker node rm<br/>
+                ❌ docker node update<br/>
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerpause" title="Docker::pause">docker pause</a><br/>
+                ❌ docker plugin<br/>
+                ❌ docker plugin create<br/>
+                ❌ docker plugin disable<br/>
+                ❌ docker plugin enable<br/>
+                ❌ docker plugin inspect<br/>
+                ❌ docker plugin install<br/>
+                ❌ docker plugin ls<br/>
+                ❌ docker plugin push<br/>
+                ❌ docker plugin rm<br/>
+                ❌ docker plugin set<br/>
+                ❌ docker plugin upgrade<br/>
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerport" title="Docker::port">docker port</a><br/>
                 ❌ docker ps<br/>
                 ❌ docker pull<br/>
@@ -139,14 +194,54 @@ Two interfaces are provided, both of which start with the [Manager](/DOCS.md#php
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerrun" title="Docker::run">docker run</a><br/>
                 ❌ docker save<br/>
                 ❌ docker search<br/>
+                ❌ docker secret<br/>
+                ❌ docker secret create<br/>
+                ❌ docker secret inspect<br/>
+                ❌ docker secret ls<br/>
+                ❌ docker secret rm<br/>
+                ❌ docker service<br/>
+                ❌ docker service create<br/>
+                ❌ docker service inspect<br/>
+                ❌ docker service logs<br/>
+                ❌ docker service ls<br/>
+                ❌ docker service ps<br/>
+                ❌ docker service rm<br/>
+                ❌ docker service scale<br/>
+                ❌ docker service update<br/>
+                ❌ docker stack<br/>
+                ❌ docker stack deploy<br/>
+                ❌ docker stack ls<br/>
+                ❌ docker stack ps<br/>
+                ❌ docker stack rm<br/>
+                ❌ docker stack services<br/>
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerstart" title="Docker::start">docker start</a><br/>
                 ❌ docker stats<br/>
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerstop" title="Docker::stop">docker stop</a><br/>
+                ❌ docker swarm<br/>
+                ❌ docker swarm ca<br/>
+                ❌ docker swarm init<br/>
+                ❌ docker swarm join<br/>
+                ❌ docker swarm join-token<br/>
+                ❌ docker swarm leave<br/>
+                ❌ docker swarm unlock<br/>
+                ❌ docker swarm unlock-key<br/>
+                ❌ docker swarm update<br/>
+                ❌ docker system<br/>
+                ❌ docker system df<br/>
+                ❌ docker system events<br/>
+                ❌ docker system info<br/>
+                ❌ docker system prune<br/>
                 ❌ docker tag<br/>
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockertop" title="Docker::top">docker top</a><br/>
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerresume" title="Docker::resume">docker unpause</a><br/>
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerupdate" title="Docker::update">docker update</a><br/>
                 ✅ <a href="/DOCS.md#dockergetversion" title="Docker::getVersion">docker version</a><br/>
+                ❌ docker volume<br/>
+                ❌ docker volume create<br/>
+                ❌ docker volume inspect<br/>
+                ❌ docker volume ls<br/>
+                ❌ docker volume prune<br/>
+                ❌ docker volume rm<br/>
                 &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerwait" title="Docker::wait">docker wait</a><br/>
             </td>
             <td valign="top">
@@ -182,6 +277,7 @@ Two interfaces are provided, both of which start with the [Manager](/DOCS.md#php
                 ❌ docker-machine config<br/>
                 ❌ docker-machine create<br/>
                 ✅ <a href="/DOCS.md#machinegetenvvars" title="Machine::getEnvVars">docker-machine env</a><br/>
+                &nbsp;✱&nbsp; docker-machine help<br/>
                 ❌ docker-machine inspect<br/>
                 ✅ <a href="/DOCS.md#machinegetips" title="Machine::getIPs">docker-machine ip</a><br/>
                 ✅ <a href="/DOCS.md#machinekill" title="Machine::kill">docker-machine kill</a><br/>
@@ -190,15 +286,14 @@ Two interfaces are provided, both of which start with the [Manager](/DOCS.md#php
                 ❌ docker-machine regenerate-certs<br/>
                 ✅ <a href="/DOCS.md#machinerestart" title="Machine::restart">docker-machine restart</a><br/>
                 ✅ <a href="/DOCS.md#machineremove" title="Machine::remove">docker-machine rm</a><br/>
-                ❌ docker-machine ssh<br/>
                 ❌ docker-machine scp<br/>
+                ❌ docker-machine ssh<br/>
                 ✅ <a href="/DOCS.md#machinestart" title="Machine::start">docker-machine start</a><br/>
                 ✅ <a href="/DOCS.md#machinegetstatus" title="Machine::getStatus">docker-machine status</a><br/>
                 ✅ <a href="/DOCS.md#machinestop" title="Machine::stop">docker-machine stop</a><br/>
                 ✅ <a href="/DOCS.md#machineupgrade" title="Machine::upgrade">docker-machine upgrade</a><br/>
                 ✅ <a href="/DOCS.md#machinegeturl" title="Machine::getURL">docker-machine url</a><br/>
                 ✅ <a href="/DOCS.md#machinegetversion" title="Machine::getVersion">docker-machine version</a><br/>
-                &nbsp;✱&nbsp; docker-machine help<br/>
             </td>
         </tr>
     </tbody>
