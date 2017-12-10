@@ -28,10 +28,24 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
 
 - [PHPDocker](#phpdocker)
   - [Table of Contents](#table-of-contents)
+  - [Why?](#why)
   - [Installation](#installation)
   - [Usage](#usage)
   - [Supported Commands](#supported-commands)
   - [Documentation](#documentation)
+
+## Why?
+
+Many operations in Docker are exposed via a [REST API](https://docs.docker.com/engine/api/latest/), however, some commands (eg, `docker-compose`) cannot be used from the API (because `docker-compose` itself uses the low-level API).
+Additionally, if you use the REST API, you'll end up doing what the Docker cli is already doing for you.
+In some cases it makes sense to use the low-level API, in which case you can use [another PHP library](https://github.com/docker-php/docker-php).
+
+If, however, all you want is to jump in and start using Docker from your PHP application, this library fits the purpose well.
+
+**TL:DR;**
+- why not?
+- supports more functionality _(eg; `docker-toolbox`)_
+- fixes common issues _(eg; Docker from Docker Toolbox misses configuration and refuses to run outside of the Quickstart Terminal)_
 
 ## Installation
 
