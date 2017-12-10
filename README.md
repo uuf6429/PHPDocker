@@ -17,7 +17,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
   - [Installation](#installation)
   - [Usage](#usage)
   - [Supported Commands](#supported-commands)
-  - [Documentation](/uuf6429/PHPDocker/blob/master/DOCS.md)
+  - [Documentation](#documentation)
 
 ## Installation
 
@@ -31,7 +31,7 @@ composer require uuf6429/phpdocker
 
 This library requires either [native Docker](https://www.docker.com/community-edition#download) or [Docker Toolbox](https://docs.docker.com/toolbox/overview/).
 
-Two interfaces are provided, both of which start with the [Manager](/uuf6429/PHPDocker/blob/master/DOCS.md#phpdockermanager) class:
+Two interfaces are provided, both of which start with the [Manager](/DOCS.md#phpdockermanager) class:
 
 - **Procedural**
 
@@ -94,55 +94,55 @@ Two interfaces are provided, both of which start with the [Manager](/uuf6429/PHP
                 ❌ docker config inspect<br/>
                 ❌ docker config ls<br/>
                 ❌ docker config rm<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerattach" title="Docker::attach">docker attach</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerattach" title="Docker::attach">docker attach</a><br/>
                 ❌ docker build<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockercommit" title="Docker::commit">docker commit</a><br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockercopy" title="Docker::copy">docker cp</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockercommit" title="Docker::commit">docker commit</a><br/>
+                ✅ <a href="/DOCS.md#dockercopy" title="Docker::copy">docker cp</a><br/>
                 ❌ docker create<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerdiff" title="Docker::diff">docker diff</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerdiff" title="Docker::diff">docker diff</a><br/>
                 ❌ docker events<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerexec" title="Docker::exec">docker exec</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerexport" title="Docker::export">docker export</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerexec" title="Docker::exec">docker exec</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerexport" title="Docker::export">docker export</a><br/>
                 ❌ docker history<br/>
                 ❌ docker images<br/>
                 ❌ docker import<br/>
                 ❌ docker info<br/>
                 ❌ docker inspect<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerkill" title="Docker::kill">docker kill</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerkill" title="Docker::kill">docker kill</a><br/>
                 ❌ docker load<br/>
                 ❌ docker login<br/>
                 ❌ docker logout<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerlogs" title="Docker::logs">docker logs</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerpause" title="Docker::pause">docker pause</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerport" title="Docker::port">docker port</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerlogs" title="Docker::logs">docker logs</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerpause" title="Docker::pause">docker pause</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerport" title="Docker::port">docker port</a><br/>
                 ❌ docker ps<br/>
                 ❌ docker pull<br/>
                 ❌ docker push<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerrename" title="Docker::rename">docker rename</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerrestart" title="Docker::restart">docker restart</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerremove" title="Docker::remove">docker rm</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerrename" title="Docker::rename">docker rename</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerrestart" title="Docker::restart">docker restart</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerremove" title="Docker::remove">docker rm</a><br/>
                 ❌ docker rmi<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerrun" title="Docker::run">docker run</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerrun" title="Docker::run">docker run</a><br/>
                 ❌ docker save<br/>
                 ❌ docker search<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerstart" title="Docker::start">docker start</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerstart" title="Docker::start">docker start</a><br/>
                 ❌ docker stats<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerstop" title="Docker::stop">docker stop</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerstop" title="Docker::stop">docker stop</a><br/>
                 ❌ docker tag<br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockertop" title="Docker::top">docker top</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerresume" title="Docker::resume">docker unpause</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerupdate" title="Docker::update">docker update</a><br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockergetversion" title="Docker::getVersion">docker version</a><br/>
-                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#dockerwait" title="Docker::wait">docker wait</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockertop" title="Docker::top">docker top</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerresume" title="Docker::resume">docker unpause</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerupdate" title="Docker::update">docker update</a><br/>
+                ✅ <a href="/DOCS.md#dockergetversion" title="Docker::getVersion">docker version</a><br/>
+                &nbsp;&nbsp;?&nbsp;&nbsp; <a href="/DOCS.md#dockerwait" title="Docker::wait">docker wait</a><br/>
             </td>
             <td valign="top">
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#composebuild" title="Compose::build">compose build</a><br/>
+                ✅ <a href="/DOCS.md#composebuild" title="Compose::build">compose build</a><br/>
                 ❌ compose bundle<br/>
                 ❌ compose config<br/>
                 ❌ compose create<br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#composedown" title="Compose::down">compose down</a><br/>
+                ✅ <a href="/DOCS.md#composedown" title="Compose::down">compose down</a><br/>
                 ❌ compose events<br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#composeexecute" title="Compose::execute">compose exec</a><br/>
+                ✅ <a href="/DOCS.md#composeexecute" title="Compose::execute">compose exec</a><br/>
                 &nbsp;✱&nbsp; compose help<br/>
                 ❌ compose images<br/>
                 ❌ compose kill<br/>
@@ -153,7 +153,7 @@ Two interfaces are provided, both of which start with the [Manager](/uuf6429/PHP
                 ❌ compose pull<br/>
                 ❌ compose push<br/>
                 ❌ compose restart<br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#composeremove" title="Compose::remove">compose rm</a><br/>
+                ✅ <a href="/DOCS.md#composeremove" title="Compose::remove">compose rm</a><br/>
                 ❌ compose run<br/>
                 ❌ compose scale<br/>
                 ❌ compose start<br/>
@@ -161,32 +161,35 @@ Two interfaces are provided, both of which start with the [Manager](/uuf6429/PHP
                 ❌ compose top<br/>
                 ❌ compose unpause<br/>
                 ❌ compose up<br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#composegetversion" title="Compose::getVersion">compose version</a><br/>
+                ✅ <a href="/DOCS.md#composegetversion" title="Compose::getVersion">compose version</a><br/>
             </td>
             <td valign="top">
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#machinegetactive" title="Machine::getActive">machine active</a><br/>
+                ✅ <a href="/DOCS.md#machinegetactive" title="Machine::getActive">machine active</a><br/>
                 ❌ machine config<br/>
                 ❌ machine create<br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#machinegetenvvars" title="Machine::getEnvVars">machine env</a><br/>
+                ✅ <a href="/DOCS.md#machinegetenvvars" title="Machine::getEnvVars">machine env</a><br/>
                 ❌ machine inspect<br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#machinegetips" title="Machine::getIPs">machine ip</a><br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#machinekill" title="Machine::kill">machine kill</a><br/>
+                ✅ <a href="/DOCS.md#machinegetips" title="Machine::getIPs">machine ip</a><br/>
+                ✅ <a href="/DOCS.md#machinekill" title="Machine::kill">machine kill</a><br/>
                 ❌ machine ls<br/>
                 ❌ machine provision<br/>
                 ❌ machine regenerate-certs<br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#machinerestart" title="Machine::restart">machine restart</a><br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#machineremove" title="Machine::remove">machine rm</a><br/>
+                ✅ <a href="/DOCS.md#machinerestart" title="Machine::restart">machine restart</a><br/>
+                ✅ <a href="/DOCS.md#machineremove" title="Machine::remove">machine rm</a><br/>
                 ❌ machine ssh<br/>
                 ❌ machine scp<br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#machinestart" title="Machine::start">machine start</a><br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#machinegetstatus" title="Machine::getStatus">machine status</a><br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#machinestop" title="Machine::stop">machine stop</a><br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#machineupgrade" title="Machine::upgrade">machine upgrade</a><br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#machinegeturl" title="Machine::getURL">machine url</a><br/>
-                ✅ <a href="/uuf6429/PHPDocker/blob/master/DOCS.md#machinegetversion" title="Machine::getVersion">machine version</a><br/>
+                ✅ <a href="/DOCS.md#machinestart" title="Machine::start">machine start</a><br/>
+                ✅ <a href="/DOCS.md#machinegetstatus" title="Machine::getStatus">machine status</a><br/>
+                ✅ <a href="/DOCS.md#machinestop" title="Machine::stop">machine stop</a><br/>
+                ✅ <a href="/DOCS.md#machineupgrade" title="Machine::upgrade">machine upgrade</a><br/>
+                ✅ <a href="/DOCS.md#machinegeturl" title="Machine::getURL">machine url</a><br/>
+                ✅ <a href="/DOCS.md#machinegetversion" title="Machine::getVersion">machine version</a><br/>
                 &nbsp;✱&nbsp; machine help<br/>
             </td>
         </tr>
     </tbody>
 </table>
 
+## [Documentation](/DOCS.md)
+
+Complete up-to-date API documentation can be found [here](/DOCS.md).

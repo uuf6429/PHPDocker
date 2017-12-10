@@ -131,31 +131,9 @@ class DocGen
     /**
      * @return string
      */
-    public function getRepoPath()
-    {
-        static $path;
-
-        if (!$path) {
-            if (!preg_match(
-                '/([^\\/:]*\\/[^\\/]*)\\.git/',
-                exec('git remote get-url --push origin'),
-                $match
-            )) {
-                throw new \RuntimeException('Could not parse user/repo from git remotes.');
-            }
-
-            $path = sprintf('/%s/blob/master/', $match[1]);
-        }
-
-        return $path;
-    }
-
-    /**
-     * @return string
-     */
     public function getDocsPath()
     {
-        return $this->getRepoPath() . 'DOCS.md';
+        return '/DOCS.md';
     }
 
     /**

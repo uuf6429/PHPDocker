@@ -674,4 +674,3 @@ $compose->withOutputHandler(
     callable $outputHandler
 ): static    // new instance using the specified output handler
 ```
-

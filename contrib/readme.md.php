@@ -31,7 +31,7 @@ PHP library providing a simple API for [Docker cli](https://docs.docker.com/engi
   - [Installation](#installation)
   - [Usage](#usage)
   - [Supported Commands](#supported-commands)
-  - [Documentation](<?=$generator->getDocsPath(); ?>)
+  - [Documentation](#documentation)
 
 ## Installation
 
@@ -131,3 +131,6 @@ Two interfaces are provided, both of which start with the [Manager](<?=$generato
 <?php
     } ?>
 
+## [Documentation](<?=$generator->getDocsPath(); ?>)
+
+Complete up-to-date API documentation can be found [here](<?=$generator->getDocsPath(); ?>).
