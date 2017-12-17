@@ -30,31 +30,15 @@
       - [`upgrade()`](#machineupgrade)
       - [`withOutputHandler()`](#machinewithoutputhandler)
     - [Docker](#phpdockercomponentdocker)
-      - [`attach()`](#dockerattach)
       - [`clearCommandsCache()`](#dockerclearcommandscache)
       - [`commit()`](#dockercommit)
       - [`copy()`](#dockercopy)
-      - [`diff()`](#dockerdiff)
-      - [`exec()`](#dockerexec)
-      - [`export()`](#dockerexport)
       - [`find()`](#dockerfind)
       - [`getCommands()`](#dockergetcommands)
       - [`getVersion()`](#dockergetversion)
       - [`isInstalled()`](#dockerisinstalled)
-      - [`kill()`](#dockerkill)
-      - [`logs()`](#dockerlogs)
-      - [`pause()`](#dockerpause)
-      - [`port()`](#dockerport)
       - [`remove()`](#dockerremove)
-      - [`rename()`](#dockerrename)
-      - [`restart()`](#dockerrestart)
-      - [`resume()`](#dockerresume)
       - [`run()`](#dockerrun)
-      - [`start()`](#dockerstart)
-      - [`stop()`](#dockerstop)
-      - [`top()`](#dockertop)
-      - [`update()`](#dockerupdate)
-      - [`wait()`](#dockerwait)
       - [`withFile()`](#dockerwithfile)
       - [`withOutputHandler()`](#dockerwithoutputhandler)
     - [Compose](#phpdockercomponentcompose)
@@ -309,14 +293,6 @@ _extends `PHPDocker\Component\Component`_
 
 ----
 
-#### `Docker::attach()`
-
-```php
-$docker->attach()
-```
-
-----
-
 #### `Docker::clearCommandsCache()`
 
 ```php
@@ -330,8 +306,17 @@ Clears the cache holding the result of `getCommands()`.
 #### `Docker::commit()`
 
 ```php
-$docker->commit()
+$docker->commit(
+    string      $containerName
+    null|string $repository       // repository name, optionally ending with a tag (eg; user/image:tag)
+    string[]    $changes          // list of Dockerfile changes to apply to the generate image
+    null|string $message          // message describing this commit
+    null|string $author           // Author, usually including email (eg; "John Doe <john.doe@example.com>").
+    null|bool   $pause            // whether to pause container during process or not
+): $this    // current instance, for method chaining
 ```
+
+Creates new image from container.
 
 ----
 
@@ -343,30 +328,6 @@ $docker->copy(
     string $sourcePath       // source file or directory to copy
     string $targetPath       // destination where to copy to
 ): $this    // current instance, for method chaining
-```
-
-----
-
-#### `Docker::diff()`
-
-```php
-$docker->diff()
-```
-
-----
-
-#### `Docker::exec()`
-
-```php
-$docker->exec()
-```
-
-----
-
-#### `Docker::export()`
-
-```php
-$docker->export()
 ```
 
 ----
@@ -414,38 +375,6 @@ $docker->isInstalled(): bool
 
 ----
 
-#### `Docker::kill()`
-
-```php
-$docker->kill()
-```
-
-----
-
-#### `Docker::logs()`
-
-```php
-$docker->logs()
-```
-
-----
-
-#### `Docker::pause()`
-
-```php
-$docker->pause()
-```
-
-----
-
-#### `Docker::port()`
-
-```php
-$docker->port()
-```
-
-----
-
 #### `Docker::remove()`
 
 ```php
@@ -457,30 +386,6 @@ $docker->remove(
 ```
 
 Removes one or more containers given names.
-
-----
-
-#### `Docker::rename()`
-
-```php
-$docker->rename()
-```
-
-----
-
-#### `Docker::restart()`
-
-```php
-$docker->restart()
-```
-
-----
-
-#### `Docker::resume()`
-
-```php
-$docker->resume()
-```
 
 ----
 
@@ -502,46 +407,6 @@ $docker->run(
 ```
 
 Creates a new container from an image and (optionally) runs a command in it.
-
-----
-
-#### `Docker::start()`
-
-```php
-$docker->start()
-```
-
-----
-
-#### `Docker::stop()`
-
-```php
-$docker->stop()
-```
-
-----
-
-#### `Docker::top()`
-
-```php
-$docker->top()
-```
-
-----
-
-#### `Docker::update()`
-
-```php
-$docker->update()
-```
-
-----
-
-#### `Docker::wait()`
-
-```php
-$docker->wait()
-```
 
 ----
 

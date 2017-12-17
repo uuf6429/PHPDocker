@@ -40,148 +40,32 @@ class Container
     }
 
     /**
-     * @see \PHPDocker\Component\Docker::attach()
+     * Creates new image from container.
+     *
+     * @param null|string $repository repository name, optionally ending with a tag (eg; user/image:tag)
+     * @param string[] $changes list of Dockerfile changes to apply to the generate image
+     * @param null|string $message message describing this commit
+     * @param null|string $author Author, usually including email (eg; "John Doe <john.doe@example.com>").
+     * @param null|bool $pause whether to pause container during process or not
      *
      * @return $this Current instance, for method chaining
      */
-    public function attach(/* TODO */)
+    public function commit($repository = null, $changes = [], $message = null, $author = null, $pause = null)
     {
-        $this->docker->attach($this->name /* TODO */);
+        $this->docker->commit($this->name, $repository, $changes, $message, $author, $pause);
 
         return $this;
     }
 
     /**
-     * @see \PHPDocker\Component\Docker::commit()
+     * @param string $sourcePath source file or directory to copy
+     * @param string $targetPath destination where to copy to
      *
-     * @return $this Current instance, for method chaining
-     */
-    public function commit(/* TODO */)
-    {
-        $this->docker->commit($this->name /* TODO */);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::copy()
-     *
-     * @param string $sourcePath
-     * @param string $targetPath
-     *
-     * @return $this Current instance, for method chaining
+     * @return $this current instance, for method chaining
      */
     public function copy($sourcePath, $targetPath)
     {
         $this->docker->copy($this->name, $sourcePath, $targetPath);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::diff()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function diff(/* TODO */)
-    {
-        $this->docker->diff($this->name /* TODO */);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::exec()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function exec(/* TODO */)
-    {
-        $this->docker->exec($this->name /* TODO */);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::export()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function export(/* TODO */)
-    {
-        $this->docker->export($this->name /* TODO */);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::kill()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function kill(/* TODO */)
-    {
-        $this->docker->kill($this->name /* TODO */);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::logs()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function logs(/* TODO */)
-    {
-        $this->docker->logs($this->name /* TODO */);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::pause()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function pause(/* TODO */)
-    {
-        $this->docker->pause($this->name /* TODO */);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::port()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function port(/* TODO */)
-    {
-        $this->docker->port($this->name /* TODO */);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::rename()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function rename(/* TODO */)
-    {
-        $this->docker->rename($this->name /* TODO */);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::restart()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function restart(/* TODO */)
-    {
-        $this->docker->restart($this->name /* TODO */);
 
         return $this;
     }
@@ -197,78 +81,6 @@ class Container
     public function remove($forceRemove = false, $removeVolumes = false)
     {
         $this->docker->remove($this->name, $forceRemove, $removeVolumes);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::resume()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function resume(/* TODO */)
-    {
-        $this->docker->resume($this->name /* TODO */);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::start()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function start(/* TODO */)
-    {
-        $this->docker->start($this->name /* TODO */);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::stop()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function stop(/* TODO */)
-    {
-        $this->docker->stop($this->name /* TODO */);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::top()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function top(/* TODO */)
-    {
-        $this->docker->top($this->name /* TODO */);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::update()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function update(/* TODO */)
-    {
-        $this->docker->update($this->name /* TODO */);
-
-        return $this;
-    }
-
-    /**
-     * @see \PHPDocker\Component\Docker::wait()
-     *
-     * @return $this Current instance, for method chaining
-     */
-    public function wait(/* TODO */)
-    {
-        $this->docker->wait($this->name /* TODO */);
 
         return $this;
     }

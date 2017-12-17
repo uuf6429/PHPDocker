@@ -110,17 +110,52 @@ class Docker extends Component
     }
 
     /**
-     * @todo
+     * Creates new image from container.
+     *
+     * @param string $containerName
+     * @param null|string $repository repository name, optionally ending with a tag (eg; user/image:tag)
+     * @param string[] $changes list of Dockerfile changes to apply to the generate image
+     * @param null|string $message message describing this commit
+     * @param null|string $author Author, usually including email (eg; "John Doe <john.doe@example.com>").
+     * @param null|bool $pause whether to pause container during process or not
+     *
+     * @return $this current instance, for method chaining
      */
-    public function attach()
+    public function commit($containerName, $repository = null, $changes = [], $message = null, $author = null, $pause = null)
     {
-    }
+        $builder = $this->getProcessBuilder();
 
-    /**
-     * @todo
-     */
-    public function commit()
-    {
+        $builder->add('commit');
+
+        foreach ($changes as $change) {
+            $builder->add('-c')->add($change);
+        }
+
+        if ($message !== null) {
+            $builder->add('-m')->add($message);
+        }
+
+        if ($author !== null) {
+            $builder->add('-a')->add($author);
+        }
+
+        if ($pause !== null) {
+            $builder->add('-p')->add($pause ? 'true' : 'false');
+        }
+
+        $builder->add($containerName);
+
+        if ($repository !== null) {
+            $builder->add($repository);
+        }
+
+        $process = $builder->getProcess();
+
+        $this->logger->debug('RUN ' . $process->getCommandLine());
+
+        $process->mustRun($this->outputHandler);
+
+        return $this;
     }
 
     /**
@@ -141,69 +176,6 @@ class Docker extends Component
         $process->run($this->outputHandler);
 
         return $this;
-    }
-
-    /**
-     * @todo
-     */
-    public function diff()
-    {
-    }
-
-    /**
-     * @todo
-     */
-    public function exec()
-    {
-    }
-
-    /**
-     * @todo
-     */
-    public function export()
-    {
-    }
-
-    /**
-     * @todo
-     */
-    public function kill()
-    {
-    }
-
-    /**
-     * @todo
-     */
-    public function logs()
-    {
-    }
-
-    /**
-     * @todo
-     */
-    public function pause()
-    {
-    }
-
-    /**
-     * @todo
-     */
-    public function port()
-    {
-    }
-
-    /**
-     * @todo
-     */
-    public function rename()
-    {
-    }
-
-    /**
-     * @todo
-     */
-    public function restart()
-    {
     }
 
     /**
@@ -246,48 +218,6 @@ class Docker extends Component
         $process->mustRun($this->outputHandler);
 
         return $this;
-    }
-
-    /**
-     * @todo
-     */
-    public function resume()
-    {
-    }
-
-    /**
-     * @todo
-     */
-    public function start()
-    {
-    }
-
-    /**
-     * @todo
-     */
-    public function stop()
-    {
-    }
-
-    /**
-     * @todo
-     */
-    public function top()
-    {
-    }
-
-    /**
-     * @todo
-     */
-    public function update()
-    {
-    }
-
-    /**
-     * @todo
-     */
-    public function wait()
-    {
     }
 
     /**
