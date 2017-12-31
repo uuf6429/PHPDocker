@@ -398,13 +398,16 @@ class DocGen
         $cacheFile = __DIR__ . '/../temp/dgcc-' . crc32(get_class($component)) . '.php';
 
         if (!file_exists($cacheFile) || filemtime($cacheFile) < strtotime('-15 minutes')) {
-            mkdir(dirname($cacheFile), 0777, true);
+            if (!is_dir(dirname($cacheFile))) {
+                mkdir(dirname($cacheFile), 0777, true);
+            }
             $serializedCommands = sprintf('<?php return %s;', var_export($component->getCommands(), true));
             if (!file_put_contents($cacheFile, $serializedCommands)) {
                 throw new \RuntimeException('Could not write commands to cache file: ' . $cacheFile);
             }
         }
 
+        /** @noinspection PhpIncludeInspection */
         return (array) (include_once($cacheFile));
     }
 
