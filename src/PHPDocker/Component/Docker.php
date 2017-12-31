@@ -167,9 +167,15 @@ class Docker extends Component
      */
     public function copy($containerName, $sourcePath, $targetPath)
     {
-        $process = $this->getProcessBuilder()
-            ->add('cp')->add($sourcePath)->add("$containerName:$targetPath")
-            ->getProcess();
+        $builder = $this->getProcessBuilder();
+
+        $builder->add('cp');
+
+        $builder->add($sourcePath);
+
+        $builder->add("$containerName:$targetPath");
+
+        $process = $builder->getProcess();
 
         $this->logger->debug('RUN ' . $process->getCommandLine());
 

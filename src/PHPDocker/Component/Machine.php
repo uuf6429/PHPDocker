@@ -40,6 +40,7 @@ class Machine extends Component
     public function getActive($timeout = null)
     {
         $builder = $this->getProcessBuilder();
+
         $builder->add('active');
 
         if ($timeout !== null) {
@@ -54,6 +55,39 @@ class Machine extends Component
     }
 
     /**
+     * Returns array of environment variables that must be set for docker to use a specific machine.
+     *
+     * @param null|string $machineName name of desired machine or `null` for the default machine
+     *
+     * @return array array of environment variables as key=>value pairs
+     */
+    public function getEnvVars($machineName = null)
+    {
+        $builder = $this->getProcessBuilder();
+
+        $builder->add('env');
+
+        // force cmd-style output for parsing
+        $builder->add('--shell')->add('cmd');
+
+        if ($machineName !== null) {
+            $builder->add($machineName);
+        }
+
+        $process = $builder->getProcess();
+
+        $this->logger->debug('RUN ' . $process->getCommandLine());
+
+        $output = $process->mustRun($this->outputHandler)->getOutput();
+
+        if (!preg_match_all('/^SET (\\w+)=(.+)$/m', $output, $matches)) {
+            throw new \RuntimeException('Could not parse environment variables.');
+        }
+
+        return array_combine($matches[1], $matches[2]);
+    }
+
+    /**
      * Returns IP of default machine (if $names is null), otherwise IPs of the specified machines.
      *
      * @param null|string[] $machineNames names of desired machines or `null` for the default machine
@@ -63,6 +97,7 @@ class Machine extends Component
     public function getIPs($machineNames = null)
     {
         $builder = $this->getProcessBuilder();
+
         $builder->add('ip');
 
         foreach ((array) $machineNames as $name) {
@@ -94,6 +129,7 @@ class Machine extends Component
     public function getURL($machineName = null)
     {
         $builder = $this->getProcessBuilder();
+
         $builder->add('url');
 
         if ($machineName !== null) {
@@ -125,6 +161,7 @@ class Machine extends Component
     public function getStatus($machineName = null)
     {
         $builder = $this->getProcessBuilder();
+
         $builder->add('status');
 
         if ($machineName !== null) {
@@ -147,39 +184,31 @@ class Machine extends Component
     }
 
     /**
-     * Returns array of environment variables that must be set for docker to use a specific machine.
+     * Kill the specified machines.
      *
-     * @param null|string $machineName name of desired machine or `null` for the default machine
+     * @param null|string[] $machineNames names of machines to kill or the default one if `null`
      *
-     * @return array array of environment variables as key=>value pairs
+     * @return $this current instance, for method chaining
      */
-    public function getEnvVars($machineName = null)
+    public function kill($machineNames = null)
     {
         $builder = $this->getProcessBuilder();
-        $builder->add('env');
 
-        // force cmd-style output for parsing
-        $builder->add('--shell')->add('cmd');
+        $builder->add('kill');
 
-        if ($machineName !== null) {
-            $builder->add($machineName);
-        }
+        array_map([$builder, 'add'], (array) $machineNames);
 
         $process = $builder->getProcess();
 
         $this->logger->debug('RUN ' . $process->getCommandLine());
 
-        $output = $process->mustRun($this->outputHandler)->getOutput();
+        $process->mustRun($this->outputHandler);
 
-        if (!preg_match_all('/^SET (\\w+)=(.+)$/m', $output, $matches)) {
-            throw new \RuntimeException('Could not parse environment variables.');
-        }
-
-        return array_combine($matches[1], $matches[2]);
+        return $this;
     }
 
     /**
-     * Removes the specified machine.
+     * Remove the specified machines.
      *
      * @param string[] $machineNames names of machines to remove
      * @param bool $forcedRemoval If true, machine config is removed even if machine cannot be removed
@@ -189,6 +218,7 @@ class Machine extends Component
     public function remove($machineNames = [], $forcedRemoval = false)
     {
         $builder = $this->getProcessBuilder();
+
         $builder->add('rm');
 
         $builder->add('-y'); // do not ask for confirmation
@@ -211,7 +241,7 @@ class Machine extends Component
     }
 
     /**
-     * Restarts the specified machines.
+     * Restart the specified machines.
      *
      * @param null|string[] $machineNames names of machines to restart or the default one if `null`
      *
@@ -220,32 +250,8 @@ class Machine extends Component
     public function restart($machineNames = null)
     {
         $builder = $this->getProcessBuilder();
+
         $builder->add('restart');
-
-        foreach ((array) $machineNames as $name) {
-            $builder->add($name);
-        }
-
-        $process = $builder->getProcess();
-
-        $this->logger->debug('RUN ' . $process->getCommandLine());
-
-        $process->mustRun($this->outputHandler);
-
-        return $this;
-    }
-
-    /**
-     * Upgrade the specified machines.
-     *
-     * @param null|string[] $machineNames names of machines to upgrade or the default one if `null`
-     *
-     * @return $this current instance, for method chaining
-     */
-    public function upgrade($machineNames = null)
-    {
-        $builder = $this->getProcessBuilder();
-        $builder->add('upgrade');
 
         foreach ((array) $machineNames as $name) {
             $builder->add($name);
@@ -270,11 +276,10 @@ class Machine extends Component
     public function start($machineNames = null)
     {
         $builder = $this->getProcessBuilder();
+
         $builder->add('start');
 
-        foreach ((array) $machineNames as $name) {
-            $builder->add($name);
-        }
+        array_map([$builder, 'add'], (array) $machineNames);
 
         $process = $builder->getProcess();
 
@@ -295,11 +300,10 @@ class Machine extends Component
     public function stop($machineNames = null)
     {
         $builder = $this->getProcessBuilder();
+
         $builder->add('stop');
 
-        foreach ((array) $machineNames as $name) {
-            $builder->add($name);
-        }
+        array_map([$builder, 'add'], (array) $machineNames);
 
         $process = $builder->getProcess();
 
@@ -311,20 +315,19 @@ class Machine extends Component
     }
 
     /**
-     * Kill the specified machines.
+     * Upgrade the specified machines to the latest version of Docker.
      *
-     * @param null|string[] $machineNames names of machines to kill or the default one if `null`
+     * @param null|string[] $machineNames names of machines to upgrade or the default one if `null`
      *
      * @return $this current instance, for method chaining
      */
-    public function kill($machineNames = null)
+    public function upgrade($machineNames = null)
     {
         $builder = $this->getProcessBuilder();
-        $builder->add('kill');
 
-        foreach ((array) $machineNames as $name) {
-            $builder->add($name);
-        }
+        $builder->add('upgrade');
+
+        array_map([$builder, 'add'], (array) $machineNames);
 
         $process = $builder->getProcess();
 

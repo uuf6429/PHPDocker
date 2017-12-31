@@ -227,7 +227,7 @@ $machine->remove(
 ): $this    // current instance, for method chaining
 ```
 
-Removes the specified machine.
+Remove the specified machines.
 
 ----
 
@@ -239,7 +239,7 @@ $machine->restart(
 ): $this    // current instance, for method chaining
 ```
 
-Restarts the specified machines.
+Restart the specified machines.
 
 ----
 
@@ -275,7 +275,7 @@ $machine->upgrade(
 ): $this    // current instance, for method chaining
 ```
 
-Upgrade the specified machines.
+Upgrade the specified machines to the latest version of Docker.
 
 ----
 

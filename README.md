@@ -94,6 +94,10 @@ Two interfaces are provided, both of which start with the [Manager](/DOCS.md#php
             <td valign="top">
                 ❌ docker attach<br/>
                 ❌ docker build<br/>
+                ❌ docker checkpoint<br/>
+                ❌ docker checkpoint create<br/>
+                ❌ docker checkpoint ls<br/>
+                ❌ docker checkpoint rm<br/>
                 ✅ <a href="/DOCS.md#dockercommit" title="Docker::commit">docker commit</a><br/>
                 ❌ docker config<br/>
                 ❌ docker config create<br/>
@@ -128,6 +132,7 @@ Two interfaces are provided, both of which start with the [Manager](/DOCS.md#php
                 ❌ docker container wait<br/>
                 ✅ <a href="/DOCS.md#dockercopy" title="Docker::copy">docker cp</a><br/>
                 ❌ docker create<br/>
+                ❌ docker deploy<br/>
                 ❌ docker diff<br/>
                 ❌ docker events<br/>
                 ❌ docker exec<br/>
